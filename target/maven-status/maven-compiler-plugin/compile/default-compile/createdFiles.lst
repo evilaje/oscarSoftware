@@ -1,0 +1,8 @@
+com\mycompany\oscarssoftware\clases\conexion.class
+com\mycompany\oscarssoftware\clases\sentencias.class
+module-info.class
+com\mycompany\oscarssoftware\SecondaryController.class
+com\mycompany\oscarssoftware\modelos\CategoriaProducto.class
+com\mycompany\oscarssoftware\PrimaryController.class
+com\mycompany\oscarssoftware\App.class
+com\mycompany\oscarssoftware\modelos\Producto.class
