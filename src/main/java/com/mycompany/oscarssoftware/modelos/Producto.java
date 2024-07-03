@@ -111,7 +111,7 @@ public class Producto extends conexion implements sentencias{
 
                     
                     Producto producto = new Producto(cod, nombre, precio, stock, codCat, codProv);
-                    pdtos.add(producto);
+                    pdtos.add(producto);    
                 }
        }catch (SQLException e){
             Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, e);
