@@ -28,7 +28,7 @@ public class conexion {
     Connection con;
 
     public conexion() {
-        this.db = "oscars_db";
+        this.db = "oscar_db";
         this.host = "localhost";
         this.user = "root";
         this.password = "";

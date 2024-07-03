@@ -23,26 +23,29 @@ public class Producto extends conexion implements sentencias{
     private int idproducto;
     private String nombre;
     private float precio;
-    private int stock;
-    private CategoriaProducto categoriaProducto;
+    private int cantidad;
+    private int idCategoriaProducto;
+    private int idProveedor;
 
 
     public Producto() {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.precio = precio;
-        this.stock = stock;
-        this.categoriaProducto = categoriaProducto;
+        this.cantidad = cantidad;
+        this.idCategoriaProducto = idCategoriaProducto;
+        this.idProveedor = idProveedor;
     }
     
     
 
-    public Producto(int idproducto, String nombre, float precio, int stock, CategoriaProducto categoriaProducto) {
+    public Producto(int idproducto, String nombre, float precio, int cantidad, int idCategoriaProducto, int idProveedor) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.precio = precio;
-        this.stock = stock;
-        this.categoriaProducto = categoriaProducto;
+        this.cantidad = cantidad;
+        this.idCategoriaProducto = idCategoriaProducto;
+        this.idProveedor = idProveedor;
 
     }
 
@@ -70,20 +73,20 @@ public class Producto extends conexion implements sentencias{
         this.precio = precio;
     }
 
-    public int getStock() {
-        return stock;
+    public int getCantidad() {
+        return cantidad;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
     }
 
-    public CategoriaProducto getCategoriaProducto() {
-        return categoriaProducto;
+    public int getIdCategoriaProducto() {
+        return idCategoriaProducto;
     }
 
-    public void setCategoriaProducto(CategoriaProducto categoriaProducto) {
-        this.categoriaProducto = categoriaProducto;
+    public void setIdCategoriaProducto(int idCategoriaProducto) {
+        this.idCategoriaProducto = idCategoriaProducto;
     }
     
     
@@ -92,8 +95,7 @@ public class Producto extends conexion implements sentencias{
     @Override
     public ArrayList consulta() {
        ArrayList <Producto> pdtos = new ArrayList<>();
-       String sql = "SELECT p.idproducto, p.nombre, p.precio, p.stock, c.idCategoria, c.nombreCategoria " +
-                "FROM producto p, categoriaproducto c where 1";
+       String sql = "SELECT * FROM producto";
        try (
             Connection con = getCon();
             Statement stm = con.createStatement();
@@ -102,13 +104,13 @@ public class Producto extends conexion implements sentencias{
                     int cod = rs.getInt("idproducto");
                     String nombre = rs.getString("nombre");
                     float precio = rs.getFloat("precio");
-                    int stock = rs.getInt("stock");
-                    int codCat = rs.getInt("idcategoria");
-                    String nomCat = rs.getString("nombrecategoria");
+                    int stock = rs.getInt("cantidad");
+                    int codCat = rs.getInt("idCategoriaProducto");
+                    int codProv = rs.getInt("idProveedor");
                     
 
-                    CategoriaProducto catProd = new CategoriaProducto(codCat, nomCat);
-                    Producto producto = new Producto(cod, nombre, precio, stock, catProd);
+                    
+                    Producto producto = new Producto(cod, nombre, precio, stock, codCat, codProv);
                     pdtos.add(producto);
                 }
        }catch (SQLException e){

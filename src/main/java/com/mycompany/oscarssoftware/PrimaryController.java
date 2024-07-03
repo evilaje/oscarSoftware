@@ -58,8 +58,8 @@ public class PrimaryController implements Initializable {
         columnId.setCellValueFactory(new PropertyValueFactory<>("idproducto"));
         columnNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
         columnPrecio.setCellValueFactory(new PropertyValueFactory<>("precio"));
-        columnStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        columnCategoria.setCellValueFactory(new PropertyValueFactory<>("categoriaProducto.nombre_categoria"));
+        columnStock.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        columnCategoria.setCellValueFactory(new PropertyValueFactory<>("idCategoriaProducto"));        
         tablaProductos.setItems(Productos);
         
     }

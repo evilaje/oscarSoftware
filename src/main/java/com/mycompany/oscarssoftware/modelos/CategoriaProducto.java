@@ -3,14 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.oscarssoftware.modelos;
-
 import com.mycompany.oscarssoftware.clases.conexion;
 import com.mycompany.oscarssoftware.clases.sentencias;
 import java.util.ArrayList;
 
 /**
- *
- * @author Anibal
+ * Clase que representa la categoría de un producto.
  */
 public class CategoriaProducto extends conexion implements sentencias {
     
@@ -20,13 +18,6 @@ public class CategoriaProducto extends conexion implements sentencias {
     public CategoriaProducto(int idCategoria, String nombreCategoria) {
         this.idCategoria = idCategoria;
         this.nombreCategoria = nombreCategoria;
-    }
-
-    
-    
-    @Override
-    public ArrayList consulta() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     public int getIdCategoria() {
@@ -44,8 +35,9 @@ public class CategoriaProducto extends conexion implements sentencias {
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
-
-
-
-
+    
+    @Override
+    public ArrayList<CategoriaProducto> consulta() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
