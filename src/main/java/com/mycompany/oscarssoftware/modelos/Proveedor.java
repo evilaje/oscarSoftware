@@ -4,11 +4,21 @@
  */
 package com.mycompany.oscarssoftware.modelos;
 
+import com.mycompany.oscarssoftware.clases.conexion;
+import com.mycompany.oscarssoftware.clases.sentencias;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Anibal
  */
-public class Proveedor {
+public class Proveedor extends conexion implements sentencias{
     private int idproveedor;
     private String nombre;
     private String telfono;
@@ -59,6 +69,47 @@ public class Proveedor {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    @Override
+    public ArrayList consulta() {
+        ArrayList<Proveedor> proveedores = new ArrayList<>();
+        String sql = "SELECT * from proveedor";
+        try {
+            Connection con = getCon();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                int idprov = rs.getInt("idproveedor");
+                String nombre = rs.getString("nombre");
+                String tel = rs.getString("telefono");
+                String direcc = rs.getString("telefono");
+                
+                Proveedor prov = new Proveedor(idprov, nombre, tel, direcc);
+                proveedores.add(prov);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        return proveedores;
+    }
+
+    @Override
+    public boolean insertar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean borrar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public boolean modificiar() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+    
     
     
 }

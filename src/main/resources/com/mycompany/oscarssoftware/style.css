@@ -1,0 +1,11 @@
+.flow-pane {
+    -fx-padding: 10;
+    -fx-background-color: #f0f0f0;
+    -fx-hgap: 10;
+    -fx-vgap: 10;
+}
+
+.flow-pane > Button {
+    -fx-alignment: center;
+    -fx-pref-width: 100%; /* Ajustar el ancho de los botones al 100% del contenedor */
+}

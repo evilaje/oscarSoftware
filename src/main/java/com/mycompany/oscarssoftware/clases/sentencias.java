@@ -11,5 +11,8 @@ import java.util.ArrayList;
  * @author Anibal
  */
 public interface sentencias {
-    public ArrayList consulta();
+    ArrayList consulta();
+    boolean insertar();
+    boolean borrar();
+    boolean modificiar();
 }

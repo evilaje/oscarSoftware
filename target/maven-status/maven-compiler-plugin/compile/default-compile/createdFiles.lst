@@ -1,8 +1,14 @@
+com\mycompany\oscarssoftware\modelos\Cliente.class
 com\mycompany\oscarssoftware\clases\conexion.class
+com\mycompany\oscarssoftware\modelos\Venta.class
 com\mycompany\oscarssoftware\clases\sentencias.class
-module-info.class
-com\mycompany\oscarssoftware\SecondaryController.class
 com\mycompany\oscarssoftware\modelos\CategoriaProducto.class
+module-info.class
+com\mycompany\oscarssoftware\modelos\Proveedor.class
+com\mycompany\oscarssoftware\SecondaryController.class
+com\mycompany\oscarssoftware\modelos\Empleado.class
 com\mycompany\oscarssoftware\PrimaryController.class
 com\mycompany\oscarssoftware\App.class
+com\mycompany\oscarssoftware\modelos\Pedido.class
+com\mycompany\oscarssoftware\modelos\DetallePedido.class
 com\mycompany\oscarssoftware\modelos\Producto.class
