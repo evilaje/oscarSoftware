@@ -9,7 +9,6 @@ import com.mycompany.oscarssoftware.clases.sentencias;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLClientInfoException;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -24,7 +23,7 @@ public class Producto extends conexion implements sentencias{
     //atributos de la tabla
     private int idproducto;
     private String nombre;
-    private float precio;
+    private double precio;
     private int cantidad;
     private int idCategoriaProducto;
     private int idProveedor;
@@ -46,7 +45,7 @@ public class Producto extends conexion implements sentencias{
     
     
     //constructor que recibe los datos
-    public Producto(int idproducto, String nombre, float precio, int cantidad, int idCategoriaProducto, int idProveedor, String nombreCategoria, String nombreProveedor) {
+    public Producto(int idproducto, String nombre, double precio, int cantidad, int idCategoriaProducto, int idProveedor, String nombreCategoria, String nombreProveedor) {
         this.idproducto = idproducto;
         this.nombre = nombre;
         this.precio = precio;
@@ -98,7 +97,7 @@ public class Producto extends conexion implements sentencias{
         this.nombre = nombre;
     }
 
-    public float getPrecio() {
+    public double getPrecio() {
         return precio;
     }
 
@@ -122,7 +121,8 @@ public class Producto extends conexion implements sentencias{
         this.idCategoriaProducto = idCategoriaProducto;
     }
     
-    
+    //sentencias
+
 //funcion de consulta, retorna todos los elementos
     @Override
     public ArrayList<Producto> consulta() {
@@ -131,7 +131,8 @@ public class Producto extends conexion implements sentencias{
                + " c.nombre_categoria AS nombreCategoria, p.idProveedor, pr.nombre AS nombreprov"
                + " FROM producto p "
                + "JOIN categoria_producto c ON p.idCategoriaProducto = c.idCategoria "
-               + "JOIN proveedor pr ON p.idProveedor = pr.idproveedor";
+               + "JOIN proveedor pr ON p.idProveedor = pr.idproveedor "
+               + "ORDER BY p.idproducto";
        //el texto sql basicamente pide:
        //del producto como tal, el nombre, precio, cantidad, idCategoria, y el idproveedor de la tabla producto que llamamos "p"
        //luego, annade otras dos tablas, las que llamamos categoria "categoria" y proveedor "pr"
@@ -165,59 +166,76 @@ public class Producto extends conexion implements sentencias{
        return pdtos;
     }
 
-
+    //funcion de insertar
     @Override
     public boolean insertar() {
-        String sql = "insert into producto values (?, ?, ?, ?, ?, ?)";
-
+        //creamos el texto que luego usaremos como orden sql
+        String sql = "insert into producto values (?, ?, ?, ?, ?, ?)"; //en los ??? luego iran los valores correspondientes
+        //luego abrimos un try para las conexiones y prever posibles errores
         try {
-            Connection con = getCon();
-            PreparedStatement stm;
-            stm = con.prepareStatement(sql);
+            Connection con = getCon();//creamos la conexion
+            PreparedStatement stm = con.prepareStatement(sql);;//creamos un objeto que sirve como orden
+            //a la orden le asignamos el texto sql...
+            
+            //por cada ? obtenemos el objeto determinado y le ponemos en el lugar que corresponda
             stm.setInt(1, this.idproducto);
-            stm.setFloat(2, this.precio);
+            stm.setDouble(2, this.precio);//
             stm.setString(3, this.nombre);
             stm.setInt(4, this.cantidad);
             stm.setInt(5, this.idProveedor);
             stm.setInt(6, this.idCategoriaProducto);
+            //una vez obtenidos todos los valores ejecutamos la orden
             stm.executeUpdate();
+            // devolvemos verdadero para que sepamos que la insercion se realizo con exito
             return true;
-        } catch (SQLException ex) {
+        } catch (SQLException ex) { //en caso de que ocurra un error lo atrapamos y lo mostramos unicamente para los programadores
             Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            //devolvemos falso para saber que ocurrio un error y que no se inserto nada
             return false;
         }
-
-        
     }
-
+    
+    //funcion para borrar
     @Override
     public boolean borrar() {
+        //preparamos la orden para borrar todos los datos del producto, o sea
+        //el producto en si.
         String sql = "Delete from producto where idproducto = ?";
+        //el try para la conexion
         try {
-            Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, this.idproducto);
-            stm.executeUpdate();
-            return true;
-        } catch (SQLException ex){
+            Connection con = getCon(); //preparamos el camino
+            PreparedStatement stm = con.prepareStatement(sql); //preparamos la orden
+            stm.setInt(1, this.idproducto); //asignamos el id del producto que queremos borrar
+            stm.executeUpdate();//ejecutamos la orden
+            return true; //devolvemos Verdadero si la orden se ejecuto con exito
+        } catch (SQLException ex){//atrapamos cualquier error que pueda haber
             Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
+            return false;//devolvemos falso si la orden fallo y para saber que no se ejecuto
         }
     }
 
+    //funcion para modificar determinado producto
     @Override
     public boolean modificiar() {
-        String sql = "update producto set nombre = ?, cantidad = ?, precio = ?";
+        //preparamos el texto que servira de orden sql
+        String sql = "update producto set nombre = ?, cantidad = ?, precio = ?, idProveedor = ?, idCategoriaProducto = ? where idProducto = ?";
+        //abrimos el try para los errores que puedan haber
         try {
-            Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql);
+            Connection con = getCon();//preparamos el camino
+            PreparedStatement stm = con.prepareStatement(sql);//preparamos la orden
+            //seteamos los datos en cada ? segun correspondan
             stm.setString(1, this.nombre);
             stm.setInt(2, this.cantidad);
-            stm.setFloat(3, precio);
+            stm.setDouble(3, this.precio);
+            stm.setInt(4, this.idProveedor);
+            stm.setInt(5, this.idCategoriaProducto);
+            stm.setInt(6, this.idproducto);
+            //ejecutamos la orden
             stm.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
+            return true;// devolvemos verdadero en caso de exito
+        } catch (SQLException ex) { //en caso de error lo atrapamos y lo identificamos
             Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
+            //devolvemos falso para saber que no se pudo realizar nada
             return false;
         }
        

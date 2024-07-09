@@ -13,52 +13,49 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="453.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
    <children>
-      <TableView fx:id="tablaProductos" layoutX="269.0" layoutY="47.0" prefHeight="331.0" prefWidth="440.0" style="-fx-border-color: black; -fx-fixed-cell-size: 25;" AnchorPane.bottomAnchor="74.33333333333337" AnchorPane.leftAnchor="269.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="47.0">
+      <TableView fx:id="tablaProductos" centerShape="false" layoutX="246.0" layoutY="48.0" onMouseClicked="#mostrarFila" prefHeight="330.0" prefWidth="533.0" style="-fx-border-color: black; -fx-fixed-cell-size: 25;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="48.0">
          <columns>
-            <TableColumn fx:id="columnId" prefWidth="34.6666259765625" text="Id" />
+            <TableColumn fx:id="columnId" prefWidth="65.99995422363281" text="Id" />
             <TableColumn fx:id="columnNombre" prefWidth="141.3333740234375" text="Nombre" />
-            <TableColumn fx:id="columnStock" prefWidth="58.6666259765625" text="Stock" />
-            <TableColumn fx:id="columnPrecio" prefWidth="66.0" text="Precio" />
-            <TableColumn fx:id="columnCategoria" prefWidth="65.33331298828125" text="Categoria" />
-            <TableColumn fx:id="columnProveedor" prefWidth="65.33331298828125" text="Proveedor" />
+            <TableColumn fx:id="columnStock" minWidth="0.0" prefWidth="73.33340454101562" text="Stock" />
+            <TableColumn fx:id="columnPrecio" prefWidth="74.0" text="Precio" />
+            <TableColumn fx:id="columnCategoria" prefWidth="72.0" text="Categoria" />
+            <TableColumn fx:id="columnProveedor" prefWidth="103.99997965494788" text="Proveedor" />
          </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
       </TableView>
       <FlowPane layoutX="14.0" layoutY="47.0" prefHeight="331.0" prefWidth="222.0" style="-fx-alignment: center; -fx-padding: 10; -fx-background-color: #9DE9FB; -fx-hgap: 10; -fx-vgap: 10; -fx-border-color: black;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="47.0">
          <children>
-            <ComboBox fx:id="comboProveedores" prefHeight="25.0" prefWidth="180.0" promptText="Seleccione un proveedor" />
+            <ComboBox fx:id="comboProveedores" disable="true" prefHeight="25.0" prefWidth="180.0" promptText="Seleccione un proveedor" />
             <Label text="Codigo">
                <font>
                   <Font name="Arial" size="10.0" />
                </font>
             </Label>
-            <TextField fx:id="txtId" prefHeight="25.0" prefWidth="139.0" promptText="Ingrese el codigo" />
+            <TextField fx:id="txtId" disable="true" prefHeight="25.0" prefWidth="139.0" promptText="Ingrese el codigo" />
             <Label text="Nombre">
                <font>
                   <Font name="Arial" size="10.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNombre" prefHeight="25.0" prefWidth="138.0" promptText="Ingrese el nombre" />
+            <TextField fx:id="txtNombre" disable="true" prefHeight="25.0" prefWidth="138.0" promptText="Ingrese el nombre" />
             <Label text="Cantidad">
                <font>
                   <Font name="Arial" size="10.0" />
                </font>
             </Label>
-            <TextField fx:id="txtCantidad" prefHeight="25.0" prefWidth="134.0" promptText="Ingrese la cantidad" />
+            <TextField fx:id="txtCantidad" disable="true" prefHeight="25.0" prefWidth="134.0" promptText="Ingrese la cantidad" />
             <Label text="Precio">
                <font>
                   <Font name="Arial" size="10.0" />
                </font>
             </Label>
-            <TextField fx:id="txtPrecio" prefHeight="25.0" prefWidth="139.0" promptText="Ingrese el precio" />
-            <ComboBox fx:id="comboCategoria" prefHeight="25.0" prefWidth="183.0" promptText="Seleccione categoria" />
-            <Button fx:id="btnGuardar" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
-            <Button mnemonicParsing="false" text="Cancelar" />
+            <TextField fx:id="txtPrecio" disable="true" prefHeight="25.0" prefWidth="139.0" promptText="Ingrese el precio" />
+            <ComboBox fx:id="comboCategoria" disable="true" prefHeight="25.0" prefWidth="183.0" promptText="Seleccione categoria" />
+            <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
+            <Button fx:id="btnCancelar" disable="true" mnemonicParsing="false" onAction="#vaciar" text="Cancelar" />
          </children>
       </FlowPane>
-      <Pane layoutX="269.0" layoutY="8.0" prefHeight="39.0" prefWidth="509.0" AnchorPane.leftAnchor="269.0" AnchorPane.rightAnchor="13.333333333333428">
+      <Pane layoutX="246.0" layoutY="8.0" prefHeight="39.0" prefWidth="533.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="13.0">
          <children>
             <TextField layoutX="14.0" layoutY="7.0" promptText="🔎 Buscar producto...." />
             <Label layoutX="172.0" layoutY="11.0" text="Filtrar por:" />
@@ -71,5 +68,20 @@
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
+      <Button fx:id="btnEliminar" disable="true" layoutX="164.0" layoutY="400.0" mnemonicParsing="false" onAction="#eliminarProveedor" text="Eliminar">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnModificar" disable="true" layoutX="253.0" layoutY="400.0" mnemonicParsing="false" onAction="#modificar" text="Modificar">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnNuevo" layoutX="51.0" layoutY="400.0" mnemonicParsing="false" onAction="#nuevo" text="Nuevo">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

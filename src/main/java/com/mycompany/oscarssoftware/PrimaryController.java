@@ -10,9 +10,8 @@ import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,11 +20,13 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 /**
  * FXML Controller class
  *
@@ -41,14 +42,13 @@ public class PrimaryController implements Initializable {
     @FXML
     private TableColumn<Producto, String> columnNombre;
     @FXML
-    private TableColumn<Producto, Float> columnPrecio;
+    private TableColumn<Producto, Double> columnPrecio;
     @FXML
     private TableColumn<Producto, Integer> columnStock;
     @FXML
     private TableColumn<Producto, String> columnCategoria;
     
-    private Producto p = new Producto();
-    private CategoriaProducto catprod = new CategoriaProducto();
+
     
     ObservableList<Producto> Productos;
     @FXML
@@ -63,8 +63,11 @@ public class PrimaryController implements Initializable {
     private Button btnGuardar;
     @FXML
     private TableColumn<Producto, String> columnProveedor;
-    
+    //variables
+    private Producto p = new Producto();
+    private CategoriaProducto catprod = new CategoriaProducto();
     private Proveedor prov = new Proveedor();
+    //combos y textfields
     @FXML
     private ComboBox<String> comboProveedores;
     @FXML
@@ -73,6 +76,18 @@ public class PrimaryController implements Initializable {
     private ComboBox<String> filtroCategoria;
     @FXML
     private ComboBox<String> filtroProveedor;
+    @FXML
+    private Button btnEliminar;
+    @FXML
+    private Button btnModificar;
+    private boolean modificar = false;
+    @FXML
+    private Button btnNuevo;
+    
+    ObservableList<CategoriaProducto> listaCategorias;
+    ObservableList<Proveedor> listaProveedores;
+    @FXML
+    private Button btnCancelar;
     /**
      * Initializes the controller class.
      */
@@ -101,85 +116,96 @@ public class PrimaryController implements Initializable {
     }
     //Funcion para guardar los datos ingresados
     @FXML
-    private void guardar(ActionEvent event) {
-        //metemos todo en un try-catch por si algo de eso falla
-        //la carga de datos no se hace a medias
-        //evitamos problemas de atomicidad
-        try {
-            int idProducto = Integer.parseInt(txtId.getText());//obtiene el dato del campo de texto
-            String nombre = txtNombre.getText();//igual
-            int cantidad = Integer.parseInt(txtCantidad.getText());
-            float precio = Float.parseFloat(txtPrecio.getText());//igual
-            //este if verifica si los valores cumplen en terminos de numeros
-            if (idProducto < 1 || cantidad < 1 || precio < 1) {
-                throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
-                //lanzamos un mensaje de error que sera captado por el catch
+private void guardar(ActionEvent event) {
+    try {
+        int idProducto = Integer.parseInt(txtId.getText());
+        String nombre = txtNombre.getText();
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        double precio = Double.parseDouble(txtPrecio.getText());
+        String categoriaSeleccionada = comboCategoria.getValue();
+        String proveedorSeleccionado = comboProveedores.getValue();
+        int idCat = obtenerCategoria(categoriaSeleccionada);
+        int idProv = obtenerProveedor(proveedorSeleccionado);
+        if (idProducto < 1 || cantidad < 1 || precio < 1) {
+            throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
+        }
+        p.setIdproducto(idProducto);
+        p.setNombre(nombre);
+        p.setCantidad(cantidad);
+        p.setPrecio((float) precio);
+        p.setIdCategoriaProducto(idCat);
+        p.setIdProveedor(idProv);
+        
+        
+        
+        if (modificar) {
+            if (p.modificiar()) {
+                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
+                modificar = false;
+                txtId.clear();
+                txtNombre.clear();
+                txtCantidad.clear();
+                txtPrecio.clear();
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
             }
-            CategoriaProducto cat = null;//creamos la variable que usaremos luego, por ahora sin valores
-            Proveedor pr = null; //creamos la variable que usaremos luego, por ahora sin valores
-            //verificamos que el nombre recibido exista en la tabla de categorias
-            if (obtenerCategoria(catprod.consulta(), comboCategoria.getSelectionModel().getSelectedItem()) != null) { //verifica que el nombre seleccionado en el combo exista en el ArrayList de categorias
-                //el nombre nos lo da el propio combobox, es el item que este seleccionado
-                cat = obtenerCategoria(catprod.consulta(), comboCategoria.getSelectionModel().getSelectedItem()); // Obtiene la categoria que tenga el nombre seleccionado
-                System.out.println(cat); //print para ver si anda
-            }
-            //verificamos que el nombre recibido exista en los proveedores
-            if (obtenerProveedor(prov.consulta(), comboProveedores.getSelectionModel().getSelectedItem()) != null) {
-                //obtenemo el proveedor con el nombre seleccionado
-                //el nombre nos lo da el combobox, es el item que esta seleccionado
-                pr = obtenerProveedor(prov.consulta(), comboProveedores.getSelectionModel().getSelectedItem());
-            }
-            //creamos un objeto Producto con los valores que acabamos de obtener
-            Producto producto = new Producto(idProducto, nombre, precio, cantidad, cat.getIdCategoria(), pr.getIdproveedor(), cat.getNombreCategoria(), pr.getNombre());
-            if (producto.insertar()) { //verificamos si se pudo insertar el objeto creado
+            modificar = false;
+        } else {
+            if (p.insertar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto ingresado correctamente");
-                //lanzamos mensaje de exito
-                vaciar();
-                //vaciamos todo
+                txtId.clear();
+                txtNombre.clear();
+                txtCantidad.clear();
+                txtPrecio.clear();
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El producto no pudo ser ingresado.");
-                //si no se pudo cargar, hubo un error en la base de datos, lanzamos
-                //respectivo mensaje
-            }  
-            
-        } catch (NumberFormatException e) { //zona de catchs, es decir, donde atrapamos los erroes
-            //atrapamos error de formato, quiere decir, el error que se genera si el usuario coloca palabras
-            //en los campos donde deben ir numeros
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
-            //mostramos mensaje 
-        } catch (IllegalArgumentException e) {
-            //atrapamos el error que mandamos antes si uno de los valores numericos no cumple con los minimos requeridos
-            mostrarAlerta(Alert.AlertType.ERROR,"Error de valor", e.getMessage());
-            //lanzamos mensaje
+            }
         }
-        //mostramos los datos
-        mostrarDatos();
+    } catch (NumberFormatException e) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
+    } catch (IllegalArgumentException e) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", e.getMessage());
     }
+
+    mostrarDatos();
+    vaciar();
+}
+
     
     //esta funcion carga los combobox de categorias
     public void cargarCategorias() {
-        ArrayList<CategoriaProducto> categorias = catprod.consulta();
-        if (categorias.isEmpty()) {
+        comboCategoria.setPromptText("Seleccione categoria");
+        listaCategorias = FXCollections.observableArrayList(catprod.consulta());//crear un arraylist de las categorias
+        
+        if (listaCategorias.isEmpty()) { //verificamos si hay categorias cargadas viendo si la lista esta vacia
+            //si esta vacia annadimos simplemente un mensaje
             comboCategoria.getItems().add("No se tienen categorias.");
             filtroCategoria.getItems().add("No se tienen categorias");
-        } else {
+        } else { //si la lista no esta vacia...
+            //vaciamos los elementos del combo para que el texto de arriba no este nunca
+            filtroCategoria.getItems().clear();
             comboCategoria.getItems().clear();
-            for (CategoriaProducto categoria : categorias) {
+            //recorremos la lista elemento por elemento
+            for (CategoriaProducto categoria : listaCategorias) {
+                //por cada elemento solo annadimos el nombre del elemento
                 comboCategoria.getItems().add(categoria.getNombreCategoria());
+                //igual aca
                 filtroCategoria.getItems().add(categoria.getNombreCategoria());
             }
         }
     }
     //esta funcion carga los combobox de proveedores con los nombres de los proveedores
+    //misma logica que arriba
     public void cargarProveedores() {
-        ArrayList<Proveedor> proveedores = prov.consulta();
-        if (proveedores.isEmpty()) {
+        comboProveedores.setPromptText("Seleccione un proveedor.");
+        listaProveedores = FXCollections.observableArrayList(prov.consulta());
+        if (listaProveedores.isEmpty()) {
             comboProveedores.getItems().add("No se tienen proveedores.");
             filtroProveedor.getItems().add("No se tienen proveedores.");
         } else {
             comboProveedores.getItems().clear();
             filtroProveedor.getItems().clear();
-            for (Proveedor p : proveedores) {
+            for (Proveedor p : listaProveedores) {
                 comboProveedores.getItems().add(p.getNombre());
                 filtroProveedor.getItems().add(p.getNombre());
             }
@@ -188,39 +214,52 @@ public class PrimaryController implements Initializable {
     
     //esta funcion recibe un nombre (texto)de categoria y devuelve la categoria (objeto) en cuestion
     //si existe, y si no, retorna null (vacio)
-    public CategoriaProducto obtenerCategoria (ArrayList<CategoriaProducto> categorias, String nombreCategoria) {
-        for (CategoriaProducto categoria : categorias) { //for especial que recorre objeto sin indice
-            if (categoria.getNombreCategoria().equals(nombreCategoria)) { //vemos si el nombre del objeto actual coincide con el nombre que le entregamos
-                return categoria; //si es asi, retornamos el objeto en cuestion ya que es el que queremos
+    public int obtenerCategoria(String nombreCategoria) {
+        ArrayList<CategoriaProducto> buscarCategorias = catprod.consulta();
+        for (CategoriaProducto categoria : buscarCategorias) {
+            if (categoria.getNombreCategoria().equals(nombreCategoria)) {
+                return categoria.getIdCategoria();
             }
         }
-        return null; //si el for termina sin retornar nada, significa que no existe y no retorna
+        return 0; // Retorna 0 si no se encuentra la categoría
     }
     
     //esta funcion recibe un nombre (texto) de proveedor y devuelve el proveedor (objeto) en cuestion
     //si existe, y si no, devuelve null (vacio)
     //misma logica que arriba
-    public Proveedor obtenerProveedor (ArrayList<Proveedor> proveedores, String nombreProv) {
-        for (Proveedor p : proveedores) {
-            if (p.getNombre().equals(nombreProv))
-                return p;
+    public int obtenerProveedor(String nombreProveedor) {
+        ArrayList<Proveedor> listaBuscarProv = prov.consulta();
+        for (Proveedor p : listaBuscarProv) {
+            if (p.getNombre().equals(nombreProveedor)) {
+                return p.getIdproveedor();
+            }
         }
-        return null;
+        return 0; // Retorna 0 si no se encuentra el proveedor
     }
-    
+
     //esta funcion se encarga de dejar cambos y combos a su estado inicial
+    @FXML
     public void vaciar() {
+
+        txtId.setDisable(true);
+        txtNombre.setDisable(true);
+        txtPrecio.setDisable(true);
+        txtCantidad.setDisable(true);
+        btnModificar.setDisable(true);
+        btnEliminar.setDisable(true);
+        btnGuardar.setDisable(true);
+        btnNuevo.setDisable(false);
         //limpiar los campos de texto
         txtNombre.clear();
         txtCantidad.clear();
         txtId.clear();
         txtPrecio.clear();
-        //limpiar los combos de seleccion
-        comboCategoria.getSelectionModel().clearSelection();
-        comboProveedores.getSelectionModel().clearSelection();
-        //reestablecer el texto de los combos
-        comboCategoria.setPromptText("Seleccione una categoría");
-        comboProveedores.setPromptText("Seleccione un proveedor");
+        //limpiar los combos de seleccion y reestablecer el texto
+        comboCategoria.setValue(null);
+        comboProveedores.setValue(null);
+        comboCategoria.setDisable(true);
+        comboProveedores.setDisable(true);
+
         
     }
     //esta funcion se encarga de mostrar alertas
@@ -231,8 +270,73 @@ public class PrimaryController implements Initializable {
         a.setContentText(mensaje);
         a.show();
     }
-    
-    
+
+    @FXML
+    private void eliminarProveedor(ActionEvent event) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("El Sistema comunica:");
+        a.setHeaderText(null);
+        a.setContentText("Desea Eliminar este producto");
+        Optional<ButtonType> option = a.showAndWait();
+        if(option.get() == ButtonType.OK){
+            int codigo = Integer.parseInt(txtId.getText());
+            p.setIdproducto(codigo);
+            if(p.borrar()){
+                mostrarAlerta(Alert.AlertType.INFORMATION, "El Sistema comunica", "Producto eliminado correctamente");
+            }else{
+                mostrarAlerta(Alert.AlertType.ERROR, "El SIstema comunica", "ERROR!! El producto no se pudo eliminar");
+            }
+        }
+        mostrarDatos();
+        vaciar();
+    }
+
+    @FXML
+    private void mostrarFila(MouseEvent event) {
+        btnCancelar.setDisable(false);
+        btnEliminar.setDisable(false);
+        btnModificar.setDisable(false);
+        btnNuevo.setDisable(true);
+
+        Producto pr = tablaProductos.getSelectionModel().getSelectedItem();
+        if (pr != null) {
+            comboCategoria.setValue(pr.getNombreCategoria());
+            comboProveedores.setValue(pr.getNombreProveedor());
+            txtId.setText(String.valueOf(pr.getIdproducto()));
+            txtNombre.setText(pr.getNombre());
+            txtCantidad.setText(String.valueOf(pr.getCantidad()));
+            txtPrecio.setText(String.valueOf(pr.getPrecio()));
+        }
+    }
+
+    @FXML
+    private void modificar(ActionEvent event) {
+        comboCategoria.setDisable(false);
+        comboProveedores.setDisable(false);
+        txtCantidad.setDisable(false);
+        txtId.setDisable(false);
+        txtNombre.setDisable(false);
+        txtPrecio.setDisable(false);
+        btnEliminar.setDisable(true);
+        txtId.setDisable(true);
+        btnGuardar.setDisable(false);
+        btnNuevo.setDisable(true);
+        modificar = true;
+    }
+
+    @FXML
+    private void nuevo(ActionEvent event) {
+        btnCancelar.setDisable(false);
+        comboCategoria.setDisable(false);
+        comboProveedores.setDisable(false);
+        cargarCategorias();
+        cargarProveedores();
+        txtCantidad.setDisable(false);
+        txtId.setDisable(false);
+        txtNombre.setDisable(false);
+        txtPrecio.setDisable(false);
+        btnGuardar.setDisable(false);
+        btnNuevo.setDisable(true);
         
-        
+    }        
 }
