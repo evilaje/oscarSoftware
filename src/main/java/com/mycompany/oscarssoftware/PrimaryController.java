@@ -88,6 +88,10 @@ public class PrimaryController implements Initializable {
     ObservableList<Proveedor> listaProveedores;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private TextField txtBuscar;
+    
+
     /**
      * Initializes the controller class.
      */
@@ -175,43 +179,46 @@ private void guardar(ActionEvent event) {
     //esta funcion carga los combobox de categorias
     public void cargarCategorias() {
         comboCategoria.setPromptText("Seleccione categoria");
-        listaCategorias = FXCollections.observableArrayList(catprod.consulta());//crear un arraylist de las categorias
-        
-        if (listaCategorias.isEmpty()) { //verificamos si hay categorias cargadas viendo si la lista esta vacia
-            //si esta vacia annadimos simplemente un mensaje
+        filtroCategoria.setPromptText("Filtrar por categoria");
+        listaCategorias = FXCollections.observableArrayList(catprod.consulta());
+
+        filtroCategoria.getItems().clear();
+        filtroCategoria.getItems().add(null); // Opción para no filtrar por categoría
+        comboCategoria.getItems().clear();
+        comboCategoria.getItems().add(null); // Opción para no seleccionar ninguna categoría
+
+        if (listaCategorias.isEmpty()) {
             comboCategoria.getItems().add("No se tienen categorias.");
             filtroCategoria.getItems().add("No se tienen categorias");
-        } else { //si la lista no esta vacia...
-            //vaciamos los elementos del combo para que el texto de arriba no este nunca
-            filtroCategoria.getItems().clear();
-            comboCategoria.getItems().clear();
-            //recorremos la lista elemento por elemento
+        } else {
             for (CategoriaProducto categoria : listaCategorias) {
-                //por cada elemento solo annadimos el nombre del elemento
                 comboCategoria.getItems().add(categoria.getNombreCategoria());
-                //igual aca
                 filtroCategoria.getItems().add(categoria.getNombreCategoria());
             }
         }
     }
-    //esta funcion carga los combobox de proveedores con los nombres de los proveedores
-    //misma logica que arriba
+
     public void cargarProveedores() {
         comboProveedores.setPromptText("Seleccione un proveedor.");
+        filtroProveedor.setPromptText("Filtrar por proveedor");
         listaProveedores = FXCollections.observableArrayList(prov.consulta());
+
+        filtroProveedor.getItems().clear();
+        filtroProveedor.getItems().add(null); // Opción para no filtrar por proveedor
+        comboProveedores.getItems().clear();
+        comboProveedores.getItems().add(null); // Opción para no seleccionar ningún proveedor
+
         if (listaProveedores.isEmpty()) {
             comboProveedores.getItems().add("No se tienen proveedores.");
             filtroProveedor.getItems().add("No se tienen proveedores.");
         } else {
-            comboProveedores.getItems().clear();
-            filtroProveedor.getItems().clear();
             for (Proveedor p : listaProveedores) {
                 comboProveedores.getItems().add(p.getNombre());
                 filtroProveedor.getItems().add(p.getNombre());
             }
         }
     }
-    
+
     //esta funcion recibe un nombre (texto)de categoria y devuelve la categoria (objeto) en cuestion
     //si existe, y si no, retorna null (vacio)
     public int obtenerCategoria(String nombreCategoria) {
@@ -339,4 +346,26 @@ private void guardar(ActionEvent event) {
         btnNuevo.setDisable(true);
         
     }        
+
+    @FXML
+    private void search(ActionEvent event) {
+        String buscar = txtBuscar.getText().toLowerCase();
+        String filtroCategoriaSeleccionada = filtroCategoria.getValue();
+        String filtroProveedorSeleccionado = filtroProveedor.getValue();
+
+        ObservableList<Producto> productosFiltrados = FXCollections.observableArrayList();
+
+        for (Producto producto : Productos) {
+            boolean matchesNombre = buscar.isEmpty() || producto.getNombre().toLowerCase().contains(buscar);
+            boolean matchesCategoria = filtroCategoriaSeleccionada == null || filtroCategoriaSeleccionada.equals(producto.getNombreCategoria());
+            boolean matchesProveedor = filtroProveedorSeleccionado == null || filtroProveedorSeleccionado.equals(producto.getNombreProveedor());
+
+            if (matchesNombre && matchesCategoria && matchesProveedor) {
+                productosFiltrados.add(producto);
+            }
+        }
+
+        tablaProductos.setItems(productosFiltrados);
+    }
+
 }

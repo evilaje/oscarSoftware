@@ -57,10 +57,10 @@
       </FlowPane>
       <Pane layoutX="246.0" layoutY="8.0" prefHeight="39.0" prefWidth="533.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="13.0">
          <children>
-            <TextField layoutX="14.0" layoutY="7.0" promptText="🔎 Buscar producto...." />
+            <TextField fx:id="txtBuscar" layoutX="14.0" layoutY="7.0" onAction="#search" promptText="🔎 Buscar producto...." />
             <Label layoutX="172.0" layoutY="11.0" text="Filtrar por:" />
-            <ComboBox fx:id="filtroCategoria" layoutX="248.0" layoutY="9.0" prefHeight="25.0" prefWidth="99.0" promptText="Categoria" />
-            <ComboBox fx:id="filtroProveedor" layoutX="382.0" layoutY="9.0" prefHeight="25.0" prefWidth="99.0" promptText="Proveedor" />
+            <ComboBox fx:id="filtroCategoria" layoutX="248.0" layoutY="9.0" onAction="#search" prefHeight="25.0" prefWidth="99.0" promptText="Categoria" />
+            <ComboBox fx:id="filtroProveedor" layoutX="382.0" layoutY="9.0" onAction="#search" prefHeight="25.0" prefWidth="99.0" promptText="Proveedor" />
          </children>
       </Pane>
       <Label layoutX="85.0" layoutY="17.0" text="Producto">
@@ -68,17 +68,17 @@
             <Font name="Arial Bold" size="18.0" />
          </font>
       </Label>
-      <Button fx:id="btnEliminar" disable="true" layoutX="164.0" layoutY="400.0" mnemonicParsing="false" onAction="#eliminarProveedor" text="Eliminar">
+      <Button fx:id="btnEliminar" disable="true" layoutX="85.0" layoutY="400.0" mnemonicParsing="false" onAction="#eliminarProveedor" text="Eliminar">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnModificar" disable="true" layoutX="253.0" layoutY="400.0" mnemonicParsing="false" onAction="#modificar" text="Modificar">
+      <Button fx:id="btnModificar" disable="true" layoutX="158.0" layoutY="400.0" mnemonicParsing="false" onAction="#modificar" prefHeight="29.0" prefWidth="79.0" text="Modificar">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnNuevo" layoutX="51.0" layoutY="400.0" mnemonicParsing="false" onAction="#nuevo" text="Nuevo">
+      <Button fx:id="btnNuevo" layoutX="14.0" layoutY="400.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="29.0" prefWidth="68.0" text="Nuevo">
          <font>
             <Font size="14.0" />
          </font>
