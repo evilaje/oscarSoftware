@@ -53,6 +53,7 @@ public class PrimaryController implements Initializable {
     ObservableList<Producto> Productos;
     @FXML
     private ComboBox<String> comboCategoria;
+    @FXML
     private TextField txtId;
     @FXML
     private TextField txtNombre;
@@ -123,6 +124,7 @@ public class PrimaryController implements Initializable {
     @FXML
 private void guardar(ActionEvent event) {
     try {
+        int idProducto = Integer.parseInt(txtId.getText());
         String nombre = txtNombre.getText();
         int cantidad = Integer.parseInt(txtCantidad.getText());
         double precio = Double.parseDouble(txtPrecio.getText());
@@ -133,6 +135,7 @@ private void guardar(ActionEvent event) {
         if (cantidad < 1 || precio < 1) {
             throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
         }
+        p.setIdproducto(idProducto);
         p.setNombre(nombre);
         p.setCantidad(cantidad);
         p.setPrecio((float) precio);
@@ -144,9 +147,6 @@ private void guardar(ActionEvent event) {
         if (modificar) {
             if (p.modificiar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
-                txtNombre.clear();
-                txtCantidad.clear();
-                txtPrecio.clear();
                 modificar = false;
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
@@ -244,6 +244,7 @@ private void guardar(ActionEvent event) {
     //esta funcion se encarga de dejar cambos y combos a su estado inicial
     @FXML
     public void vaciar() {
+        txtId.clear();
         txtNombre.setDisable(true);
         txtPrecio.setDisable(true);
         txtCantidad.setDisable(true);
@@ -305,11 +306,13 @@ private void guardar(ActionEvent event) {
             txtNombre.setText(pr.getNombre());
             txtCantidad.setText(String.valueOf(pr.getCantidad()));
             txtPrecio.setText(String.valueOf(pr.getPrecio()));
+            txtId.setText(String.valueOf(p.getIdproducto()));
         }
     }
 
     @FXML
     private void modificar(ActionEvent event) {
+        modificar = true;
         comboCategoria.setDisable(false);
         comboProveedores.setDisable(false);
         txtCantidad.setDisable(false);
@@ -318,7 +321,8 @@ private void guardar(ActionEvent event) {
         btnEliminar.setDisable(true);
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
-        modificar = true;
+        
+
     }
 
     @FXML

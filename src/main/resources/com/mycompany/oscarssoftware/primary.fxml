@@ -86,5 +86,6 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <TextField fx:id="txtId" layoutX="539.0" layoutY="403.0" prefHeight="25.0" prefWidth="2.0" visible="false" />
    </children>
 </AnchorPane>

@@ -206,31 +206,37 @@ public class Producto extends conexion implements sentencias{
     }
 
     //funcion para modificar determinado producto
-    @Override
-    public boolean modificiar() {
-        //preparamos el texto que servira de orden sql
-        String sql = "update producto set nombre = ?, cantidad = ?, precio = ?, idProveedor = ?, idCategoriaProducto = ? where idProducto = ?";
-        //abrimos el try para los errores que puedan haber
-        try {
-            Connection con = getCon();//preparamos el camino
-            PreparedStatement stm = con.prepareStatement(sql);//preparamos la orden
-            //seteamos los datos en cada ? segun correspondan
-            stm.setString(1, this.nombre);
-            stm.setInt(2, this.cantidad);
-            stm.setDouble(3, this.precio);
-            stm.setInt(4, this.idProveedor);
-            stm.setInt(5, this.idCategoriaProducto);
-            stm.setInt(6, this.idproducto);
-            //ejecutamos la orde
-            stm.executeUpdate();
-            return true;// devolvemos verdadero en caso de exito
-        } catch (SQLException ex) { //en caso de error lo atrapamos y lo identificamos
-            Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, ex);
-            //devolvemos falso para saber que no se pudo realizar nada
+@Override
+public boolean modificiar() {
+    String sql = "UPDATE producto SET nombre = ?, cantidad = ?, precio = ?, idProveedor = ?, idCategoriaProducto = ? WHERE idproducto = ?";
+    
+    try (Connection con = getCon();
+         PreparedStatement stm = con.prepareStatement(sql)) {
+        
+        stm.setString(1, this.nombre);
+        stm.setInt(2, this.cantidad);
+        stm.setDouble(3, this.precio);
+        stm.setInt(4, this.idProveedor);
+        stm.setInt(5, this.idCategoriaProducto);
+        stm.setInt(6, this.idproducto);
+        
+        int rowsUpdated = stm.executeUpdate();
+        
+        if (rowsUpdated > 0) {
+            con.commit(); // Confirmar los cambios en la base de datos
+            System.out.println("se llego aca");
+            return true;
+        } else {
+            System.out.println("aca tmb");
             return false;
         }
-       
+        
+    } catch (SQLException ex) {
+        Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, "Error al modificar el producto", ex);
+        return false;
     }
+}
+
     
     
 }
