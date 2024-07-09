@@ -53,7 +53,6 @@ public class PrimaryController implements Initializable {
     ObservableList<Producto> Productos;
     @FXML
     private ComboBox<String> comboCategoria;
-    @FXML
     private TextField txtId;
     @FXML
     private TextField txtNombre;
@@ -90,6 +89,8 @@ public class PrimaryController implements Initializable {
     private Button btnCancelar;
     @FXML
     private TextField txtBuscar;
+    @FXML
+    private Button btnReestablecer;
     
 
     /**
@@ -122,7 +123,6 @@ public class PrimaryController implements Initializable {
     @FXML
 private void guardar(ActionEvent event) {
     try {
-        int idProducto = Integer.parseInt(txtId.getText());
         String nombre = txtNombre.getText();
         int cantidad = Integer.parseInt(txtCantidad.getText());
         double precio = Double.parseDouble(txtPrecio.getText());
@@ -130,10 +130,9 @@ private void guardar(ActionEvent event) {
         String proveedorSeleccionado = comboProveedores.getValue();
         int idCat = obtenerCategoria(categoriaSeleccionada);
         int idProv = obtenerProveedor(proveedorSeleccionado);
-        if (idProducto < 1 || cantidad < 1 || precio < 1) {
+        if (cantidad < 1 || precio < 1) {
             throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
         }
-        p.setIdproducto(idProducto);
         p.setNombre(nombre);
         p.setCantidad(cantidad);
         p.setPrecio((float) precio);
@@ -145,11 +144,10 @@ private void guardar(ActionEvent event) {
         if (modificar) {
             if (p.modificiar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
-                modificar = false;
-                txtId.clear();
                 txtNombre.clear();
                 txtCantidad.clear();
                 txtPrecio.clear();
+                modificar = false;
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
             }
@@ -157,7 +155,6 @@ private void guardar(ActionEvent event) {
         } else {
             if (p.insertar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto ingresado correctamente");
-                txtId.clear();
                 txtNombre.clear();
                 txtCantidad.clear();
                 txtPrecio.clear();
@@ -247,8 +244,6 @@ private void guardar(ActionEvent event) {
     //esta funcion se encarga de dejar cambos y combos a su estado inicial
     @FXML
     public void vaciar() {
-
-        txtId.setDisable(true);
         txtNombre.setDisable(true);
         txtPrecio.setDisable(true);
         txtCantidad.setDisable(true);
@@ -259,16 +254,14 @@ private void guardar(ActionEvent event) {
         //limpiar los campos de texto
         txtNombre.clear();
         txtCantidad.clear();
-        txtId.clear();
         txtPrecio.clear();
         //limpiar los combos de seleccion y reestablecer el texto
         comboCategoria.setValue(null);
         comboProveedores.setValue(null);
         comboCategoria.setDisable(true);
         comboProveedores.setDisable(true);
-
-        
     }
+
     //esta funcion se encarga de mostrar alertas
     public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
@@ -309,7 +302,6 @@ private void guardar(ActionEvent event) {
         if (pr != null) {
             comboCategoria.setValue(pr.getNombreCategoria());
             comboProveedores.setValue(pr.getNombreProveedor());
-            txtId.setText(String.valueOf(pr.getIdproducto()));
             txtNombre.setText(pr.getNombre());
             txtCantidad.setText(String.valueOf(pr.getCantidad()));
             txtPrecio.setText(String.valueOf(pr.getPrecio()));
@@ -321,11 +313,9 @@ private void guardar(ActionEvent event) {
         comboCategoria.setDisable(false);
         comboProveedores.setDisable(false);
         txtCantidad.setDisable(false);
-        txtId.setDisable(false);
         txtNombre.setDisable(false);
         txtPrecio.setDisable(false);
         btnEliminar.setDisable(true);
-        txtId.setDisable(true);
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
         modificar = true;
@@ -339,7 +329,6 @@ private void guardar(ActionEvent event) {
         cargarCategorias();
         cargarProveedores();
         txtCantidad.setDisable(false);
-        txtId.setDisable(false);
         txtNombre.setDisable(false);
         txtPrecio.setDisable(false);
         btnGuardar.setDisable(false);
@@ -349,6 +338,7 @@ private void guardar(ActionEvent event) {
 
     @FXML
     private void search(ActionEvent event) {
+        btnReestablecer.setDisable(false);
         String buscar = txtBuscar.getText().toLowerCase();
         String filtroCategoriaSeleccionada = filtroCategoria.getValue();
         String filtroProveedorSeleccionado = filtroProveedor.getValue();
@@ -366,6 +356,16 @@ private void guardar(ActionEvent event) {
         }
 
         tablaProductos.setItems(productosFiltrados);
+
+    }
+
+    @FXML
+    private void reestablecer(ActionEvent event) {
+        txtBuscar.clear();
+        filtroCategoria.getSelectionModel().clearSelection();
+        filtroProveedor.getSelectionModel().clearSelection();
+        mostrarDatos();
+        btnReestablecer.setDisable(true);
     }
 
 }
