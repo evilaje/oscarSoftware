@@ -11,82 +11,81 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="453.0" prefWidth="792.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="477.0" prefWidth="815.0" style="-fx-background-color: #2A5EA4;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
    <children>
-      <TableView fx:id="tablaProductos" centerShape="false" layoutX="246.0" layoutY="48.0" onMouseClicked="#mostrarFila" prefHeight="330.0" prefWidth="533.0" style="-fx-border-color: black; -fx-fixed-cell-size: 25;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="48.0">
+      <TableView fx:id="tablaProductos" centerShape="false" layoutX="246.0" layoutY="48.0" onMouseClicked="#mostrarFila" prefHeight="330.0" prefWidth="556.0" style="-fx-border-color: black; -fx-fixed-cell-size: 25;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="13.0" AnchorPane.topAnchor="48.0">
          <columns>
-            <TableColumn fx:id="columnId" prefWidth="65.99995422363281" text="Id" />
-            <TableColumn fx:id="columnNombre" prefWidth="141.3333740234375" text="Nombre" />
-            <TableColumn fx:id="columnStock" minWidth="0.0" prefWidth="73.33340454101562" text="Stock" />
-            <TableColumn fx:id="columnPrecio" prefWidth="74.0" text="Precio" />
+            <TableColumn fx:id="columnId" minWidth="0.0" prefWidth="12.666641235351562" text="Id" />
+            <TableColumn fx:id="columnNombre" prefWidth="208.66668701171875" text="Nombre" />
+            <TableColumn fx:id="columnStock" minWidth="0.0" prefWidth="78.0" text="Stock" />
+            <TableColumn fx:id="columnPrecio" prefWidth="88.6666259765625" text="Precio" />
             <TableColumn fx:id="columnCategoria" prefWidth="72.0" text="Categoria" />
-            <TableColumn fx:id="columnProveedor" prefWidth="103.99997965494788" text="Proveedor" />
+            <TableColumn fx:id="columnProveedor" prefWidth="93.66666666666663" text="Proveedor" />
          </columns>
       </TableView>
-      <FlowPane layoutX="14.0" layoutY="47.0" prefHeight="331.0" prefWidth="222.0" style="-fx-alignment: center; -fx-padding: 5; -fx-background-color: #9DE9FB; -fx-hgap: 10; -fx-vgap: 15; -fx-border-color: black;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="47.0">
+      <FlowPane layoutX="14.0" layoutY="47.0" prefHeight="331.0" prefWidth="222.0" style="-fx-alignment: center; -fx-padding: 10; -fx-background-color: #2363BB; -fx-hgap: 10; -fx-vgap: 20; -fx-border-color: black;" AnchorPane.bottomAnchor="75.0" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="47.0">
          <children>
-            <ComboBox fx:id="comboProveedores" disable="true" prefHeight="37.0" prefWidth="180.0" promptText="Seleccione un proveedor" />
-            <Label text="Nombre">
+            <ComboBox fx:id="comboProveedores" disable="true" prefHeight="37.0" prefWidth="185.0" />
+            <TextField fx:id="txtNombre" disable="true" prefHeight="30.0" prefWidth="185.0" promptText="Ingrese el nombre">
                <font>
-                  <Font name="Arial" size="10.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtNombre" disable="true" prefHeight="25.0" prefWidth="138.0" promptText="Ingrese el nombre" />
-            <Label text="Cantidad">
+                  <Font name="Microsoft YaHei UI" size="14.0" />
+               </font></TextField>
+            <TextField fx:id="txtCantidad" disable="true" prefHeight="30.0" prefWidth="185.0" promptText="Ingrese la cantidad">
                <font>
-                  <Font name="Arial" size="10.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtCantidad" disable="true" prefHeight="25.0" prefWidth="134.0" promptText="Ingrese la cantidad" />
-            <Label text="Precio">
+                  <Font name="Microsoft YaHei UI" size="14.0" />
+               </font></TextField>
+            <TextField fx:id="txtPrecio" disable="true" prefHeight="30.0" prefWidth="185.0" promptText="Ingrese el precio">
                <font>
-                  <Font name="Arial" size="10.0" />
-               </font>
-            </Label>
-            <TextField fx:id="txtPrecio" disable="true" prefHeight="25.0" prefWidth="139.0" promptText="Ingrese el precio" />
-            <ComboBox fx:id="comboCategoria" disable="true" prefHeight="36.0" prefWidth="184.0" promptText="Seleccione categoria" />
-            <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardar" prefHeight="38.0" prefWidth="91.0" text="Guardar" />
+                  <Font name="Microsoft YaHei UI" size="14.0" />
+               </font></TextField>
+            <ComboBox fx:id="comboCategoria" disable="true" prefHeight="37.0" prefWidth="185.0" />
+            <Button fx:id="btnGuardar" disable="true" mnemonicParsing="false" onAction="#guardar" text="Guardar">
+               <font>
+                  <Font name="Microsoft YaHei UI" size="14.0" />
+               </font></Button>
          </children>
       </FlowPane>
       <Pane layoutX="246.0" layoutY="8.0" prefHeight="39.0" prefWidth="533.0" AnchorPane.leftAnchor="246.0" AnchorPane.rightAnchor="13.0">
          <children>
             <TextField fx:id="txtBuscar" layoutX="14.0" layoutY="7.0" onAction="#search" promptText="🔎 Buscar producto...." />
-            <Label layoutX="172.0" layoutY="11.0" text="Filtrar por:" />
-            <ComboBox fx:id="filtroCategoria" layoutX="248.0" layoutY="9.0" onAction="#search" prefHeight="25.0" prefWidth="99.0" promptText="Categoria" />
-            <ComboBox fx:id="filtroProveedor" layoutX="382.0" layoutY="9.0" onAction="#search" prefHeight="25.0" prefWidth="99.0" promptText="Proveedor" />
+            <Label layoutX="185.0" layoutY="12.0" style="-fx-text-fill: white;" text="Filtrar por:">
+               <font>
+                  <Font name="Microsoft YaHei UI Light" size="12.0" />
+               </font></Label>
+            <ComboBox fx:id="filtroCategoria" editable="true" layoutX="258.0" layoutY="7.0" onAction="#search" prefHeight="25.0" prefWidth="121.0" promptText="Categoria" />
+            <ComboBox fx:id="filtroProveedor" editable="true" layoutX="390.0" layoutY="7.0" onAction="#search" prefHeight="25.0" prefWidth="121.0" promptText="Proveedor" />
          </children>
       </Pane>
-      <Label layoutX="85.0" layoutY="17.0" text="Producto">
+      <Label layoutX="65.0" layoutY="11.0" style="-fx-text-fill: white;" text="Producto">
          <font>
-            <Font name="Arial Bold" size="18.0" />
+            <Font name="Microsoft YaHei UI Bold" size="26.0" />
          </font>
       </Label>
-      <Button fx:id="btnEliminar" disable="true" layoutX="108.0" layoutY="400.0" mnemonicParsing="false" onAction="#eliminarProveedor" prefHeight="39.0" prefWidth="77.0" text="Eliminar">
+      <Button fx:id="btnEliminar" disable="true" layoutX="386.0" layoutY="413.0" mnemonicParsing="false" onAction="#eliminarProducto" prefHeight="45.0" prefWidth="121.0" text="Eliminar" AnchorPane.bottomAnchor="18.666666666666686" AnchorPane.leftAnchor="386.0">
          <font>
-            <Font size="14.0" />
+            <Font name="Microsoft YaHei UI" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnModificar" disable="true" layoutX="197.0" layoutY="400.0" mnemonicParsing="false" onAction="#modificar" prefHeight="39.0" prefWidth="77.0" text="Modificar">
+      <Button fx:id="btnModificar" disable="true" layoutX="524.0" layoutY="413.0" mnemonicParsing="false" onAction="#modificar" prefHeight="45.0" prefWidth="121.0" text="Modificar" AnchorPane.bottomAnchor="18.666666666666686" AnchorPane.leftAnchor="524.0">
          <font>
-            <Font size="14.0" />
+            <Font name="Microsoft YaHei UI" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnNuevo" layoutX="14.0" layoutY="400.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="39.0" prefWidth="77.0" text="Nuevo">
+      <Button fx:id="btnNuevo" layoutX="55.0" layoutY="413.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="45.0" prefWidth="139.0" text="Nuevo" AnchorPane.bottomAnchor="18.666666666666686" AnchorPane.leftAnchor="55.0">
          <font>
-            <Font size="14.0" />
+            <Font name="Microsoft YaHei UI" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnCancelar" disable="true" layoutX="291.0" layoutY="399.0" mnemonicParsing="false" onAction="#vaciar" prefHeight="39.0" prefWidth="77.0" text="Cancelar">
+      <Button fx:id="btnCancelar" disable="true" layoutX="246.0" layoutY="414.0" mnemonicParsing="false" onAction="#vaciar" prefHeight="45.0" prefWidth="121.0" text="Cancelar" AnchorPane.bottomAnchor="18.0" AnchorPane.leftAnchor="246.0">
          <font>
-            <Font size="14.0" />
+            <Font name="Microsoft YaHei UI" size="14.0" />
          </font>
       </Button>
-      <TextField fx:id="txtId" disable="true" layoutX="389.0" layoutY="403.0" prefHeight="25.0" prefWidth="139.0" promptText="Ingrese el codigo" visible="false" />
-      <Label layoutX="550.0" layoutY="414.0" text="Codigo" visible="false">
+      <Button fx:id="btnReestablecer" disable="true" layoutX="661.0" layoutY="413.0" mnemonicParsing="false" onAction="#reestablecer" prefHeight="45.0" prefWidth="139.0" text="Reestablecer vista" AnchorPane.bottomAnchor="18.666666666666686" AnchorPane.leftAnchor="661.0">
          <font>
-            <Font name="Arial" size="10.0" />
+            <Font name="Microsoft YaHei UI" size="14.0" />
          </font>
-      </Label>
-      <Button fx:id="btnReestablecer" disable="true" layoutX="377.0" layoutY="400.0" mnemonicParsing="false" onAction="#reestablecer" prefHeight="39.0" prefWidth="119.0" text="Reestablecer vista" />
+      </Button>
+      <TextField fx:id="txtId" layoutX="539.0" layoutY="403.0" prefHeight="25.0" prefWidth="2.0" visible="false" />
    </children>
 </AnchorPane>
