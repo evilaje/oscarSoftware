@@ -170,7 +170,7 @@ public class Producto extends conexion implements sentencias{
     @Override
     public boolean insertar() {
         //creamos el texto que luego usaremos como orden sql
-        String sql = "insert into producto values (?, ?, ?, ?, ?, ?)"; //en los ??? luego iran los valores correspondientes
+        String sql = "insert into producto (precio, nombre, cantidad, idProveedor, idCategoriaProducto) values (?, ?, ?, ?, ?)"; //en los ??? luego iran los valores correspondientes
         //luego abrimos un try para las conexiones y prever posibles errores
         try {
             Connection con = getCon();//creamos la conexion
@@ -178,12 +178,12 @@ public class Producto extends conexion implements sentencias{
             //a la orden le asignamos el texto sql...
             
             //por cada ? obtenemos el objeto determinado y le ponemos en el lugar que corresponda
-            stm.setInt(1, this.idproducto);
-            stm.setDouble(2, this.precio);//
-            stm.setString(3, this.nombre);
-            stm.setInt(4, this.cantidad);
-            stm.setInt(5, this.idProveedor);
-            stm.setInt(6, this.idCategoriaProducto);
+
+            stm.setDouble(1, this.precio);//
+            stm.setString(2, this.nombre);
+            stm.setInt(3, this.cantidad);
+            stm.setInt(4, this.idProveedor);
+            stm.setInt(5, this.idCategoriaProducto);
             //una vez obtenidos todos los valores ejecutamos la orden
             stm.executeUpdate();
             // devolvemos verdadero para que sepamos que la insercion se realizo con exito

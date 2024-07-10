@@ -88,6 +88,10 @@ public class PrimaryController implements Initializable {
     ObservableList<Proveedor> listaProveedores;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private TextField txtBuscar;
+    @FXML
+    private Button btnReestablecer;
     /**
      * Initializes the controller class.
      */
@@ -118,7 +122,7 @@ public class PrimaryController implements Initializable {
     @FXML
 private void guardar(ActionEvent event) {
     try {
-        int idProducto = Integer.parseInt(txtId.getText());
+
         String nombre = txtNombre.getText();
         int cantidad = Integer.parseInt(txtCantidad.getText());
         double precio = Double.parseDouble(txtPrecio.getText());
@@ -126,10 +130,10 @@ private void guardar(ActionEvent event) {
         String proveedorSeleccionado = comboProveedores.getValue();
         int idCat = obtenerCategoria(categoriaSeleccionada);
         int idProv = obtenerProveedor(proveedorSeleccionado);
-        if (idProducto < 1 || cantidad < 1 || precio < 1) {
+        if (cantidad < 1 || precio < 1) {
             throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
         }
-        p.setIdproducto(idProducto);
+
         p.setNombre(nombre);
         p.setCantidad(cantidad);
         p.setPrecio((float) precio);
@@ -139,6 +143,8 @@ private void guardar(ActionEvent event) {
         
         
         if (modificar) {
+            int idProducto = Integer.parseInt(txtId.getText());
+            p.setIdproducto(idProducto);
             if (p.modificiar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
                 modificar = false;
@@ -339,4 +345,37 @@ private void guardar(ActionEvent event) {
         btnNuevo.setDisable(true);
         
     }        
+
+    @FXML
+    private void search(ActionEvent event) {
+        btnReestablecer.setDisable(false);
+        String buscar = txtBuscar.getText().toLowerCase();
+        String filtroCategoriaSeleccionada = filtroCategoria.getValue();
+        String filtroProveedorSeleccionado = filtroProveedor.getValue();
+
+        ObservableList<Producto> productosFiltrados = FXCollections.observableArrayList();
+
+        for (Producto producto : Productos) {
+            boolean matchesNombre = buscar.isEmpty() || producto.getNombre().toLowerCase().contains(buscar);
+            boolean matchesCategoria = filtroCategoriaSeleccionada == null || filtroCategoriaSeleccionada.equals(producto.getNombreCategoria());
+            boolean matchesProveedor = filtroProveedorSeleccionado == null || filtroProveedorSeleccionado.equals(producto.getNombreProveedor());
+
+            if (matchesNombre && matchesCategoria && matchesProveedor) {
+                productosFiltrados.add(producto);
+            }
+        }
+
+        tablaProductos.setItems(productosFiltrados);
+
+    }
+
+    @FXML
+    private void reestablecer(ActionEvent event) {
+        txtBuscar.clear();
+        filtroCategoria.getSelectionModel().clearSelection();
+        filtroProveedor.getSelectionModel().clearSelection();
+        mostrarDatos();
+        btnReestablecer.setDisable(true);
+    }
+
 }
