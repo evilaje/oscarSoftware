@@ -13,6 +13,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -88,6 +89,10 @@ public class PrimaryController implements Initializable {
     ObservableList<Proveedor> listaProveedores;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private TextField txtBuscar;
+    @FXML
+    private Button btnReestablecer;
     /**
      * Initializes the controller class.
      */
@@ -118,7 +123,7 @@ public class PrimaryController implements Initializable {
     @FXML
 private void guardar(ActionEvent event) {
     try {
-        int idProducto = Integer.parseInt(txtId.getText());
+
         String nombre = txtNombre.getText();
         int cantidad = Integer.parseInt(txtCantidad.getText());
         double precio = Double.parseDouble(txtPrecio.getText());
@@ -126,10 +131,10 @@ private void guardar(ActionEvent event) {
         String proveedorSeleccionado = comboProveedores.getValue();
         int idCat = obtenerCategoria(categoriaSeleccionada);
         int idProv = obtenerProveedor(proveedorSeleccionado);
-        if (idProducto < 1 || cantidad < 1 || precio < 1) {
+        if (cantidad < 1 || precio < 1) {
             throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
         }
-        p.setIdproducto(idProducto);
+
         p.setNombre(nombre);
         p.setCantidad(cantidad);
         p.setPrecio((float) precio);
@@ -139,13 +144,12 @@ private void guardar(ActionEvent event) {
         
         
         if (modificar) {
+            int idProducto = Integer.parseInt(txtId.getText());
+            p.setIdproducto(idProducto);
             if (p.modificiar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
                 modificar = false;
-                txtId.clear();
-                txtNombre.clear();
-                txtCantidad.clear();
-                txtPrecio.clear();
+                vaciar();
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
             }
@@ -153,10 +157,7 @@ private void guardar(ActionEvent event) {
         } else {
             if (p.insertar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto ingresado correctamente");
-                txtId.clear();
-                txtNombre.clear();
-                txtCantidad.clear();
-                txtPrecio.clear();
+                vaciar();
             } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El producto no pudo ser ingresado.");
             }
@@ -168,49 +169,48 @@ private void guardar(ActionEvent event) {
     }
 
     mostrarDatos();
-    vaciar();
+
 }
 
     
     //esta funcion carga los combobox de categorias
     public void cargarCategorias() {
-        comboCategoria.setPromptText("Seleccione categoria");
-        listaCategorias = FXCollections.observableArrayList(catprod.consulta());//crear un arraylist de las categorias
-        
-        if (listaCategorias.isEmpty()) { //verificamos si hay categorias cargadas viendo si la lista esta vacia
-            //si esta vacia annadimos simplemente un mensaje
+        listaCategorias = FXCollections.observableArrayList(catprod.consulta());
+
+        comboCategoria.getItems().clear(); // Asegúrate de limpiar antes de cargar
+        filtroCategoria.getItems().clear(); // Asegúrate de limpiar antes de cargar
+
+        if (listaCategorias.isEmpty()) {
             comboCategoria.getItems().add("No se tienen categorias.");
-            filtroCategoria.getItems().add("No se tienen categorias");
-        } else { //si la lista no esta vacia...
-            //vaciamos los elementos del combo para que el texto de arriba no este nunca
-            filtroCategoria.getItems().clear();
-            comboCategoria.getItems().clear();
-            //recorremos la lista elemento por elemento
+            filtroCategoria.getItems().add("No se tienen categorias.");
+        } else {
             for (CategoriaProducto categoria : listaCategorias) {
-                //por cada elemento solo annadimos el nombre del elemento
                 comboCategoria.getItems().add(categoria.getNombreCategoria());
-                //igual aca
                 filtroCategoria.getItems().add(categoria.getNombreCategoria());
             }
         }
     }
+
     //esta funcion carga los combobox de proveedores con los nombres de los proveedores
     //misma logica que arriba
     public void cargarProveedores() {
-        comboProveedores.setPromptText("Seleccione un proveedor.");
-        listaProveedores = FXCollections.observableArrayList(prov.consulta());
-        if (listaProveedores.isEmpty()) {
-            comboProveedores.getItems().add("No se tienen proveedores.");
-            filtroProveedor.getItems().add("No se tienen proveedores.");
-        } else {
-            comboProveedores.getItems().clear();
-            filtroProveedor.getItems().clear();
-            for (Proveedor p : listaProveedores) {
-                comboProveedores.getItems().add(p.getNombre());
-                filtroProveedor.getItems().add(p.getNombre());
-            }
+    listaProveedores = FXCollections.observableArrayList(prov.consulta());
+
+    comboProveedores.getItems().clear(); // Asegúrate de limpiar antes de cargar
+    filtroProveedor.getItems().clear(); // Asegúrate de limpiar antes de cargar
+
+    if (listaProveedores.isEmpty()) {
+        comboProveedores.getItems().add("No se tienen proveedores.");
+        filtroProveedor.getItems().add("No se tienen proveedores.");
+    } else {
+        for (Proveedor p : listaProveedores) {
+            comboProveedores.getItems().add(p.getNombre());
+            filtroProveedor.getItems().add(p.getNombre());
         }
     }
+}
+
+
     
     //esta funcion recibe un nombre (texto)de categoria y devuelve la categoria (objeto) en cuestion
     //si existe, y si no, retorna null (vacio)
@@ -259,7 +259,9 @@ private void guardar(ActionEvent event) {
         comboProveedores.setValue(null);
         comboCategoria.setDisable(true);
         comboProveedores.setDisable(true);
-
+        comboCategoria.setPromptText("");
+        comboProveedores.setPromptText("");
+        btnCancelar.setDisable(true);
         
     }
     //esta funcion se encarga de mostrar alertas
@@ -272,7 +274,7 @@ private void guardar(ActionEvent event) {
     }
 
     @FXML
-    private void eliminarProveedor(ActionEvent event) {
+    private void eliminarProducto(ActionEvent event) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("El Sistema comunica:");
         a.setHeaderText(null);
@@ -321,22 +323,94 @@ private void guardar(ActionEvent event) {
         txtId.setDisable(true);
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
+        btnModificar.setDisable(true);
         modificar = true;
     }
 
     @FXML
     private void nuevo(ActionEvent event) {
-        btnCancelar.setDisable(false);
-        comboCategoria.setDisable(false);
+        reestablecerPromps();
         comboProveedores.setDisable(false);
+        comboCategoria.setDisable(false);
+        btnCancelar.setDisable(false);
+
+        // Asegúrate de que los métodos de carga se llamen después de restablecer los ComboBox
         cargarCategorias();
         cargarProveedores();
+
         txtCantidad.setDisable(false);
         txtId.setDisable(false);
         txtNombre.setDisable(false);
         txtPrecio.setDisable(false);
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
-        
-    }        
+    }
+      
+
+    @FXML
+    private void search(ActionEvent event) {
+        btnReestablecer.setDisable(false);
+        String buscar = txtBuscar.getText().toLowerCase();
+        String filtroCategoriaSeleccionada = (filtroCategoria.getValue() != null) ? filtroCategoria.getValue().toLowerCase() : null;
+        String filtroProveedorSeleccionado = (filtroProveedor.getValue() != null) ? filtroProveedor.getValue().toLowerCase() : null;
+
+        ObservableList<Producto> productosFiltrados = FXCollections.observableArrayList();
+
+        for (Producto producto : Productos) {
+            String nombreProducto = producto.getNombre().toLowerCase();
+            String nombreCategoriaProducto = producto.getNombreCategoria().toLowerCase();
+            String nombreProveedorProducto = producto.getNombreProveedor().toLowerCase();
+
+            boolean matchesNombre = buscar.isEmpty() || nombreProducto.contains(buscar);
+            boolean matchesCategoria = filtroCategoriaSeleccionada == null || nombreCategoriaProducto.equals(filtroCategoriaSeleccionada);
+            boolean matchesProveedor = filtroProveedorSeleccionado == null || nombreProveedorProducto.equals(filtroProveedorSeleccionado);
+
+            if (matchesNombre && matchesCategoria && matchesProveedor) {
+                productosFiltrados.add(producto);
+            }
+        }
+
+        tablaProductos.setItems(productosFiltrados);
+    }
+
+
+    @FXML
+    private void reestablecer(ActionEvent event) {
+        txtBuscar.clear();
+        filtroProveedor.setPromptText("Proveedor");
+        filtroCategoria.setPromptText("Categoria");
+
+        // Restablecer los valores seleccionados
+        filtroCategoria.setValue(null);
+        filtroProveedor.setValue(null);
+
+        // Asegurarse de que los ComboBoxes actualicen su visualización
+        cargarCategorias();
+
+        mostrarDatos();
+        btnReestablecer.setDisable(true);
+    }
+    
+    private void reestablecerPromps(){
+    // Limpiar y reestablecer ComboBox de Categoría
+        comboCategoria.setValue(null);
+        comboCategoria.getSelectionModel().clearSelection();
+        comboCategoria.getItems().clear();
+        comboCategoria.setPromptText("Seleccione categoria");
+
+        // Limpiar y reestablecer ComboBox de Proveedores
+        comboProveedores.setValue(null);
+        comboProveedores.getSelectionModel().clearSelection();
+        comboProveedores.getItems().clear();
+        comboProveedores.setPromptText("Seleccione proveedor");
+
+        // Cargar datos nuevamente
+        cargarCategorias();
+        cargarProveedores();
+    }
+
+
+
+
+
 }
