@@ -4,6 +4,8 @@
  */
 
 //hola orne tqm
+//segundo comentario, veremos si anda
+//hola
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.App;
