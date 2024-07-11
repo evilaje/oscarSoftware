@@ -351,15 +351,19 @@ private void guardar(ActionEvent event) {
     private void search(ActionEvent event) {
         btnReestablecer.setDisable(false);
         String buscar = txtBuscar.getText().toLowerCase();
-        String filtroCategoriaSeleccionada = filtroCategoria.getValue();
-        String filtroProveedorSeleccionado = filtroProveedor.getValue();
+        String filtroCategoriaSeleccionada = (filtroCategoria.getValue() != null) ? filtroCategoria.getValue().toLowerCase() : null;
+        String filtroProveedorSeleccionado = (filtroProveedor.getValue() != null) ? filtroProveedor.getValue().toLowerCase() : null;
 
         ObservableList<Producto> productosFiltrados = FXCollections.observableArrayList();
 
         for (Producto producto : Productos) {
-            boolean matchesNombre = buscar.isEmpty() || producto.getNombre().toLowerCase().contains(buscar);
-            boolean matchesCategoria = filtroCategoriaSeleccionada == null || filtroCategoriaSeleccionada.equals(producto.getNombreCategoria());
-            boolean matchesProveedor = filtroProveedorSeleccionado == null || filtroProveedorSeleccionado.equals(producto.getNombreProveedor());
+            String nombreProducto = producto.getNombre().toLowerCase();
+            String nombreCategoriaProducto = producto.getNombreCategoria().toLowerCase();
+            String nombreProveedorProducto = producto.getNombreProveedor().toLowerCase();
+
+            boolean matchesNombre = buscar.isEmpty() || nombreProducto.contains(buscar);
+            boolean matchesCategoria = filtroCategoriaSeleccionada == null || nombreCategoriaProducto.equals(filtroCategoriaSeleccionada);
+            boolean matchesProveedor = filtroProveedorSeleccionado == null || nombreProveedorProducto.equals(filtroProveedorSeleccionado);
 
             if (matchesNombre && matchesCategoria && matchesProveedor) {
                 productosFiltrados.add(producto);
@@ -367,8 +371,8 @@ private void guardar(ActionEvent event) {
         }
 
         tablaProductos.setItems(productosFiltrados);
-
     }
+
 
     @FXML
     private void reestablecer(ActionEvent event) {
