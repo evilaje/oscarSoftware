@@ -3,9 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 
-//hola orne tqm
-//segundo comentario, veremos si anda
-//hola
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.App;
@@ -51,9 +48,7 @@ public class PrimaryController implements Initializable {
     private TableColumn<Producto, Integer> columnStock;
     @FXML
     private TableColumn<Producto, String> columnCategoria;
-    
-
-    
+ 
     ObservableList<Producto> Productos;
     @FXML
     private ComboBox<String> comboCategoria;
@@ -149,7 +144,7 @@ private void guardar(ActionEvent event) {
         if (modificar) {
             int idProducto = Integer.parseInt(txtId.getText());
             p.setIdproducto(idProducto);
-            if (p.modificiar()) {
+            if (p.modificar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
                 modificar = false;
                 vaciar();
@@ -298,11 +293,17 @@ private void guardar(ActionEvent event) {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
+        //desactivar botones
         btnCancelar.setDisable(false);
         btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
         btnNuevo.setDisable(true);
-
+        //desactivar textos
+        txtCantidad.setDisable(true);
+        txtNombre.setDisable(true);
+        txtPrecio.setDisable(true);
+        comboCategoria.setDisable(true);
+        comboProveedores.setDisable(true);
         Producto pr = tablaProductos.getSelectionModel().getSelectedItem();
         if (pr != null) {
             comboCategoria.setValue(pr.getNombreCategoria());
@@ -354,8 +355,8 @@ private void guardar(ActionEvent event) {
     private void search(ActionEvent event) {
         btnReestablecer.setDisable(false);
         String buscar = txtBuscar.getText().toLowerCase();
-        String filtroCategoriaSeleccionada = (filtroCategoria.getValue() != null) ? filtroCategoria.getValue().toLowerCase() : null;
-        String filtroProveedorSeleccionado = (filtroProveedor.getValue() != null) ? filtroProveedor.getValue().toLowerCase() : null;
+        String filtroCategoriaSeleccionada = (filtroCategoria.getValue() != null && !filtroCategoria.getValue().trim().isEmpty()) ? filtroCategoria.getValue().toLowerCase() : null;
+        String filtroProveedorSeleccionado = (filtroProveedor.getValue() != null && !filtroProveedor.getValue().trim().isEmpty()) ? filtroProveedor.getValue().toLowerCase() : null;
 
         ObservableList<Producto> productosFiltrados = FXCollections.observableArrayList();
 
@@ -375,6 +376,7 @@ private void guardar(ActionEvent event) {
 
         tablaProductos.setItems(productosFiltrados);
     }
+
 
 
     @FXML

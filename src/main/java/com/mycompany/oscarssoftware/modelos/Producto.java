@@ -216,7 +216,7 @@ public class Producto extends conexion implements sentencias{
 
     //funcion para modificar determinado producto
     @Override
-    public boolean modificiar() {
+    public boolean modificar() {
         //preparamos el texto que servira de orden sql
         String sql = "update producto set nombre = ?, cantidad = ?, precio = ?, idProveedor = ?, idCategoriaProducto = ? where idProducto = ?";
         //abrimos el try para los errores que puedan haber
