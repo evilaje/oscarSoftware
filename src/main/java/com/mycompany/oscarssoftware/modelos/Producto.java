@@ -174,7 +174,7 @@ public class Producto extends conexion implements sentencias{
         //luego abrimos un try para las conexiones y prever posibles errores
         try {
             Connection con = getCon();//creamos la conexion
-            PreparedStatement stm = con.prepareStatement(sql);;//creamos un objeto que sirve como orden
+            PreparedStatement stm = con.prepareStatement(sql);//creamos un objeto que sirve como orden
             //a la orden le asignamos el texto sql...
             
             //por cada ? obtenemos el objeto determinado y le ponemos en el lugar que corresponda

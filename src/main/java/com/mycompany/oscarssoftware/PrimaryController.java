@@ -119,58 +119,57 @@ public class PrimaryController implements Initializable {
     }
     //Funcion para guardar los datos ingresados
     @FXML
-private void guardar(ActionEvent event) {
-    try {
+    private void guardar(ActionEvent event) {
+        try {
 
-        String nombre = txtNombre.getText();
-        int cantidad = Integer.parseInt(txtCantidad.getText());
-        double precio = Double.parseDouble(txtPrecio.getText());
-        String categoriaSeleccionada = comboCategoria.getValue();
-        String proveedorSeleccionado = comboProveedores.getValue();
-        int idCat = obtenerCategoria(categoriaSeleccionada);
-        int idProv = obtenerProveedor(proveedorSeleccionado);
-        if (cantidad < 1 || precio < 1) {
-            throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
-        }
+            String nombre = txtNombre.getText();
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            double precio = Double.parseDouble(txtPrecio.getText());
+            String categoriaSeleccionada = comboCategoria.getValue();
+            String proveedorSeleccionado = comboProveedores.getValue();
+            int idCat = obtenerCategoria(categoriaSeleccionada);
+            int idProv = obtenerProveedor(proveedorSeleccionado);
+            if (cantidad < 1 || precio < 1) {
+                throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
+            }
 
-        p.setNombre(nombre);
-        p.setCantidad(cantidad);
-        p.setPrecio((float) precio);
-        p.setIdCategoriaProducto(idCat);
-        p.setIdProveedor(idProv);
-        
-        
-        
-        if (modificar) {
-            int idProducto = Integer.parseInt(txtId.getText());
-            p.setIdproducto(idProducto);
-            if (p.modificar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
+            p.setNombre(nombre);
+            p.setCantidad(cantidad);
+            p.setPrecio((float) precio);
+            p.setIdCategoriaProducto(idCat);
+            p.setIdProveedor(idProv);
+
+
+
+            if (modificar) {
+                int idProducto = Integer.parseInt(txtId.getText());
+                p.setIdproducto(idProducto);
+                if (p.modificar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
+                    modificar = false;
+                    vaciar();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
+                }
                 modificar = false;
-                vaciar();
             } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
+                if (p.insertar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto ingresado correctamente");
+                    vaciar();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El producto no pudo ser ingresado.");
+                }
             }
-            modificar = false;
-        } else {
-            if (p.insertar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto ingresado correctamente");
-                vaciar();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El producto no pudo ser ingresado.");
-            }
+        } catch (NumberFormatException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
+        } catch (IllegalArgumentException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", e.getMessage());
         }
-    } catch (NumberFormatException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
-    } catch (IllegalArgumentException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", e.getMessage());
+
+        mostrarDatos();
+
     }
 
-    mostrarDatos();
-
-}
-
-    
     //esta funcion carga los combobox de categorias
     public void cargarCategorias() {
         listaCategorias = FXCollections.observableArrayList(catprod.consulta());
@@ -293,7 +292,7 @@ private void guardar(ActionEvent event) {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
-        //desactivar botones
+        //desactivar botonesi
         btnCancelar.setDisable(false);
         btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
@@ -338,9 +337,7 @@ private void guardar(ActionEvent event) {
         comboCategoria.setDisable(false);
         btnCancelar.setDisable(false);
 
-        // Asegúrate de que los métodos de carga se llamen después de restablecer los ComboBox
-        cargarCategorias();
-        cargarProveedores();
+
 
         txtCantidad.setDisable(false);
         txtId.setDisable(false);
