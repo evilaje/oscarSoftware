@@ -174,7 +174,7 @@ public class Producto extends conexion implements sentencias{
         //luego abrimos un try para las conexiones y prever posibles errores
         try {
             Connection con = getCon();//creamos la conexion
-            PreparedStatement stm = con.prepareStatement(sql);;//creamos un objeto que sirve como orden
+            PreparedStatement stm = con.prepareStatement(sql);//creamos un objeto que sirve como orden
             //a la orden le asignamos el texto sql...
             
             //por cada ? obtenemos el objeto determinado y le ponemos en el lugar que corresponda
@@ -216,7 +216,7 @@ public class Producto extends conexion implements sentencias{
 
     //funcion para modificar determinado producto
     @Override
-    public boolean modificiar() {
+    public boolean modificar() {
         //preparamos el texto que servira de orden sql
         String sql = "update producto set nombre = ?, cantidad = ?, precio = ?, idProveedor = ?, idCategoriaProducto = ? where idProducto = ?";
         //abrimos el try para los errores que puedan haber

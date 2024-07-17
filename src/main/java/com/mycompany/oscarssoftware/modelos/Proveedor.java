@@ -114,7 +114,7 @@ public class Proveedor extends conexion implements sentencias{
     }
 
     @Override
-    public boolean modificiar() {
+    public boolean modificar() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
+
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.App;
@@ -13,7 +14,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -48,9 +48,7 @@ public class PrimaryController implements Initializable {
     private TableColumn<Producto, Integer> columnStock;
     @FXML
     private TableColumn<Producto, String> columnCategoria;
-    
-
-    
+ 
     ObservableList<Producto> Productos;
     @FXML
     private ComboBox<String> comboCategoria;
@@ -121,58 +119,57 @@ public class PrimaryController implements Initializable {
     }
     //Funcion para guardar los datos ingresados
     @FXML
-private void guardar(ActionEvent event) {
-    try {
+    private void guardar(ActionEvent event) {
+        try {
 
-        String nombre = txtNombre.getText();
-        int cantidad = Integer.parseInt(txtCantidad.getText());
-        double precio = Double.parseDouble(txtPrecio.getText());
-        String categoriaSeleccionada = comboCategoria.getValue();
-        String proveedorSeleccionado = comboProveedores.getValue();
-        int idCat = obtenerCategoria(categoriaSeleccionada);
-        int idProv = obtenerProveedor(proveedorSeleccionado);
-        if (cantidad < 1 || precio < 1) {
-            throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
-        }
+            String nombre = txtNombre.getText();
+            int cantidad = Integer.parseInt(txtCantidad.getText());
+            double precio = Double.parseDouble(txtPrecio.getText());
+            String categoriaSeleccionada = comboCategoria.getValue();
+            String proveedorSeleccionado = comboProveedores.getValue();
+            int idCat = obtenerCategoria(categoriaSeleccionada);
+            int idProv = obtenerProveedor(proveedorSeleccionado);
+            if (cantidad < 1 || precio < 1) {
+                throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
+            }
 
-        p.setNombre(nombre);
-        p.setCantidad(cantidad);
-        p.setPrecio((float) precio);
-        p.setIdCategoriaProducto(idCat);
-        p.setIdProveedor(idProv);
-        
-        
-        
-        if (modificar) {
-            int idProducto = Integer.parseInt(txtId.getText());
-            p.setIdproducto(idProducto);
-            if (p.modificiar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
+            p.setNombre(nombre);
+            p.setCantidad(cantidad);
+            p.setPrecio((float) precio);
+            p.setIdCategoriaProducto(idCat);
+            p.setIdProveedor(idProv);
+
+
+
+            if (modificar) {
+                int idProducto = Integer.parseInt(txtId.getText());
+                p.setIdproducto(idProducto);
+                if (p.modificar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto modificado con exito");
+                    modificar = false;
+                    vaciar();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
+                }
                 modificar = false;
-                vaciar();
             } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el producto");
+                if (p.insertar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto ingresado correctamente");
+                    vaciar();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El producto no pudo ser ingresado.");
+                }
             }
-            modificar = false;
-        } else {
-            if (p.insertar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto ingresado correctamente");
-                vaciar();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El producto no pudo ser ingresado.");
-            }
+        } catch (NumberFormatException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
+        } catch (IllegalArgumentException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", e.getMessage());
         }
-    } catch (NumberFormatException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
-    } catch (IllegalArgumentException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", e.getMessage());
+
+        mostrarDatos();
+
     }
 
-    mostrarDatos();
-
-}
-
-    
     //esta funcion carga los combobox de categorias
     public void cargarCategorias() {
         listaCategorias = FXCollections.observableArrayList(catprod.consulta());
@@ -295,11 +292,17 @@ private void guardar(ActionEvent event) {
 
     @FXML
     private void mostrarFila(MouseEvent event) {
+        //desactivar botonesi
         btnCancelar.setDisable(false);
         btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
         btnNuevo.setDisable(true);
-
+        //desactivar textos
+        txtCantidad.setDisable(true);
+        txtNombre.setDisable(true);
+        txtPrecio.setDisable(true);
+        comboCategoria.setDisable(true);
+        comboProveedores.setDisable(true);
         Producto pr = tablaProductos.getSelectionModel().getSelectedItem();
         if (pr != null) {
             comboCategoria.setValue(pr.getNombreCategoria());
@@ -334,9 +337,7 @@ private void guardar(ActionEvent event) {
         comboCategoria.setDisable(false);
         btnCancelar.setDisable(false);
 
-        // Asegúrate de que los métodos de carga se llamen después de restablecer los ComboBox
-        cargarCategorias();
-        cargarProveedores();
+
 
         txtCantidad.setDisable(false);
         txtId.setDisable(false);
@@ -351,8 +352,8 @@ private void guardar(ActionEvent event) {
     private void search(ActionEvent event) {
         btnReestablecer.setDisable(false);
         String buscar = txtBuscar.getText().toLowerCase();
-        String filtroCategoriaSeleccionada = (filtroCategoria.getValue() != null) ? filtroCategoria.getValue().toLowerCase() : null;
-        String filtroProveedorSeleccionado = (filtroProveedor.getValue() != null) ? filtroProveedor.getValue().toLowerCase() : null;
+        String filtroCategoriaSeleccionada = (filtroCategoria.getValue() != null && !filtroCategoria.getValue().trim().isEmpty()) ? filtroCategoria.getValue().toLowerCase() : null;
+        String filtroProveedorSeleccionado = (filtroProveedor.getValue() != null && !filtroProveedor.getValue().trim().isEmpty()) ? filtroProveedor.getValue().toLowerCase() : null;
 
         ObservableList<Producto> productosFiltrados = FXCollections.observableArrayList();
 
@@ -372,6 +373,7 @@ private void guardar(ActionEvent event) {
 
         tablaProductos.setItems(productosFiltrados);
     }
+
 
 
     @FXML

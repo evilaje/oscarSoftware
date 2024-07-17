@@ -14,5 +14,5 @@ public interface sentencias {
     ArrayList consulta();
     boolean insertar();
     boolean borrar();
-    boolean modificiar();
+    boolean modificar();
 }
