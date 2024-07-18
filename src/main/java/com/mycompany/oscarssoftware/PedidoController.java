@@ -108,8 +108,10 @@ public class PedidoController implements Initializable {
         // Limpiar comboboxes y datepicker
         comboCliente.getSelectionModel().clearSelection();
         comboCliente.setValue(null);
+        comboCliente.setPromptText("Cliente");
         comboEmpleado.setValue(null);
-
+        comboEmpleado.getSelectionModel().clearSelection();
+        comboEmpleado.setPromptText("Empleado");
         dateFecha.setValue(null);
         
         // Desactivar y activar botones
@@ -214,9 +216,7 @@ public class PedidoController implements Initializable {
     private int obtenerCliente(String nombreCliente) {
         ArrayList<Cliente> listaClientes = c.consulta();
         for (Cliente cliente : listaClientes) {
-            if (cliente.getNombre().equals(nombreCliente)) {
-                return cliente.getRuc();
-            }
+            if (cliente.getNombre().equals(nombreCliente)) return cliente.getRuc();
         }
         return 0;
     }
@@ -224,9 +224,7 @@ public class PedidoController implements Initializable {
     private int obtenerEmpleado(String nombreEmpleado) {
         ArrayList<Empleado> listaEmpleados = e.consulta();
         for (Empleado emp : listaEmpleados) {
-            if (emp.getNombre().equals(nombreEmpleado)) {
-                return emp.getIdempleado();
-            }
+            if (emp.getNombre().equals(nombreEmpleado)) return emp.getIdempleado();
         }
         return 0;
     }
@@ -237,6 +235,7 @@ public class PedidoController implements Initializable {
         for (Cliente client : listaCliente) {
             comboCliente.getItems().add(client.getNombre());
         }
+        comboCliente.setPromptText("Buscar cliente");
 
     }
     

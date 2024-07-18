@@ -2,12 +2,14 @@ com\mycompany\oscarssoftware\ClienteController.class
 com\mycompany\oscarssoftware\clases\conexion.class
 com\mycompany\oscarssoftware\CategoriaController.class
 com\mycompany\oscarssoftware\modelos\CategoriaProducto.class
+com\mycompany\oscarssoftware\VentaController.class
 module-info.class
 com\mycompany\oscarssoftware\modelos\Proveedor.class
 com\mycompany\oscarssoftware\modelos\Empleado.class
 com\mycompany\oscarssoftware\PrimaryController.class
 com\mycompany\oscarssoftware\App.class
 com\mycompany\oscarssoftware\EmpleadoController.class
+com\mycompany\oscarssoftware\MenuController.class
 com\mycompany\oscarssoftware\modelos\DetallePedido.class
 com\mycompany\oscarssoftware\modelos\Producto.class
 com\mycompany\oscarssoftware\modelos\Cliente.class
