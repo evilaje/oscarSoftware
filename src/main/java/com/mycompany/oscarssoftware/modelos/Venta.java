@@ -133,7 +133,7 @@ public class Venta extends conexion implements sentencias {
                 ventas.add(v);
             }
         } catch (SQLException e) {
-            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, e, null);
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, e);
         }
         return ventas;
     }
@@ -152,7 +152,7 @@ public class Venta extends conexion implements sentencias {
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
-            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, e, null);
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
     }
@@ -167,7 +167,7 @@ public class Venta extends conexion implements sentencias {
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
-            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, e, null);
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
     }
@@ -187,7 +187,7 @@ public class Venta extends conexion implements sentencias {
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
-            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, e, null);
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
     }

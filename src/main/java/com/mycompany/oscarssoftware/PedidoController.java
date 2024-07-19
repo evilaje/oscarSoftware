@@ -2,8 +2,11 @@
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.Cliente;
+import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
+import com.mycompany.oscarssoftware.modelos.Producto;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -14,7 +17,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
@@ -24,6 +30,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class PedidoController implements Initializable {
 
@@ -57,6 +65,33 @@ public class PedidoController implements Initializable {
     @FXML
     private TextField txtId;
     ObservableList<Cliente> listaCliente;
+    @FXML
+    private Button btnNuevoEmpleado;
+    @FXML
+    private Button btnNuevoProdroducto;
+    @FXML
+    private ComboBox<String> comboProductos;
+    @FXML
+    private TextField txtCantidad;
+    @FXML
+    private Button btnNuevoCliente;
+    @FXML
+    private Button btnCargarProducto;
+    @FXML
+    private TableView<DetallePedido> tablaDetalles;
+    private Producto p = new Producto();
+    private DetallePedido detalle = new DetallePedido();
+    @FXML
+    private TableColumn<DetallePedido, Integer> colIdPedido;
+    @FXML
+    private TableColumn<DetallePedido, String> colProducto;
+    @FXML
+    private TableColumn<DetallePedido, Integer> colCantidad;
+    @FXML
+    private TableColumn<DetallePedido, Double> colPrecioUnit;
+    @FXML
+    private TableColumn<DetallePedido, Double> colTotal;
+    ObservableList<DetallePedido> listaDetalles;
     
     /**
      * Initializes the controller class.
@@ -91,6 +126,8 @@ public class PedidoController implements Initializable {
         btnNuevoPedido.setDisable(true);
         btnGuardarPedido.setDisable(false);
         btnCancelarPedido.setDisable(false);
+        btnNuevoEmpleado.setDisable(false);
+        btnNuevoCliente.setDisable(false);
         
         cargarComboClientes();
         cargarComboEmpleados();
@@ -120,6 +157,8 @@ public class PedidoController implements Initializable {
         btnGuardarPedido.setDisable(true);
         btnCancelarPedido.setDisable(true);
         btnEliminarPedido.setDisable(true);
+        btnNuevoEmpleado.setDisable(true);
+        btnNuevoCliente.setDisable(true);
     }
 
 
@@ -136,6 +175,9 @@ public class PedidoController implements Initializable {
         nuevoPedido.setNombreCliente(comboCliente.getSelectionModel().getSelectedItem());
         nuevoPedido.setNombreEmpleado(comboEmpleado.getSelectionModel().getSelectedItem());
 
+        
+        
+        boolean resultado = false;
         if (modificar) {
             int idpedido = Integer.parseInt(txtId.getText());
             nuevoPedido.setIdpedido(idpedido);
@@ -146,7 +188,8 @@ public class PedidoController implements Initializable {
             }
             modificar = false;
         } else {
-            if (nuevoPedido.insertar()) {
+            resultado = nuevoPedido.insertar();
+            if (resultado) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Pedido registrado con exito");
                 
             } else {
@@ -154,8 +197,15 @@ public class PedidoController implements Initializable {
             }
                         
         }
+        if (resultado) {
+            seleccionarYEnfocarPedido(nuevoPedido);
+            mostrarDatos();
+            btnNuevoProdroducto.setDisable(false);
+            mostrarDetalles();
+            
+        }
         cancelar(event);
-        mostrarDatos();
+
     }
         @FXML
     private void mostrarFila() {
@@ -174,6 +224,8 @@ public class PedidoController implements Initializable {
             comboEmpleado.setValue(pedidoSeleccionado.getNombreEmpleado());
             LocalDate fecha = pedidoSeleccionado.getFecha_pedido().toLocalDate();
             dateFecha.setValue(fecha);
+            mostrarDetalles();
+            btnNuevoProdroducto.setDisable(false);
         }
 
         
@@ -259,6 +311,126 @@ public class PedidoController implements Initializable {
         alerta.setContentText(mensaje);
         alerta.show();
     }
+
+    @FXML
+    private void abrirVentanaCliente(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("cliente.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL); // Hacer la ventana modal
+            stage.showAndWait(); // Esperar hasta que se cierre la ventana
+
+            // Después de que se cierre la ventana, actualizar el combo box
+            cargarComboClientes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void abrirVentanaEmpleado(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("empleado.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL); // Hacer la ventana modal
+            stage.showAndWait(); // Esperar hasta que se cierre la ventana
+
+            // Después de que se cierre la ventana, actualizar el combo box
+            cargarComboEmpleados();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    private void seleccionarYEnfocarPedido(Pedido pedido) {
+        // Obtener el índice del pedido en la lista
+        int index = tablaPedidos.getItems().indexOf(pedido);
+
+        if (index >= 0) {
+            // Seleccionar el pedido
+            tablaPedidos.getSelectionModel().select(index);
+
+            // Asegurar que la fila esté visible
+            tablaPedidos.scrollTo(index);
+
+            // Enfocar el TableView para asegurar que la selección sea evidente
+            tablaPedidos.requestFocus();
+            btnNuevoProdroducto.setDisable(false);
+            
+           
+        }
+    }
+    
+    /*
+    //DETALLE PEDIDO CONTROLLER!!!!
+    */
+
+    @FXML
+    private void nuevoDetallePedido(ActionEvent event) {
+        comboProductos.setDisable(false);
+        txtCantidad.setDisable(false);
+        btnCargarProducto.setDisable(false);
+        btnNuevoProdroducto.setDisable(false);
+        tablaDetalles.setDisable(false);
+        cargarComboProductos();
+    }
+
+    @FXML
+    private void guardarDetalle(ActionEvent event) {
+        int idProducto = obtenerProducto(comboProductos.getSelectionModel().getSelectedItem());
+        int idPedido = tablaPedidos.getSelectionModel().getSelectedItem().getIdpedido();
+        int cantidad = Integer.parseInt(txtCantidad.getText());
+        DetallePedido nuevoDetalle = new DetallePedido();
+        nuevoDetalle.setIdPedido(idPedido);
+        nuevoDetalle.setIdProducto(idProducto);
+        nuevoDetalle.setCantidad(cantidad);
+        if (nuevoDetalle.insertar()) {
+            mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto añadido con exito!");
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "EL producto no pudo ser añadido");
+        }
+        
+    }
+    
+    private void cargarComboProductos() {
+        comboProductos.getItems().clear();
+        comboProductos.setValue(null);
+        ArrayList<Producto> listaProductos = p.consulta();
+        if (listaProductos != null && !listaProductos.isEmpty()) {
+            for (Producto pro : listaProductos) {
+                comboProductos.getItems().add(pro.getNombre());
+            }
+        }
+        comboEmpleado.setPromptText("Buscar producto");
+    }
+    
+        private int obtenerProducto(String nombreProducto) {
+        ArrayList<Producto> listaProductos = p.consulta();
+        for (Producto pro : listaProductos) {
+            if (pro.getNombre().equals(nombreProducto)) return pro.getIdproducto();
+        }
+        return 0;
+    }
+        
+        private void mostrarDetalles(){
+            detalle.setIdPedido(tablaPedidos.getSelectionModel().getSelectedItem().getIdpedido());
+            listaDetalles = FXCollections.observableArrayList(detalle.consulta());
+            colIdPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
+            colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+            colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+            colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
+            colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
+            tablaDetalles.setItems(listaDetalles);
+            
+            
+        }
+        
+
+
 
 
     
