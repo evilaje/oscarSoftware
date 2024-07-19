@@ -68,8 +68,6 @@ public class PedidoController implements Initializable {
     @FXML
     private Button btnNuevoEmpleado;
     @FXML
-    private Button btnNuevoProdroducto;
-    @FXML
     private ComboBox<String> comboProductos;
     @FXML
     private TextField txtCantidad;
@@ -92,6 +90,10 @@ public class PedidoController implements Initializable {
     @FXML
     private TableColumn<DetallePedido, Double> colTotal;
     ObservableList<DetallePedido> listaDetalles;
+    @FXML
+    private Button btnCancelarDealle;
+    @FXML
+    private Button btnNuevoProducto;
     
     /**
      * Initializes the controller class.
@@ -159,6 +161,7 @@ public class PedidoController implements Initializable {
         btnEliminarPedido.setDisable(true);
         btnNuevoEmpleado.setDisable(true);
         btnNuevoCliente.setDisable(true);
+        cancelarDetalle(event);
     }
 
 
@@ -200,8 +203,8 @@ public class PedidoController implements Initializable {
         if (resultado) {
             seleccionarYEnfocarPedido(nuevoPedido);
             mostrarDatos();
-            btnNuevoProdroducto.setDisable(false);
-            mostrarDetalles();
+            btnNuevoProducto.setDisable(false);
+            mostrarDetalles();  
             
         }
         cancelar(event);
@@ -224,9 +227,11 @@ public class PedidoController implements Initializable {
             comboEmpleado.setValue(pedidoSeleccionado.getNombreEmpleado());
             LocalDate fecha = pedidoSeleccionado.getFecha_pedido().toLocalDate();
             dateFecha.setValue(fecha);
-            mostrarDetalles();
-            btnNuevoProdroducto.setDisable(false);
+
+
         }
+        mostrarDetalles();
+        btnNuevoProducto.setDisable(false);
 
         
     }
@@ -359,7 +364,7 @@ public class PedidoController implements Initializable {
 
             // Enfocar el TableView para asegurar que la selección sea evidente
             tablaPedidos.requestFocus();
-            btnNuevoProdroducto.setDisable(false);
+            btnNuevoProducto.setDisable(false);
             
            
         }
@@ -374,8 +379,10 @@ public class PedidoController implements Initializable {
         comboProductos.setDisable(false);
         txtCantidad.setDisable(false);
         btnCargarProducto.setDisable(false);
-        btnNuevoProdroducto.setDisable(false);
+        btnNuevoProducto.setDisable(false);
         tablaDetalles.setDisable(false);
+        btnCancelarDealle.setDisable(false);
+        
         cargarComboProductos();
     }
 
@@ -393,7 +400,8 @@ public class PedidoController implements Initializable {
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "EL producto no pudo ser añadido");
         }
-        
+        cancelarDetalle(event);
+        mostrarDetalles();
     }
     
     private void cargarComboProductos() {
@@ -415,19 +423,42 @@ public class PedidoController implements Initializable {
         }
         return 0;
     }
+       
+    @FXML
+    private void cancelarDetalle(ActionEvent event) {
+        txtCantidad.clear();
+        comboProductos.getItems().clear();
+        btnCargarProducto.setDisable(true);
+        btnCancelarDealle.setDisable(true);
+        comboProductos.setDisable(true);
+        txtCantidad.setDisable(true);
+        tablaDetalles.getItems().clear();
+    }
+    
+    public void mostrarDetalles() {
+    // Obtén el item seleccionado de la TableView
+    Pedido pedidoSeleccionado = tablaPedidos.getSelectionModel().getSelectedItem();
+    
+    // Verifica si el item seleccionado es null
+    if (pedidoSeleccionado != null) {
+        // Solo accede a getIdpedido() si pedidoSeleccionado no es null
+        int idPedido = pedidoSeleccionado.getIdpedido();
+        detalle.setIdPedido(idPedido);
+        listaDetalles = FXCollections.observableArrayList(detalle.consulta());
+        colIdPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
+        colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+        colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
+        colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
+        tablaDetalles.setItems(listaDetalles);
         
-        private void mostrarDetalles(){
-            detalle.setIdPedido(tablaPedidos.getSelectionModel().getSelectedItem().getIdpedido());
-            listaDetalles = FXCollections.observableArrayList(detalle.consulta());
-            colIdPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
-            colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-            colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-            colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
-            colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
-            tablaDetalles.setItems(listaDetalles);
-            
-            
-        }
+        // Resto de tu lógica para mostrar detalles
+    } else {
+        // Maneja el caso en que no hay un pedido seleccionado
+        System.out.println("No hay un pedido seleccionado.");
+    }
+}
+
         
 
 

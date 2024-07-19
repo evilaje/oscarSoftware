@@ -127,7 +127,7 @@ public class DetallePedido extends conexion implements sentencias {
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setInt(1, this.idPedido);
             stm.setInt(2, this.idProducto);
-            stm.setDouble(4, this.cantidad);
+            stm.setInt(3, this.cantidad);
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {

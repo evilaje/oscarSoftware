@@ -61,23 +61,23 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <Pane disable="true" layoutX="13.0" layoutY="280.0" prefHeight="54.0" prefWidth="635.0" style="-fx-background-color: gray;">
+      <Pane layoutX="13.0" layoutY="280.0" prefHeight="54.0" prefWidth="635.0" style="-fx-background-color: gray;">
          <children>
-            <Button fx:id="btnNuevoProdroducto" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#nuevoDetallePedido" prefHeight="25.0" prefWidth="110.0" text="Añadir producto" />
-            <ComboBox fx:id="comboProductos" layoutX="143.0" layoutY="16.0" prefHeight="25.0" prefWidth="150.0" />
-            <TextField fx:id="txtCantidad" layoutX="365.0" layoutY="16.0" prefHeight="25.0" prefWidth="128.0" />
+            <Button fx:id="btnNuevoProducto" disable="true" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#nuevoDetallePedido" prefHeight="25.0" prefWidth="110.0" text="Añadir producto" />
+            <ComboBox fx:id="comboProductos" disable="true" layoutX="143.0" layoutY="16.0" prefHeight="25.0" prefWidth="150.0" />
+            <TextField fx:id="txtCantidad" disable="true" layoutX="365.0" layoutY="16.0" prefHeight="25.0" prefWidth="128.0" />
             <Label layoutX="307.0" layoutY="16.0" text="Cantidad:" />
-            <Button fx:id="btnCargarProducto" layoutX="512.0" layoutY="16.0" mnemonicParsing="false" onAction="#guardarDetalle" prefHeight="25.0" prefWidth="110.0" text="Cargar producto" />
+            <Button fx:id="btnCargarProducto" disable="true" layoutX="512.0" layoutY="16.0" mnemonicParsing="false" onAction="#guardarDetalle" prefHeight="25.0" prefWidth="110.0" text="Cargar producto" />
          </children>
       </Pane>
-      <Button layoutX="14.0" layoutY="545.0" mnemonicParsing="false" text="Cancelar" />
+      <Button fx:id="btnCancelarDealle" disable="true" layoutX="14.0" layoutY="545.0" mnemonicParsing="false" onAction="#cancelarDetalle" text="Cancelar" />
       <Label layoutX="310.0" layoutY="29.0" text="Pedido">
          <font>
             <Font size="26.0" />
          </font>
       </Label>
-      <Button layoutX="105.0" layoutY="545.0" mnemonicParsing="false" text="Eliminar Producto" />
+      <Button disable="true" layoutX="105.0" layoutY="545.0" mnemonicParsing="false" text="Eliminar Producto" />
       <TextField fx:id="txtId" layoutX="19.0" layoutY="267.0" visible="false" />
-      <Button layoutX="240.0" layoutY="545.0" mnemonicParsing="false" text="Editar cantidad" />
+      <Button disable="true" layoutX="240.0" layoutY="545.0" mnemonicParsing="false" text="Editar cantidad" />
    </children>
 </AnchorPane>
