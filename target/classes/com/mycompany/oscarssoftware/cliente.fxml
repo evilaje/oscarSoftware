@@ -7,22 +7,21 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/22" fx:controller="com.mycompany.oscarssoftware.ClienteController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.ClienteController">
    <children>
-      <Button fx:id="btnGuardar" layoutX="63.0" layoutY="313.0" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
-      <Button fx:id="btnModificar" layoutX="190.0" layoutY="313.0" mnemonicParsing="false" onAction="#modificar" text="Modificar" />
-      <Button fx:id="btnEliminar" layoutX="333.0" layoutY="313.0" mnemonicParsing="false" onAction="#eliminar" text="Eliminar" />
-      <Button fx:id="btnCancelar" layoutX="455.0" layoutY="313.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
+      <Button fx:id="btnGuardar" disable="true" layoutX="171.0" layoutY="313.0" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
+      <Button fx:id="btnModificar" disable="true" layoutX="267.0" layoutY="313.0" mnemonicParsing="false" onAction="#modificar" text="Modificar" />
+      <Button fx:id="btnEliminar" disable="true" layoutX="362.0" layoutY="313.0" mnemonicParsing="false" onAction="#eliminar" text="Eliminar" />
+      <Button fx:id="btnCancelar" disable="true" layoutX="455.0" layoutY="313.0" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
       <Label layoutX="32.0" layoutY="29.0" text="Nombre" />
       <Label layoutX="327.0" layoutY="71.0" text="Direccion" />
       <Label layoutX="31.0" layoutY="71.0" text="Telefono" />
       <Label layoutX="352.0" layoutY="29.0" text="Ruc" />
-      <TextField fx:id="txtNombre" layoutX="89.0" layoutY="25.0" />
-      <TextField fx:id="txtTel" layoutX="89.0" layoutY="67.0" />
-      <TextField fx:id="txtRuc" layoutX="400.0" layoutY="25.0" />
-      <TextField fx:id="txtDire" layoutX="400.0" layoutY="67.0" />
-      <TableView fx:id="tablaCliente" layoutX="46.0" layoutY="100.0" prefHeight="200.0" prefWidth="509.0">
+      <TextField fx:id="txtNombre" disable="true" layoutX="89.0" layoutY="25.0" />
+      <TextField fx:id="txtTel" disable="true" layoutX="89.0" layoutY="67.0" />
+      <TextField fx:id="txtRuc" disable="true" layoutX="400.0" layoutY="25.0" />
+      <TextField fx:id="txtDire" disable="true" layoutX="400.0" layoutY="67.0" />
+      <TableView fx:id="tablaCliente" layoutX="46.0" layoutY="100.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="509.0">
         <columns>
           <TableColumn fx:id="columnaNom" prefWidth="117.0" text="Nombre" />
           <TableColumn fx:id="columnaTel" prefWidth="117.0" text="Telefono" />
@@ -30,5 +29,6 @@
             <TableColumn fx:id="columnaDire" prefWidth="139.0" text="Direccion" />
         </columns>
       </TableView>
+      <Button fx:id="btnNuevo" layoutX="89.0" layoutY="313.0" mnemonicParsing="false" onAction="#nuevo" text="Nuevo" />
    </children>
 </AnchorPane>

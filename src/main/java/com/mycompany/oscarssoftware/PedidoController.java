@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -26,16 +27,18 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class PedidoController implements Initializable {
 
-    @FXML
+        @FXML
     private TableView<Pedido> tablaPedidos;
     @FXML
     private Button btnNuevoPedido;
@@ -91,15 +94,29 @@ public class PedidoController implements Initializable {
     private TableColumn<DetallePedido, Double> colTotal;
     ObservableList<DetallePedido> listaDetalles;
     @FXML
-    private Button btnCancelarDealle;
+    private Button btnCancelarDetalle;
     @FXML
     private Button btnNuevoProducto;
+    @FXML
+    private Button btnFechaHoy;
+    ;
+    @FXML
+    private Button btnEliminarDetalle;
+    @FXML
+    private Button btnEditarCantidad;
+    private boolean modificarDetalle = false;
+    private Pedido pedidoSeleccionadoDefecto;
+    @FXML
+    private TableColumn<Pedido, Integer> colNroPedido;
+    @FXML
+    private Label labNroSeleccionado;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+
         mostrarDatos();
     }    
     
@@ -107,6 +124,7 @@ public class PedidoController implements Initializable {
         ListaPedidos = FXCollections.observableArrayList(pedido.consulta());
         colClientes.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         colFechas.setCellValueFactory(new PropertyValueFactory<>("fecha_pedido"));
+        colNroPedido.setCellValueFactory(new PropertyValueFactory<>("idpedido"));
         tablaPedidos.setItems(ListaPedidos);
     }
 
@@ -130,12 +148,13 @@ public class PedidoController implements Initializable {
         btnCancelarPedido.setDisable(false);
         btnNuevoEmpleado.setDisable(false);
         btnNuevoCliente.setDisable(false);
+        btnFechaHoy.setDisable(false);
         
         cargarComboClientes();
         cargarComboEmpleados();
         dateFecha.setPromptText("Seleccione la fecha");
     }
-
+    
     @FXML
     private void cancelar(ActionEvent event) {
         // Limpiar selección de la tabla y deshabilitar controles
@@ -152,7 +171,7 @@ public class PedidoController implements Initializable {
         comboEmpleado.getSelectionModel().clearSelection();
         comboEmpleado.setPromptText("Empleado");
         dateFecha.setValue(null);
-        
+
         // Desactivar y activar botones
         btnModificarPedido.setDisable(true);
         btnNuevoPedido.setDisable(false);
@@ -161,7 +180,11 @@ public class PedidoController implements Initializable {
         btnEliminarPedido.setDisable(true);
         btnNuevoEmpleado.setDisable(true);
         btnNuevoCliente.setDisable(true);
+        btnNuevoProducto.setDisable(true);
+        btnFechaHoy.setDisable(true);
+        setLabel(-1);
         cancelarDetalle(event);
+        
     }
 
 
@@ -169,8 +192,8 @@ public class PedidoController implements Initializable {
     private void guardar(ActionEvent event) {
         int idcliente = obtenerCliente(comboCliente.getSelectionModel().getSelectedItem());
         int idempleado = obtenerEmpleado(comboEmpleado.getSelectionModel().getSelectedItem());
-        System.out.println(idempleado);
         java.sql.Date fecha = java.sql.Date.valueOf(dateFecha.getValue());
+
         Pedido nuevoPedido = new Pedido();
         nuevoPedido.setCliente_ruc(idcliente);
         nuevoPedido.setIdEmpleado(idempleado);
@@ -178,8 +201,6 @@ public class PedidoController implements Initializable {
         nuevoPedido.setNombreCliente(comboCliente.getSelectionModel().getSelectedItem());
         nuevoPedido.setNombreEmpleado(comboEmpleado.getSelectionModel().getSelectedItem());
 
-        
-        
         boolean resultado = false;
         if (modificar) {
             int idpedido = Integer.parseInt(txtId.getText());
@@ -191,26 +212,23 @@ public class PedidoController implements Initializable {
             }
             modificar = false;
         } else {
-            resultado = nuevoPedido.insertar();
-            if (resultado) {
+            if (nuevoPedido.insertar()) {
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Pedido registrado con exito");
-                
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "El pedido no pudo ser registrado");
+                mostrarDatos();
+                this.pedido = nuevoPedido;
+                btnNuevoProducto.setDisable(false);
+                mostrarDetalles();
+                setLabel(this.pedido.getIdpedido());
+                System.out.println(this.pedido.getIdpedido());
             }
-                        
-        }
-        if (resultado) {
-            seleccionarYEnfocarPedido(nuevoPedido);
-            mostrarDatos();
-            btnNuevoProducto.setDisable(false);
-            mostrarDetalles();  
-            
+
         }
         cancelar(event);
-
     }
-        @FXML
+
+
+
+    @FXML
     private void mostrarFila() {
         //desactivar y activar botones
         btnNuevoPedido.setDisable(true);
@@ -220,6 +238,7 @@ public class PedidoController implements Initializable {
         comboCliente.setDisable(true);
         dateFecha.setDisable(true);
         comboEmpleado.setDisable(true);
+        
         Pedido pedidoSeleccionado = tablaPedidos.getSelectionModel().getSelectedItem();
         if (pedidoSeleccionado != null) {
             txtId.setText(String.valueOf(pedidoSeleccionado.getIdpedido()));
@@ -227,13 +246,12 @@ public class PedidoController implements Initializable {
             comboEmpleado.setValue(pedidoSeleccionado.getNombreEmpleado());
             LocalDate fecha = pedidoSeleccionado.getFecha_pedido().toLocalDate();
             dateFecha.setValue(fecha);
-
-
+            setLabel(pedidoSeleccionado.getIdpedido());
         }
+        cancelarDetalle(null);
         mostrarDetalles();
         btnNuevoProducto.setDisable(false);
-
-        
+   
     }
     
     @FXML
@@ -350,26 +368,6 @@ public class PedidoController implements Initializable {
             e.printStackTrace();
         }
     }
-    
-    private void seleccionarYEnfocarPedido(Pedido pedido) {
-        // Obtener el índice del pedido en la lista
-        int index = tablaPedidos.getItems().indexOf(pedido);
-
-        if (index >= 0) {
-            // Seleccionar el pedido
-            tablaPedidos.getSelectionModel().select(index);
-
-            // Asegurar que la fila esté visible
-            tablaPedidos.scrollTo(index);
-
-            // Enfocar el TableView para asegurar que la selección sea evidente
-            tablaPedidos.requestFocus();
-            btnNuevoProducto.setDisable(false);
-            
-           
-        }
-    }
-    
     /*
     //DETALLE PEDIDO CONTROLLER!!!!
     */
@@ -381,7 +379,8 @@ public class PedidoController implements Initializable {
         btnCargarProducto.setDisable(false);
         btnNuevoProducto.setDisable(false);
         tablaDetalles.setDisable(false);
-        btnCancelarDealle.setDisable(false);
+        btnCancelarDetalle.setDisable(false);
+
         
         cargarComboProductos();
     }
@@ -389,20 +388,25 @@ public class PedidoController implements Initializable {
     @FXML
     private void guardarDetalle(ActionEvent event) {
         int idProducto = obtenerProducto(comboProductos.getSelectionModel().getSelectedItem());
-        int idPedido = tablaPedidos.getSelectionModel().getSelectedItem().getIdpedido();
+        int idPedido = pedidoSeleccionadoDefecto.getIdpedido();
         int cantidad = Integer.parseInt(txtCantidad.getText());
+
         DetallePedido nuevoDetalle = new DetallePedido();
         nuevoDetalle.setIdPedido(idPedido);
         nuevoDetalle.setIdProducto(idProducto);
         nuevoDetalle.setCantidad(cantidad);
-        if (nuevoDetalle.insertar()) {
-            mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto añadido con exito!");
-        } else {
-            mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "EL producto no pudo ser añadido");
-        }
+
+        boolean resultado = modificarDetalle ? nuevoDetalle.modificar() : nuevoDetalle.insertar();
+        mostrarAlerta(resultado ? Alert.AlertType.CONFIRMATION : Alert.AlertType.ERROR,
+                      "El sistema comunica",
+                      resultado ? (modificarDetalle ? "Cantidad modificada con exito!" : "Producto añadido con exito!") 
+                                : (modificarDetalle ? "La cantidad no pudo ser modificada" : "El producto no pudo ser añadido"));
+
+        modificarDetalle = false;
         cancelarDetalle(event);
         mostrarDetalles();
     }
+
     
     private void cargarComboProductos() {
         comboProductos.getItems().clear();
@@ -416,53 +420,117 @@ public class PedidoController implements Initializable {
         comboEmpleado.setPromptText("Buscar producto");
     }
     
-        private int obtenerProducto(String nombreProducto) {
+    private int obtenerProducto(String nombreProducto) {
         ArrayList<Producto> listaProductos = p.consulta();
+        String input = comboProductos.getEditor().getText();
+
         for (Producto pro : listaProductos) {
-            if (pro.getNombre().equals(nombreProducto)) return pro.getIdproducto();
+            if (pro.getNombre().equalsIgnoreCase(nombreProducto) || pro.getNombre().equalsIgnoreCase(input)) {
+                return pro.getIdproducto();
+            }
         }
-        return 0;
+
+        return 0; // Devuelve 0 si no se encuentra el producto
     }
+
        
     @FXML
     private void cancelarDetalle(ActionEvent event) {
         txtCantidad.clear();
+        comboProductos.getSelectionModel().clearSelection();
+        comboProductos.setValue(null);
         comboProductos.getItems().clear();
         btnCargarProducto.setDisable(true);
-        btnCancelarDealle.setDisable(true);
+        btnCancelarDetalle.setDisable(true);
         comboProductos.setDisable(true);
         txtCantidad.setDisable(true);
         tablaDetalles.getItems().clear();
+        btnCargarProducto.setText("Cargar producto");
+        btnEditarCantidad.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+
     }
     
     public void mostrarDetalles() {
-    // Obtén el item seleccionado de la TableView
-    Pedido pedidoSeleccionado = tablaPedidos.getSelectionModel().getSelectedItem();
-    
-    // Verifica si el item seleccionado es null
-    if (pedidoSeleccionado != null) {
-        // Solo accede a getIdpedido() si pedidoSeleccionado no es null
-        int idPedido = pedidoSeleccionado.getIdpedido();
-        detalle.setIdPedido(idPedido);
-        listaDetalles = FXCollections.observableArrayList(detalle.consulta());
-        colIdPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
-        colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
-        colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
-        tablaDetalles.setItems(listaDetalles);
-        
-        // Resto de tu lógica para mostrar detalles
-    } else {
-        // Maneja el caso en que no hay un pedido seleccionado
-        System.out.println("No hay un pedido seleccionado.");
+        // Obtén el item seleccionado de la TableView
+        Pedido pedidoSeleccionado = tablaPedidos.getSelectionModel().getSelectedItem();
+
+        // Verifica si el item seleccionado es null
+        if (pedidoSeleccionado != null) {
+            // Solo accede a getIdpedido() si pedidoSeleccionado no es null
+            int idPedido = pedidoSeleccionado.getIdpedido();
+            detalle.setIdPedido(idPedido);
+            listaDetalles = FXCollections.observableArrayList(detalle.consulta());
+            colIdPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
+            colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
+            colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
+            colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
+            colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
+            tablaDetalles.setItems(listaDetalles);
+
+            // Resto de tu lógica para mostrar detalles
+        } else {
+            // Maneja el caso en que no hay un pedido seleccionado
+            System.out.println("No hay un pedido seleccionado.");
+        }
     }
-}
 
+    @FXML
+    private void fechaHoy(ActionEvent event) {
+        dateFecha.setValue(LocalDate.now());
+    }
+
+    @FXML
+    private void mostrarDetalleSeleccionado(MouseEvent event) {
+        btnNuevoProducto.setDisable(true);
+        btnCancelarDetalle.setDisable(false);
+        btnEliminarDetalle.setDisable(false);
+        btnEditarCantidad.setDisable(false);
+        txtCantidad.setDisable(true);
+        DetallePedido detalleSeleccionado = tablaDetalles.getSelectionModel().getSelectedItem();
+        if (detalleSeleccionado != null) {
+            comboProductos.setValue(detalleSeleccionado.getNombreProducto());
+            txtCantidad.setText(String.valueOf(detalleSeleccionado.getCantidad()));
+            
+        }
+    }
+
+    @FXML
+    private void eliminarDetalle(ActionEvent event) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("Aviso de eliminacion");
+        a.setHeaderText(null);
+        a.setContentText("Desea eliminar este producto del pedido?"); 
+        Optional<ButtonType> opcion = a.showAndWait();
+        if (opcion.get() == ButtonType.OK) {
+            int idpedido = tablaPedidos.getSelectionModel().getSelectedItem().getIdpedido();
+            int idproducto = tablaDetalles.getSelectionModel().getSelectedItem().getIdProducto();
+            detalle.setIdPedido(idpedido);
+            detalle.setIdProducto(idproducto);
+            if (detalle.borrar()) {
+                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Detalle eliminado correctamente");
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "Error eliminando el detalle");
+            }
+            cancelarDetalle(event);
+            mostrarDetalles();
+
+        }
         
+    }
 
-
-
-
+    @FXML
+    private void editarDetalle(ActionEvent event) {
+        txtCantidad.setDisable(false);
+        btnCargarProducto.setText("Guardar cambios");
+        btnCargarProducto.setDisable(false);
+        modificarDetalle = true;
+    }
+    
+    private void setLabel(int id){
+        String msg = (id <= 0) ? "No se tiene seleccionado ningun pedido" : "Numero de pedido seleccionado: "
+                + String.valueOf(id);
+        labNroSeleccionado.setText(msg);
+    }
     
 }

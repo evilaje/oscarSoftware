@@ -88,8 +88,8 @@ public class Cliente extends conexion implements sentencias{
                     //annadimos al arraylist el objeto que acabamos de crear
                     clien.add(cliente);    
                 }
-       } catch (SQLException e) { //en caso de que la conexion falle, nos dara el mensaje pero no se muestra al usuario
-            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, e);
+       } catch (SQLException c) { //en caso de que la conexion falle, nos dara el mensaje pero no se muestra al usuario
+            Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, c);
         }
 //finalmente, retornamos el arraylist
        return clien;
@@ -120,7 +120,7 @@ public class Cliente extends conexion implements sentencias{
 
     @Override
     public boolean borrar() {
-        String sql = "Delete from empleado where id  = ?";
+        String sql = "Delete from cliente where ruc  = ?";
         try {
             Connection con = getCon(); 
             PreparedStatement stm = con.prepareStatement(sql); //preparamos la orden
@@ -136,7 +136,7 @@ public class Cliente extends conexion implements sentencias{
     @Override
     public boolean modificar() {
          //preparamos el texto que servira de orden sql
-        String sql = "update producto set nombre = ?, telefono = ?, direccion = ?";
+        String sql = "update cliente set nombre = ?, telefono = ?, direccion = ? where ruc = ?" ;
         //abrimos el try para los errores que puedan haber
         try {
             Connection con = getCon();//preparamos el camino
@@ -145,14 +145,13 @@ public class Cliente extends conexion implements sentencias{
             stm.setString(1, this.nombre);
             stm.setString(2, this.telefono);
             stm.setString(3, this.direccion);
-            //ejecutamos la orden
+            stm.setInt(4, this.ruc);
             stm.executeUpdate();
-            return true;// devolvemos verdadero en caso de exito
-        } catch (SQLException ex) { //en caso de error lo atrapamos y lo identificamos
+            return true;
+        } catch (SQLException ex) {
             Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-            //devolvemos falso para saber que no se pudo realizar nada
             return false;
         }
-    }    
+    }  
     
 }

@@ -68,6 +68,11 @@ public class MenuController implements Initializable {
     private void abrirEmpleados(ActionEvent event) {
         abrirFxml("empleado.fxml", "Formulario de empleados");
     }
+
+    @FXML
+    private void abrirVentas(ActionEvent event) {
+        abrirFxml("venta.fxml", "Formulario venta");
+    }
     
     
 }

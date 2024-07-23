@@ -126,7 +126,7 @@ public class Empleado extends conexion implements sentencias{
     public boolean borrar() {
          //preparamos la orden para borrar todos los datos del producto, o sea
         //el producto en si.
-        String sql = "Delete from empleado where id  = ?";
+        String sql = "Delete from empleado where idempleado  = ?";
         //el try para la conexion
         try {
             Connection con = getCon(); //preparamos el camino
@@ -143,7 +143,7 @@ public class Empleado extends conexion implements sentencias{
     @Override
     public boolean modificar() {
          //preparamos el texto que servira de orden sql
-        String sql = "update producto set nombre = ?, telefono = ?, direccion = ?";
+        String sql = "update empleado set nombre = ?, telefono = ?, direccion = ? where idempleado = ?";
         //abrimos el try para los errores que puedan haber
         try {
             Connection con = getCon();//preparamos el camino
@@ -152,6 +152,7 @@ public class Empleado extends conexion implements sentencias{
             stm.setString(1, this.nombre);
             stm.setString(2, this.telefono);
             stm.setString(3, this.direccion);
+            stm.setInt(4, this.idempleado);
             //ejecutamos la orden
             stm.executeUpdate();
             return true;// devolvemos verdadero en caso de exito

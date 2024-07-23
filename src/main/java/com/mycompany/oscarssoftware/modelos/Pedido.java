@@ -138,10 +138,25 @@ public class Pedido extends conexion implements sentencias {
 
     @Override
     public boolean borrar() {
-        String sql = "DELETE from pedido where idpedido = ?";
-        try {
-            Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql);
+        if (eliminarDetallePedidos()) {
+            String sql = "DELETE FROM pedido WHERE idpedido = ?";
+            try (Connection con = getCon();
+                 PreparedStatement stm = con.prepareStatement(sql)) {
+                stm.setInt(1, this.idpedido);
+                stm.executeUpdate();
+                return true;
+            } catch (SQLException e) {
+                Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+                return false;
+            }
+        }
+        return false;
+    }
+
+    private boolean eliminarDetallePedidos() {
+        String sql = "DELETE FROM detalle_pedido WHERE idpedido = ?";
+        try (Connection con = getCon();
+             PreparedStatement stm = con.prepareStatement(sql)) {
             stm.setInt(1, this.idpedido);
             stm.executeUpdate();
             return true;

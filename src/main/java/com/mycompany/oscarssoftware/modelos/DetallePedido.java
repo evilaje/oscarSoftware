@@ -11,6 +11,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -23,6 +24,7 @@ public class DetallePedido extends conexion implements sentencias {
     private String nombreProducto;
     private double precioUnit;
     private double precioTotal;
+    
 
     public DetallePedido(int idPedido, int idProducto, int cantidad, String nombreProducto, double precioUnit, double precioTotal) {
         this.idPedido = idPedido;
@@ -120,7 +122,7 @@ public class DetallePedido extends conexion implements sentencias {
     }
 
     @Override
-    public boolean insertar() {
+    public boolean insertar(){
         String sql = "INSERT into detalle_pedido values (?, ?, ?)";
         try {
             Connection con = getCon();
@@ -130,6 +132,9 @@ public class DetallePedido extends conexion implements sentencias {
             stm.setInt(3, this.cantidad);
             stm.executeUpdate();
             return true;
+        } catch (SQLIntegrityConstraintViolationException e) {
+           Logger.getLogger(DetallePedido.class.getName()).log(Level.SEVERE, null, e);
+           return false;
         } catch (SQLException e) {
             Logger.getLogger(DetallePedido.class.getName()).log(Level.SEVERE, null, e);
             return false;
@@ -138,12 +143,34 @@ public class DetallePedido extends conexion implements sentencias {
 
     @Override
     public boolean borrar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "DELETE FROM detalle_pedido WHERE idProducto = ? AND idPedido = ?";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, this.idProducto);
+            stm.setInt(2, this.idPedido);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(DetallePedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
     }
 
     @Override
     public boolean modificar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "UPDATE detalle_pedido set cantidad = ? WHERE idPedido = ? ";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, this.cantidad);
+            stm.setInt(2, this.idPedido);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(DetallePedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
     }
     
     

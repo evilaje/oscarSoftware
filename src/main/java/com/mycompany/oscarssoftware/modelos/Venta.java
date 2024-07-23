@@ -30,7 +30,17 @@ public class Venta extends conexion implements sentencias {
     private String nombreCliente;
     private String nombreEmpleado;
 
-    public Venta(int idventa, Date fecha_venta, double total, int idPedido, int clienteRuc, int idEmpleado, String nombreCliente, String nombreEmpleado) {
+    // Nuevos atributos
+    private int idProducto;
+    private String nombreProducto;
+    private int cantidad;
+    private double precio;
+    private double totalArticulo;
+    
+    public Venta(){};
+
+    public Venta(int idventa, Date fecha_venta, double total, int idPedido, int clienteRuc, int idEmpleado, String nombreCliente, String nombreEmpleado,
+                 int idProducto, String nombreProducto, int cantidad, double precio, double totalArticulo) {
         this.idventa = idventa;
         this.fecha_venta = fecha_venta;
         this.total = total;
@@ -39,6 +49,52 @@ public class Venta extends conexion implements sentencias {
         this.idEmpleado = idEmpleado;
         this.nombreCliente = nombreCliente;
         this.nombreEmpleado = nombreEmpleado;
+        this.idProducto = idProducto;
+        this.nombreProducto = nombreProducto;
+        this.cantidad = cantidad;
+        this.precio = precio;
+        this.totalArticulo = totalArticulo;
+    }
+
+    // Getters y setters para los nuevos atributos
+    public int getIdProducto() {
+        return idProducto;
+    }
+
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
+    }
+
+    public String getNombreProducto() {
+        return nombreProducto;
+    }
+
+    public void setNombreProducto(String nombreProducto) {
+        this.nombreProducto = nombreProducto;
+    }
+
+    public int getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(double precio) {
+        this.precio = precio;
+    }
+
+    public double getTotalArticulo() {
+        return totalArticulo;
+    }
+
+    public void setTotalArticulo(double totalArticulo) {
+        this.totalArticulo = totalArticulo;
     }
 
     public String getNombreCliente() {
@@ -55,9 +111,6 @@ public class Venta extends conexion implements sentencias {
 
     public void setNombreEmpleado(String nombreEmpleado) {
         this.nombreEmpleado = nombreEmpleado;
-    }
-    
-    public Venta() {
     }
 
     public int getIdventa() {
@@ -109,27 +162,36 @@ public class Venta extends conexion implements sentencias {
     }
 
     @Override
-    public ArrayList consulta() {
+    public ArrayList consulta() {   
         ArrayList<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.idventa, v.fecha_venta, v.total, v.idPedido, v.clienteRuc as ruc, "
-                + "c.nombre as nombrecliente, v.idEmpleado, e.nombre as nombreempleado "
+                + "c.nombre as nombrecliente, v.idEmpleado, e.nombre as nombreempleado, "
+                + "d.idProducto, p.nombre as nombreproducto, d.cantidad, p.precio, d.cantidad * p.precio "
+                + "AS totalArticulo "
                 + "FROM venta v "
                 + "JOIN cliente c ON v.clienteRuc = c.ruc "
-                + "JOIN empleado e ON e.idEmpleado = e.idempleado";
+                + "JOIN empleado e ON v.idEmpleado = e.idempleado "
+                + "JOIN detalle_pedido d ON d.idPedido = v.idPedido "
+                + "JOIN producto p ON d.idProducto = p.idproducto";
         try {
             Connection con = getCon();
             Statement stm = con.createStatement();
             ResultSet rs = stm.executeQuery(sql);
             while (rs.next()) {
                 int idventa = rs.getInt("idventa");
-                Date fecha = rs.getDate("fecha_vente");
+                Date fecha = rs.getDate("fecha_venta");
                 double total = rs.getDouble("total");
                 int idpedido = rs.getInt("idPedido");
-                int idcliente = rs.getInt("ruc");
+                int ruc = rs.getInt("ruc");
                 String nombreCliente = rs.getString("nombrecliente");
                 int idempleado = rs.getInt("idEmpleado");
                 String nombreempleado = rs.getString("nombreempleado");
-                Venta v = new Venta(idventa, fecha, total, idpedido, idcliente, idempleado, nombreCliente, nombreempleado);
+                int idProducto = rs.getInt("idProducto");
+                String nombreProducto = rs.getString("nombreproducto");
+                int cantidad = rs.getInt("cantidad");
+                double precio = rs.getDouble("precio");
+                double totalArticulo = rs.getDouble("totalArticulo");
+                Venta v = new Venta(idventa, fecha, total, idpedido, ruc, idempleado, nombreCliente, nombreempleado, idProducto, nombreProducto, cantidad, precio, totalArticulo);
                 ventas.add(v);
             }
         } catch (SQLException e) {

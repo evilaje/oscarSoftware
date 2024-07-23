@@ -10,6 +10,7 @@ import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -18,10 +19,12 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 
 public class EmpleadoController implements Initializable {
@@ -56,6 +59,8 @@ public class EmpleadoController implements Initializable {
     private TableColumn<Empleado, String> columnaTelefono;
     @FXML
     private TableColumn<Empleado, String> columnaDireccion;
+    @FXML
+    private Button btnNuevo;
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -76,15 +81,53 @@ public class EmpleadoController implements Initializable {
     }
 
     @FXML
-    private void eliminar(ActionEvent event) {
+    private void mostrarFila(MouseEvent event) {
+        //desactivar botonesi
+        btnCancelar.setDisable(false);
+        btnEliminar.setDisable(false);
+        btnModificar.setDisable(false);
+        txtNombre.setDisable(true);
+        Empleado emple = tablaEmpleado.getSelectionModel().getSelectedItem();
+        if (emple != null) {
+            txtId.setText(String.valueOf(emple.getIdempleado()));
+            txtNombre.setText(emple.getNombre());
+            txtTel.setText(String.valueOf(emple.getTelefono()));
+            txtDire.setText(String.valueOf(emple.getDireccion()));
+        }
     }
 
     @FXML
     private void modificar(ActionEvent event) {
+        txtId.setDisable(true);
+        txtNombre.setDisable(false);
+        txtDire.setDisable(false);
+        txtTel.setDisable(false);
+        btnEliminar.setDisable(true);
+        btnGuardar.setDisable(false);
+        btnModificar.setDisable(true);
+        btnNuevo.setDisable(true);
+        btnCancelar.setDisable(false);
+        modificar = true;
+        
     }
 
     @FXML
-    private void cancelar(ActionEvent event) {
+    private void cancelar() {
+        
+        txtId.setDisable(true);
+        txtNombre.setDisable(true);
+        txtDire.setDisable(true);
+        txtTel.setDisable(true);
+        btnModificar.setDisable(true);
+        btnEliminar.setDisable(true);
+        btnGuardar.setDisable(true);
+        btnNuevo.setDisable(false);
+        txtNombre.clear();
+        txtId.clear();
+        txtTel.clear();
+        txtDire.clear();        
+        btnCancelar.setDisable(true);
+        
     }
 
     @FXML
@@ -125,7 +168,7 @@ public class EmpleadoController implements Initializable {
     } catch (IllegalArgumentException e) {
         mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", e.getMessage());
     }
-
+    cancelar();
     mostrarDatos();
    
 
@@ -138,13 +181,36 @@ public class EmpleadoController implements Initializable {
         a.setContentText(mensaje);
         a.show();
     }
-    
-    private void initComponents() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+      @FXML
+    private void eliminarEmpleado(ActionEvent event) {
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        a.setTitle("El Sistema comunica:");
+        a.setHeaderText(null);
+        a.setContentText("Desea eliminar los datos de este empleado");
+        Optional<ButtonType> option = a.showAndWait();
+        if(option.get() == ButtonType.OK){
+            int codigo = Integer.parseInt(txtId.getText());
+            e.setIdempleado(codigo);
+            if(e.borrar()){
+                mostrarAlerta(Alert.AlertType.INFORMATION, "El Sistema comunica", "Datos del empleado eliminado correctamente");
+            }else{
+                mostrarAlerta(Alert.AlertType.ERROR, "El Sistema comunica", "ERROR!! Los Datos del empleado no se pudieron eliminar");
+            }
+        }
+        mostrarDatos();
+        cancelar();
     }
 
-    private void vaciar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    
+
+    @FXML
+    private void nuevo(ActionEvent event) {       
+        btnCancelar.setDisable(false);
+        txtId.setDisable(false);
+        txtNombre.setDisable(false);
+        txtTel.setDisable(false);
+        txtDire.setDisable(false);
+        btnGuardar.setDisable(false);
+        btnNuevo.setDisable(true);
     }
+
 }
