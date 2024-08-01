@@ -4,6 +4,7 @@
  */
 package com.mycompany.oscarssoftware;
 
+import com.mycompany.oscarssoftware.clases.Reporte;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -17,11 +18,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author Anibal
- */
 public class MenuController implements Initializable {
     private static Scene scene;
     /**
@@ -72,6 +68,14 @@ public class MenuController implements Initializable {
     @FXML
     private void abrirVentas(ActionEvent event) {
         abrirFxml("venta.fxml", "Formulario venta");
+    }
+
+    @FXML
+    private void reporteClientes(ActionEvent event) {
+        Reporte r = new Reporte();
+        String ubi = "/reportes/clienteF1.jasper";
+        String tit = "Informe de cliente";
+        r.generarReporte(ubi, tit);
     }
     
     

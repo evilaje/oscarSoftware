@@ -23,9 +23,9 @@
               <MenuItem mnemonicParsing="false" onAction="#abrirVentas" text="Nueva venta" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Gestionar pedidos">
+          <Menu mnemonicParsing="false" onAction="#reporteClientes" text="Informes">
             <items>
-              <MenuItem mnemonicParsing="false" text="About" />
+              <MenuItem mnemonicParsing="false" text="Clientes" />
             </items>
           </Menu>
         </menus>

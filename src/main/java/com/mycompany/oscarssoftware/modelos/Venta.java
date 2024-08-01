@@ -56,6 +56,19 @@ public class Venta extends conexion implements sentencias {
         this.totalArticulo = totalArticulo;
     }
 
+    public Venta(int idventa, Date fecha_venta, double total, int idPedido, int clienteRuc, int idEmpleado, String nombreCliente, String nombreEmpleado) {
+        this.idventa = idventa;
+        this.fecha_venta = fecha_venta;
+        this.total = total;
+        this.idPedido = idPedido;
+        this.clienteRuc = clienteRuc;
+        this.idEmpleado = idEmpleado;
+        this.nombreCliente = nombreCliente;
+        this.nombreEmpleado = nombreEmpleado;
+    }
+    
+    
+
     // Getters y setters para los nuevos atributos
     public int getIdProducto() {
         return idProducto;
@@ -252,6 +265,36 @@ public class Venta extends conexion implements sentencias {
             Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, e);
             return false;
         }
+    }
+
+
+    public ArrayList<Venta> consulta2() {   
+        ArrayList<Venta> ventas = new ArrayList<>();
+        String sql = "SELECT v.idventa, v.fecha_venta, v.total, v.idPedido, v.clienteRuc as ruc, "
+                   + "c.nombre as nombrecliente, v.idEmpleado, e.nombre as nombreempleado "
+                   + "FROM oscar_db.venta v "
+                   + "JOIN oscar_db.cliente c ON v.clienteRuc = c.ruc "
+                   + "JOIN oscar_db.empleado e ON v.idEmpleado = e.idempleado";
+        try {
+            Connection con = getCon();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                int idventa = rs.getInt("idventa");
+                Date fecha = rs.getDate("fecha_venta");
+                double total = rs.getDouble("total");
+                int idpedido = rs.getInt("idPedido");
+                int ruc = rs.getInt("ruc");
+                String nombreCliente = rs.getString("nombrecliente");
+                int idempleado = rs.getInt("idEmpleado");
+                String nombreempleado = rs.getString("nombreempleado");
+                Venta v = new Venta(idventa, fecha, total, idpedido, ruc, idempleado, nombreCliente, nombreempleado);
+                ventas.add(v);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Venta.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return ventas;
     }
     
     

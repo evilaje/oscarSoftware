@@ -3,6 +3,7 @@ com\mycompany\oscarssoftware\clases\conexion.class
 com\mycompany\oscarssoftware\CategoriaController.class
 com\mycompany\oscarssoftware\modelos\CategoriaProducto.class
 com\mycompany\oscarssoftware\VentaController.class
+com\mycompany\oscarssoftware\clases\Reporte.class
 module-info.class
 com\mycompany\oscarssoftware\modelos\Proveedor.class
 com\mycompany\oscarssoftware\modelos\Empleado.class

@@ -27,6 +27,7 @@ public class Pedido extends conexion implements sentencias {
     private int idCliente;
     private String nombreCliente;
     private String nombreEmpleado;
+    private boolean saved;
 
     public Pedido(int idpedido, Date fecha_pedido, int idEmpleado, int idCliente, String nombreCliente, String nombreEmpleado) {
         this.idpedido = idpedido;
@@ -35,6 +36,14 @@ public class Pedido extends conexion implements sentencias {
         this.idCliente = idCliente;
         this.nombreCliente = nombreCliente;
         this.nombreEmpleado = nombreEmpleado;
+    }
+
+    public boolean isSaved() {
+        return saved;
+    }
+
+    public void setSaved(boolean saved) {
+        this.saved = saved;
     }
 
     public String getNombreCliente() {
@@ -183,5 +192,44 @@ public class Pedido extends conexion implements sentencias {
             return false;
         }
     }
+    
+    public double consultaTotal(){
+        String sql = "SELECT SUM(d.cantidad * pr.precio) AS total "
+                + "FROM pedido p "
+                + "JOIN detalle_pedido d ON d.idPedido = p.idpedido "
+                + "JOIN producto pr ON pr.idproducto = d.idProducto "
+                + "WHERE p.idpedido = ?";
+        double total = 0;
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, this.idpedido);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()){
+                total = rs.getDouble("total");
+            }
+          
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return total;
+    }
+    
+    public int obtenerID(){
+        String sql = "SELECT MAX(idpedido) as ultimo_id FROM pedido";
+        int id = 0;
+        try {
+            Connection con = getCon();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                id = rs.getInt("ultimo_id");
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return id;
+    }
+    
     
 }
