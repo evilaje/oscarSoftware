@@ -20,6 +20,7 @@
                      </accelerator></MenuItem>
                   <MenuItem mnemonicParsing="false" onAction="#abrirClientes" text="Clientes" />
                   <MenuItem mnemonicParsing="false" onAction="#abrirEmpleados" text="Empleados" />
+                  <MenuItem mnemonicParsing="false" onAction="#abrirInicio" text="Inicio" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Venta">

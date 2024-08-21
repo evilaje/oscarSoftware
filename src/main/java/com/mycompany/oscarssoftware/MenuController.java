@@ -77,6 +77,11 @@ public class MenuController implements Initializable {
         String tit = "Informe de cliente";
         r.generarReporte(ubi, tit);
     }
+
+    @FXML
+    private void abrirInicio(ActionEvent event) {
+        abrirFxml("login.fxml", "loging");
+    }
     
     
 }
