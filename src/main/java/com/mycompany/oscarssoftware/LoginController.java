@@ -20,7 +20,11 @@ public class LoginController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+        holaOrne();
     }    
+    
+    private void holaOrne(){
+        System.out.println("hola orne");
+    }
     
 }
