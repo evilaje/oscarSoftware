@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany.oscarssoftware;
 
 
@@ -465,7 +461,7 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
     }
 
     private void mostrarDatos() {
-        listaPedidos = FXCollections.observableArrayList(p.consulta());
+        listaPedidos = (ObservableList<Pedido>) FXCollections.observableArrayList(p.consulta());
         colNroPedido.setCellValueFactory(new PropertyValueFactory<>("idpedido"));
         colClientes.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         colFechas.setCellValueFactory(new PropertyValueFactory<>("fecha_pedido"));

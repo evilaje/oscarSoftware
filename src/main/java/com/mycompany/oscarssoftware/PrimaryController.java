@@ -319,7 +319,6 @@ public class PrimaryController implements Initializable {
         comboCategoria.setDisable(false);
         comboProveedores.setDisable(false);
         txtCantidad.setDisable(false);
-        txtId.setDisable(false);
         txtNombre.setDisable(false);
         txtPrecio.setDisable(false);
         btnEliminar.setDisable(true);
@@ -337,7 +336,9 @@ public class PrimaryController implements Initializable {
         comboCategoria.setDisable(false);
         btnCancelar.setDisable(false);
 
-
+        // Asegúrate de que los métodos de carga se llamen después de restablecer los ComboBox
+        cargarCategorias();
+        cargarProveedores();
 
         txtCantidad.setDisable(false);
         txtId.setDisable(false);

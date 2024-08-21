@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.Cliente;
@@ -84,6 +80,7 @@ public class ClienteController implements Initializable {
     @FXML
     private void mostrarFila(MouseEvent event) {
         //desactivar botonesi
+       
         btnCancelar.setDisable(false);
         btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
@@ -99,11 +96,14 @@ public class ClienteController implements Initializable {
     }
     @FXML
     private void guardar(ActionEvent event) {
-        try {
-            int ruc = Integer.parseInt(txtRuc.getText());
-            String nombre = txtNombre.getText();
-            String telefono = txtTel.getText();
-            String direccion = txtDire.getText();
+    btnGuardar.setDisable(true); 
+    btnCancelar.setDisable(true);
+    btnNuevo.setDisable(false);
+    try {
+        int ruc = Integer.parseInt(txtRuc.getText());
+        String nombre = txtNombre.getText();
+        String telefono = txtTel.getText();
+        String direccion = txtDire.getText();
 
             Cliente cliente = new Cliente(nombre, telefono, ruc, direccion );
 
@@ -137,6 +137,9 @@ public class ClienteController implements Initializable {
         }
         cancelar(event);
         mostrarDatos();   
+    
+
+    mostrarDatos();   
     }
     public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);

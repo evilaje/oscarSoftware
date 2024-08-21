@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.oscarssoftware.modelos;
 
 import com.mycompany.oscarssoftware.clases.conexion;
@@ -20,7 +16,7 @@ import java.util.logging.Logger;
  *
  * @author Anibal
  */
-public class Pedido extends conexion implements sentencias {
+public class Pedido extends conexion implements sentencias{
     private int idpedido;
     private Date fecha_pedido;
     private int idEmpleado;
@@ -28,8 +24,9 @@ public class Pedido extends conexion implements sentencias {
     private String nombreCliente;
     private String nombreEmpleado;
     private boolean saved;
+    private int cliente_ruc;
 
-    public Pedido(int idpedido, Date fecha_pedido, int idEmpleado, int idCliente, String nombreCliente, String nombreEmpleado) {
+    public Pedido(int idpedido, Date fecha_pedido, int idEmpleado, int cliente_ruc, String cliente, String empleado) {
         this.idpedido = idpedido;
         this.fecha_pedido = fecha_pedido;
         this.idEmpleado = idEmpleado;
@@ -63,6 +60,10 @@ public class Pedido extends conexion implements sentencias {
     }
 
     public Pedido() {
+        this.idpedido = idpedido;
+        this.fecha_pedido = fecha_pedido;
+        this.idEmpleado = idEmpleado;
+        this.cliente_ruc = cliente_ruc;
     }
 
     public int getIdpedido() {
@@ -89,8 +90,8 @@ public class Pedido extends conexion implements sentencias {
         this.idEmpleado = idEmpleado;
     }
 
-    public int getIdCliente() {
-        return idCliente;
+    public int getCliente_ruc() {
+        return cliente_ruc;
     }
 
     public void setCliente_ruc(int idCliente) {
@@ -254,6 +255,9 @@ public class Pedido extends conexion implements sentencias {
             return false;
         }
     }
+    
+    
+    
     
     
 }

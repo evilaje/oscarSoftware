@@ -11,8 +11,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 /**
@@ -84,47 +82,16 @@ public class CategoriaProducto extends conexion implements sentencias {
     //sentencias que todavia no se usan
     @Override
     public boolean insertar() {
-        String sql = "insert into categoria_producto (nombre_categoria) values (?)";
-        try {
-            Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setString(1, this.nombreCategoria);
-            stm.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoriaProducto.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public boolean borrar() {
-        String sql = "delete from categoria_producto where idcategoria = ?";
-        try {
-            Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, this.idCategoria);
-            stm.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoriaProducto.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
     public boolean modificar() {
-        String sql = "update categoria_producto set nombre_categoria = ? where idcategoria = ?";
-        try {
-            Connection con = getCon();
-            PreparedStatement stm = con.prepareStatement(sql);
-            stm.setString(1, this.nombreCategoria);
-            stm.setInt(2, this.idCategoria);
-            stm.executeUpdate();
-            return true;
-        } catch (SQLException ex) {
-            Logger.getLogger(CategoriaProducto.class.getName()).log(Level.SEVERE, null, ex);
-            return false;
-        }
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

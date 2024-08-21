@@ -87,6 +87,7 @@ public class EmpleadoController implements Initializable {
         btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
         txtNombre.setDisable(true);
+        btnNuevo.setDisable(true);
         Empleado emple = tablaEmpleado.getSelectionModel().getSelectedItem();
         if (emple != null) {
             txtId.setText(String.valueOf(emple.getIdempleado()));
@@ -127,6 +128,7 @@ public class EmpleadoController implements Initializable {
         txtTel.clear();
         txtDire.clear();        
         btnCancelar.setDisable(true);
+        tablaEmpleado.setDisable(false);
         
     }
 
@@ -202,6 +204,8 @@ public class EmpleadoController implements Initializable {
     }
 
 
+    
+
     @FXML
     private void nuevo(ActionEvent event) {       
         btnCancelar.setDisable(false);
@@ -211,6 +215,7 @@ public class EmpleadoController implements Initializable {
         txtDire.setDisable(false);
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
+        tablaEmpleado.setDisable(true);
     }
 
 }

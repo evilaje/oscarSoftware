@@ -21,6 +21,7 @@ public class App extends Application {
         conexion conectar = new conexion();
         conectar.getCon();
         scene = new Scene(loadFXML("menu"), 600, 400);
+        scene = new Scene(loadFXML("login"), 780, 459);
         stage.setScene(scene);
         stage.show();
     }

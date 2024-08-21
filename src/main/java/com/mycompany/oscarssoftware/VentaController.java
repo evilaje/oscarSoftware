@@ -131,7 +131,7 @@ public class VentaController implements Initializable {
 
     // Método auxiliar para obtener el pedido seleccionado basado en el ID del pedido
     private Pedido obtenerPedidoSeleccionado(int idPedido) {
-        ArrayList<Pedido> pedidos = p.consulta();
+        ArrayList<Pedido> pedidos = (ArrayList<Pedido>) p.consulta();
         for (Pedido pedido : pedidos) {
             if (pedido.getIdpedido() == idPedido) {
                 return pedido;

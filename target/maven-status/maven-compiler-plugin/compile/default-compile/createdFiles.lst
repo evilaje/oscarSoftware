@@ -1,6 +1,5 @@
 com\mycompany\oscarssoftware\ClienteController.class
 com\mycompany\oscarssoftware\clases\conexion.class
-com\mycompany\oscarssoftware\CategoriaController.class
 com\mycompany\oscarssoftware\modelos\CategoriaProducto.class
 com\mycompany\oscarssoftware\VentaController.class
 com\mycompany\oscarssoftware\clases\Reporte.class
@@ -16,6 +15,7 @@ com\mycompany\oscarssoftware\modelos\Producto.class
 com\mycompany\oscarssoftware\modelos\Cliente.class
 com\mycompany\oscarssoftware\modelos\Venta.class
 com\mycompany\oscarssoftware\clases\sentencias.class
-com\mycompany\oscarssoftware\PedidoController.class
+com\mycompany\oscarssoftware\ProveedorController.class
+com\mycompany\oscarssoftware\LoginController.class
 com\mycompany\oscarssoftware\SecondaryController.class
 com\mycompany\oscarssoftware\modelos\Pedido.class

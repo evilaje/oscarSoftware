@@ -6,7 +6,10 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
 <AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.ClienteController">
    <children>
       <Button fx:id="btnGuardar" disable="true" layoutX="171.0" layoutY="313.0" mnemonicParsing="false" onAction="#guardar" text="Guardar" />
@@ -22,13 +25,54 @@
       <TextField fx:id="txtRuc" disable="true" layoutX="400.0" layoutY="25.0" />
       <TextField fx:id="txtDire" disable="true" layoutX="400.0" layoutY="67.0" />
       <TableView fx:id="tablaCliente" layoutX="46.0" layoutY="100.0" onMouseClicked="#mostrarFila" prefHeight="200.0" prefWidth="509.0">
+=======
+<AnchorPane id="AnchorPane" prefHeight="434.0" prefWidth="701.0" style="-fx-background-color: #e8ebf0;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.ClienteController">
+   <children>
+      <Button fx:id="btnGuardar" disable="true" layoutX="439.0" layoutY="384.0" mnemonicParsing="false" onAction="#guardar" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Guardar" textFill="#dee2ea" />
+      <Button fx:id="btnModificar" disable="true" layoutX="183.0" layoutY="384.0" mnemonicParsing="false" onAction="#modificar" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Modificar" textFill="#dee2ea" />
+      <Button fx:id="btnEliminar" disable="true" layoutX="550.0" layoutY="384.0" mnemonicParsing="false" onAction="#eliminar" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Eliminar" textFill="#dee2ea" />
+      <Button fx:id="btnCancelar" disable="true" layoutX="320.0" layoutY="384.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Cancelar" textFill="#dee2ea" />
+      <TableView fx:id="tablaCliente" layoutX="227.0" layoutY="59.0" onMouseClicked="#mostrarFila" prefHeight="306.0" prefWidth="446.0" style="-fx-background-color: #acb7;">
+>>>>>>> 9cffe97 (integrar los cambios de orne)
         <columns>
-          <TableColumn fx:id="columnaNom" prefWidth="117.0" text="Nombre" />
-          <TableColumn fx:id="columnaTel" prefWidth="117.0" text="Telefono" />
-            <TableColumn fx:id="columnaRuc" prefWidth="135.0" text="Ruc" />
-            <TableColumn fx:id="columnaDire" prefWidth="139.0" text="Direccion" />
+          <TableColumn fx:id="columnaNom" prefWidth="110.0" style="#c5c-fx-background-color: #c5cdda;" text="Nombre" />
+          <TableColumn fx:id="columnaTel" prefWidth="110.0" text="Telefono" />
+            <TableColumn fx:id="columnaRuc" prefWidth="110.0" text="Ruc" />
+            <TableColumn fx:id="columnaDire" prefWidth="115.0" text="Direccion" />
         </columns>
       </TableView>
+<<<<<<< HEAD
       <Button fx:id="btnNuevo" layoutX="89.0" layoutY="313.0" mnemonicParsing="false" onAction="#nuevo" text="Nuevo" />
+=======
+      <Button fx:id="btnNuevo" layoutX="66.0" layoutY="384.0" mnemonicParsing="false" onAction="#nuevo" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Nuevo" textFill="#dee2ea" />
+      <Pane layoutX="21.0" layoutY="59.0" prefHeight="306.0" prefWidth="190.0" style="-fx-background-color: #8494b1;">
+         <children>
+            <Label layoutX="71.0" layoutY="16.0" text="Nombre" textFill="#f9f8f7">
+               <font>
+                  <Font name="Serif Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="79.0" layoutY="87.0" text="Ruc" textFill="#f9f8f7">
+               <font>
+                  <Font name="Serif Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="66.0" layoutY="238.0" text="Telefono" textFill="#f9f8f7">
+               <font>
+                  <Font name="Serif Bold" size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="62.0" layoutY="160.0" text="Direccion" textFill="#f9f8f7">
+               <font>
+                  <Font name="Serif Bold" size="14.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtNombre" disable="true" layoutX="17.0" layoutY="39.0" />
+            <TextField fx:id="txtRuc" disable="true" layoutX="18.0" layoutY="111.0" />
+            <TextField fx:id="txtDire" disable="true" layoutX="16.0" layoutY="186.0" />
+            <TextField fx:id="txtTel" disable="true" layoutX="21.0" layoutY="263.0" />
+         </children>
+      </Pane>
+>>>>>>> 9cffe97 (integrar los cambios de orne)
    </children>
 </AnchorPane>

@@ -3,10 +3,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package com.mycompany.oscarssoftware.modelos;
-//imports
 import com.mycompany.oscarssoftware.clases.conexion;
 import com.mycompany.oscarssoftware.clases.sentencias;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -14,34 +14,22 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/**
- *
- * @author Anibal
- */
-//creamos la clase
 public class Proveedor extends conexion implements sentencias{
-    //atributos
     private int idproveedor;
     private String nombre;
-    private String telfono;
     private String direccion;
-
-    //constructores
-    public Proveedor(int idproveedor, String nombre, String telfono, String direccion) {
+    private String telefono;
+    
+    public Proveedor(int idproveedor, String nombre, String telefono, String direccion) {
         this.idproveedor = idproveedor;
         this.nombre = nombre;
-        this.telfono = telfono;
+        this.telefono = telefono;
         this.direccion = direccion;
     }
     
     public Proveedor() {
-        this.idproveedor = idproveedor;
-        this.nombre = nombre;
-        this.telfono = telfono;
-        this.direccion = direccion;
     }
     
-    //getters y setters
     public int getIdproveedor() {
         return idproveedor;
     }
@@ -58,12 +46,12 @@ public class Proveedor extends conexion implements sentencias{
         this.nombre = nombre;
     }
 
-    public String getTelfono() {
-        return telfono;
+    public String getTelefono() {
+        return telefono;
     }
 
-    public void setTelfono(String telfono) {
-        this.telfono = telfono;
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
     public String getDireccion() {
@@ -78,48 +66,87 @@ public class Proveedor extends conexion implements sentencias{
 
     @Override
     public ArrayList consulta() {
-        ArrayList<Proveedor> proveedores = new ArrayList<>();//creamos el arraylist que vamos a retornar
-        String sql = "SELECT * from proveedor";//preparamos el texto para la orden
+        ArrayList<Proveedor> prove = new ArrayList<>();
+        String sql = "SELECT * from proveedor";
         try {
-            Connection con = getCon();//preparamos la conexion
-            Statement stm = con.createStatement();//preparamos la orden
-            ResultSet rs = stm.executeQuery(sql);//ejecutamos la consulta
-            while (rs.next()) {//mientras tengamos datos...
-                //capturamos los datos que nos traen
+            Connection con = getCon();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
                 int idprov = rs.getInt("idproveedor");
                 String nombre = rs.getString("nombre");
                 String tel = rs.getString("telefono");
-                String direcc = rs.getString("telefono");
+                String direcc = rs.getString("direccion");
                 
-                //creamos objetos con los datos recolectados
-                Proveedor prov = new Proveedor(idprov, nombre, tel, direcc);
-                proveedores.add(prov);//annadimos al arraylist el objeto q acabamos de crear
+                
+                Proveedor proveedor = new Proveedor(idprov, nombre, tel, direcc);
+                prove.add(proveedor);
             }
-        } catch (SQLException ex) {//enc caso de erro atrapamos el error y lo identificamos
-            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException p) {
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, p);
         } 
-        //devolvemos la lista
-        return proveedores;
+        return prove;
     }
-
-    //sentencias en desuso
     @Override
     public boolean insertar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+        String sql = "insert into proveedor values (?, ?, ?, ?)"; 
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            
+            stm.setInt(1, this.idproveedor);
+            stm.setString(2, this.nombre);
+            stm.setString(3, this.telefono);
+            stm.setString(4, this.direccion);
+           
+            stm.executeUpdate();
+            
+            return true;
+        } catch (SQLException ex) { 
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+           
+            return false;
+       
+    }}
 
     @Override
     public boolean borrar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "Delete from proveedor where idproveedor  = ?";
+        try {
+            Connection con = getCon(); 
+            PreparedStatement stm = con.prepareStatement(sql); 
+            stm.setInt(1, this.idproveedor); 
+            stm.executeUpdate();
+            return true; 
+        } catch (SQLException ex){
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
     }
 
     @Override
     public boolean modificar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "update proveedor set nombre = ?, telefono = ?, direccion = ? where idproveedor = ?" ;
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setString(1, this.nombre);
+            stm.setString(2, this.telefono);
+            stm.setString(3, this.direccion);
+            stm.setInt(4, this.idproveedor);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            Logger.getLogger(Proveedor.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+    } 
+
+
     }
+
+  
+
     
     
-    
-    
-    
-}
+

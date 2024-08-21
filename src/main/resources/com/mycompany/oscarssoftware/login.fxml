@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="460.0" prefWidth="780.0" style="-fx-background-color: #9fd3e4;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.LoginController">
+    <stylesheets>
+        <URL value="@/styles/login.css" />
+    </stylesheets>
+   <children>
+      <VBox layoutX="-2.0" layoutY="-2.0" prefHeight="460.0" prefWidth="332.0" styleClass="vbox_background_right" stylesheets="@../../../styles/login.css">
+         <children>
+            <VBox prefHeight="152.0" prefWidth="332.0" />
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <TextField prefWidth="250.0" promptText=" Usuario..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </TextField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="200.0">
+               <children>
+                  <PasswordField prefWidth="250.0" promptText=" Contraseña..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </PasswordField>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Button mnemonicParsing="false" prefWidth="200.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #9bbbd3;" text="Ingresar" textFill="#243346">
+                     <font>
+                        <Font name="Tw Cen MT" size="14.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
+         </children></VBox>
+      <VBox layoutX="330.0" prefHeight="460.0" prefWidth="458.0" styleClass="vbox_background_center" stylesheets="@../../../styles/login.css" />
+   </children>
+</AnchorPane>
