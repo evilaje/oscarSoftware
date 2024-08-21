@@ -42,6 +42,15 @@ public class Producto extends conexion implements sentencias{
         this.nombreCategoria = nombreCategoria;
         this.nombreProveedor = nombreProveedor;
     }
+
+    public Producto(int idproducto, String nombre, int cantidad, int idCategoriaProducto, int idProveedor, double precio) {
+        this.idproducto = idproducto;
+        this.nombre = nombre;
+        this.cantidad = cantidad;
+        this.idCategoriaProducto = idCategoriaProducto;
+        this.idProveedor = idProveedor;
+        this.precio = precio;
+    }
     
     
     //constructor que recibe los datos
@@ -240,6 +249,34 @@ public class Producto extends conexion implements sentencias{
         }
        
     }
+    
+    public Producto buscarPorId(int id) {
+       String sql = "SELECT * FROM producto WHERE idproducto = ?";
+       try (
+           Connection con = getCon();
+           PreparedStatement stm = con.prepareStatement(sql)
+       ) {
+           stm.setInt(1, id);
+           try (ResultSet rs = stm.executeQuery()) {
+               if (rs.next()) {
+                   int idProducto = rs.getInt("idproducto");
+                   String nombre = rs.getString("nombre");
+                   double precio = rs.getDouble("precio");
+                   int cantidad = rs.getInt("cantidad");
+                   int idCategoriaProducto = rs.getInt("idCategoriaProducto");
+                   int idProveedor = rs.getInt("idProveedor");
+
+                   // Assuming you have a way to fetch category and provider names
+
+                   return new Producto(idProducto, nombre, cantidad, idCategoriaProducto, idProveedor, precio);
+               }    
+           }
+       } catch (SQLException e) {
+           // Consider rethrowing or handling the exception based on your application's needs
+           Logger.getLogger(Producto.class.getName()).log(Level.SEVERE, null, e);
+       }
+       return null;
+   }
     
     
 }

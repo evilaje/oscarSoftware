@@ -1,5 +1,4 @@
 module com.mycompany.oscarssoftware {
-    requires javafx.controls;
     requires javafx.fxml;
     
     //para la base de datos
@@ -7,6 +6,8 @@ module com.mycompany.oscarssoftware {
     requires java.sql;
     requires jasperreports;
 
+    requires org.controlsfx.controls;
+    
     opens com.mycompany.oscarssoftware to javafx.fxml;
     exports com.mycompany.oscarssoftware;
     exports com.mycompany.oscarssoftware.modelos;

@@ -100,7 +100,7 @@ public class Pedido extends conexion implements sentencias {
     @Override
     public ArrayList consulta() {
         ArrayList<Pedido> pedidos = new ArrayList<>();
-        String sql = "select p.idpedido, p.idcliente, c.nombre AS nombrecliente, p.idempleado, e.nombre AS "
+        String sql = "SELECT p.idpedido, p.idcliente, c.nombre AS nombrecliente, p.idempleado, e.nombre AS "
                 + "nombreempleado , p.fecha_pedido "
                 + "FROM pedido p "
                 + "JOIN cliente c ON p.idcliente = c.ruc "
@@ -162,26 +162,13 @@ public class Pedido extends conexion implements sentencias {
         return false;
     }
 
-    private boolean eliminarDetallePedidos() {
-        String sql = "DELETE FROM detalle_pedido WHERE idpedido = ?";
-        try (Connection con = getCon();
-             PreparedStatement stm = con.prepareStatement(sql)) {
-            stm.setInt(1, this.idpedido);
-            stm.executeUpdate();
-            return true;
-        } catch (SQLException e) {
-            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
-            return false;
-        }
-    }
-
     @Override
     public boolean modificar() {
         String sql = "UPDATE pedido SET idcliente = ?, idempleado = ?, fecha_pedido = ? where idpedido = ?";
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
-            stm.setInt(1, this.idCliente);
+            stm.setInt(1, this.idCliente);                  
             stm.setInt(2, this.idEmpleado);
             stm.setDate(3, this.fecha_pedido);
             stm.setInt(4, this.idpedido);
@@ -192,7 +179,7 @@ public class Pedido extends conexion implements sentencias {
             return false;
         }
     }
-    
+
     public double consultaTotal(){
         String sql = "SELECT SUM(d.cantidad * pr.precio) AS total "
                 + "FROM pedido p "
@@ -229,6 +216,43 @@ public class Pedido extends conexion implements sentencias {
             Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
         }
         return id;
+    }
+    
+    public ArrayList<DetallePedido> consultaDetalles() {
+        ArrayList<DetallePedido> detalles = new ArrayList<>();
+        String sql = "SELECT * FROM DetallePedido WHERE idPedido = ?";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, this.idpedido);
+            ResultSet resultSet = stm.executeQuery();
+            while (resultSet.next()) {
+                DetallePedido detalle = new DetallePedido();
+                detalle.setIdPedido(resultSet.getInt("idPedido"));
+                detalle.setIdProducto(resultSet.getInt("idProducto"));
+                detalle.setCantidad(resultSet.getInt("cantidad"));
+                detalle.setPrecioUnit(resultSet.getDouble("precioUnit"));
+                detalle.setPrecioTotal(resultSet.getDouble("precioTotal"));
+
+                detalles.add(detalle);
+            }
+        } catch (SQLException e) {
+                e.printStackTrace();
+        }
+        return detalles;
+    }
+    
+    public boolean eliminarDetallePedidos() {
+        String sql = "DELETE FROM detalle_pedido WHERE idpedido = ?";
+        try (Connection con = getCon();
+             PreparedStatement stm = con.prepareStatement(sql)) {
+            stm.setInt(1, this.idpedido);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
     }
     
     

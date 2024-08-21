@@ -16,8 +16,8 @@
    <children>
       <Pane layoutX="103.0" layoutY="60.0" prefHeight="177.0" prefWidth="354.0" style="-fx-background-color: gray;">
          <children>
-            <ComboBox fx:id="comboCliente" disable="true" layoutX="80.0" layoutY="12.0" prefHeight="25.0" prefWidth="150.0" promptText="Seleccione cliente" />
-            <ComboBox fx:id="comboEmpleado" disable="true" layoutX="80.0" layoutY="138.0" prefWidth="150.0" promptText="Seleccione empleado" />
+            <ComboBox fx:id="comboCliente" disable="true" editable="true" layoutX="80.0" layoutY="12.0" prefHeight="25.0" prefWidth="150.0" promptText="Seleccione cliente" />
+            <ComboBox fx:id="comboEmpleado" disable="true" editable="true" layoutX="80.0" layoutY="138.0" prefWidth="150.0" promptText="Seleccione empleado" />
             <DatePicker fx:id="dateFecha" disable="true" layoutX="80.0" layoutY="76.0" prefHeight="25.0" prefWidth="150.0" />
             <Label layoutX="7.0" layoutY="14.0" text="Cliente">
                <font>
@@ -43,15 +43,15 @@
          <children>
             <Button fx:id="btnNuevoPedido" layoutX="8.0" layoutY="8.0" mnemonicParsing="false" onAction="#nuevoPedido" text="  Nuevo  " />
             <Button fx:id="btnEliminarPedido" disable="true" layoutX="9.0" layoutY="57.0" mnemonicParsing="false" onAction="#eliminar" text=" Eliminar " />
-            <Button fx:id="btnModificarPedido" disable="true" layoutX="6.0" layoutY="99.0" mnemonicParsing="false" onAction="#modificar" text="Modificar" />
+            <Button fx:id="btnModificarPedido" disable="true" layoutX="9.0" layoutY="100.0" mnemonicParsing="false" onAction="#modificar" text="Modificar" />
             <Button fx:id="btnCancelarPedido" disable="true" layoutX="8.0" layoutY="144.0" mnemonicParsing="false" onAction="#cancelar" text=" Cancelar " />
          </children>
       </Pane>
       <TableView fx:id="tablaPedidos" layoutX="462.0" layoutY="60.0" onMouseClicked="#mostrarFila" prefHeight="177.0" prefWidth="329.0">
         <columns>
             <TableColumn fx:id="colNroPedido" prefWidth="75.0" text="Nro pedido" />
-          <TableColumn fx:id="colClientes" prefWidth="146.66668701171875" text="Clientes con pedidos" />
-            <TableColumn fx:id="colFechas" prefWidth="145.99996948242188" text="Fecha pedidos" />
+          <TableColumn fx:id="colClientes" prefWidth="145.111083984375" text="Clientes con pedidos" />
+            <TableColumn fx:id="colFechas" prefWidth="107.5555419921875" text="Fecha pedidos" />
         </columns>
       </TableView>
       <TableView fx:id="tablaDetalles" layoutX="11.0" layoutY="373.0" onMouseClicked="#mostrarDetalleSeleccionado" prefHeight="197.0" prefWidth="748.0" stylesheets="@styles/styleTable.css">
@@ -77,7 +77,7 @@
       <Pane layoutX="11.0" layoutY="305.0" prefHeight="54.0" prefWidth="748.0" style="-fx-background-color: gray;">
          <children>
             <Button fx:id="btnNuevoDetalle" disable="true" layoutX="14.0" layoutY="16.0" mnemonicParsing="false" onAction="#nuevoDetallePedido" prefHeight="25.0" prefWidth="110.0" text="Añadir producto" />
-            <ComboBox fx:id="comboProductos" disable="true" editable="true" layoutX="143.0" layoutY="16.0" prefHeight="25.0" prefWidth="150.0" />
+            <ComboBox fx:id="comboProductos" disable="true" editable="true" layoutX="143.0" layoutY="16.0" prefHeight="25.0" prefWidth="150.0" promptText="Seleccione producto" />
             <TextField fx:id="txtCantidad" disable="true" layoutX="365.0" layoutY="16.0" prefHeight="25.0" prefWidth="128.0" />
             <Label layoutX="307.0" layoutY="16.0" text="Cantidad:" />
             <Button fx:id="btnGuardarDetalle" disable="true" layoutX="512.0" layoutY="16.0" mnemonicParsing="false" onAction="#guardarDetalle" prefHeight="25.0" prefWidth="110.0" style="-fx-background-radius: 100;" stylesheets="@styles/style.css" text="Cargar producto" />
