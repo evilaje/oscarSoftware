@@ -30,9 +30,9 @@ public class Pedido extends conexion implements sentencias{
         this.idpedido = idpedido;
         this.fecha_pedido = fecha_pedido;
         this.idEmpleado = idEmpleado;
-        this.idCliente = idCliente;
-        this.nombreCliente = nombreCliente;
-        this.nombreEmpleado = nombreEmpleado;
+        this.idCliente = cliente_ruc;
+        this.nombreCliente = cliente;
+        this.nombreEmpleado = empleado;
     }
 
     public boolean isSaved() {
