@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.net.URL?>
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -14,12 +17,20 @@
         <URL value="@/styles/login.css" />
     </stylesheets>
    <children>
-      <VBox layoutX="-2.0" layoutY="-2.0" prefHeight="460.0" prefWidth="332.0" styleClass="vbox_background_right" stylesheets="@../../../styles/login.css">
+      <VBox layoutX="-2.0" layoutY="-2.0" prefHeight="460.0" prefWidth="332.0" styleClass="vbox_background_right">
          <children>
-            <VBox prefHeight="152.0" prefWidth="332.0" />
+            <VBox alignment="TOP_CENTER" prefHeight="152.0" prefWidth="332.0">
+               <children>
+                  <HBox prefHeight="100.0" prefWidth="332.0" />
+                  <ImageView fitHeight="58.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/logo.png" />
+                     </image>
+                  </ImageView>
+               </children></VBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <TextField prefWidth="250.0" promptText=" Usuario..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
+                  <TextField fx:id="txtUsuario" prefWidth="250.0" promptText=" Usuario..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -28,7 +39,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="35.0" prefWidth="200.0">
                <children>
-                  <PasswordField prefWidth="250.0" promptText=" Contraseña..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
+                  <PasswordField fx:id="txtContra" prefWidth="250.0" promptText=" Contraseña..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
                      <font>
                         <Font size="14.0" />
                      </font>
@@ -37,14 +48,45 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
                <children>
-                  <Button mnemonicParsing="false" prefWidth="200.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #9bbbd3;" text="Ingresar" textFill="#243346">
+                  <Button fx:id="btnIngresar" mnemonicParsing="false" onAction="#ingresar" prefWidth="200.0" style="-fx-border-radius: 50; -fx-background-radius: 50;" styleClass="ButtonIngresar" text="Ingresar" textFill="#243346">
                      <font>
                         <Font name="Tw Cen MT" size="14.0" />
                      </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
                   </Button>
                </children>
             </HBox>
-         </children></VBox>
-      <VBox layoutX="330.0" prefHeight="460.0" prefWidth="458.0" styleClass="vbox_background_center" stylesheets="@../../../styles/login.css" />
+            <HBox alignment="TOP_CENTER" prefHeight="76.0" prefWidth="131.0">
+               <children>
+                  <Button fx:id="btnRegistro" mnemonicParsing="false" onAction="#registro" prefHeight="27.0" prefWidth="200.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #9bbbd3;" text="Nuevo Empleado" textFill="#243346">
+                     <font>
+                        <Font name="Tw Cen MT" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </Button>
+                  <HBox alignment="TOP_RIGHT" prefHeight="76.0" prefWidth="226.0">
+                     <children>
+                        <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" prefHeight="0.0" prefWidth="166.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #9bbbd3;" text="Cancelar" textFill="#243346">
+                           <font>
+                              <Font name="Tw Cen MT" size="14.0" />
+                           </font>
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                        </Button>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+         </children>
+         <stylesheets>
+            <URL value="@../../../styles/login.css" />
+            <URL value="@estilos/style.css" />
+         </stylesheets></VBox>
+      <VBox layoutX="330.0" prefHeight="460.0" prefWidth="458.0" styleClass="vbox_background_center" stylesheets="@estilos/style.css" />
    </children>
 </AnchorPane>

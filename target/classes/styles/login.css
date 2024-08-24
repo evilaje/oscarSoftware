@@ -8,3 +8,12 @@
     -fx-background-size:cover; 
     
 }
+.ButtonIngresar{
+   -fx-background-color: #9bbbd3;  
+}
+.ButtonIngresar:hover {
+    -fx-background-color:#cdd7e3;
+}
+.ButtonIngresar:pressed {
+    -fx-background-color:#3d536d;
+}

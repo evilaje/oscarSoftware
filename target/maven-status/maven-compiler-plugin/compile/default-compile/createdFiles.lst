@@ -18,5 +18,6 @@ com\mycompany\oscarssoftware\clases\sentencias.class
 com\mycompany\oscarssoftware\ProveedorController.class
 com\mycompany\oscarssoftware\PedidoController.class
 com\mycompany\oscarssoftware\LoginController.class
+com\mycompany\oscarssoftware\modelos\Login.class
 com\mycompany\oscarssoftware\SecondaryController.class
 com\mycompany\oscarssoftware\modelos\Pedido.class

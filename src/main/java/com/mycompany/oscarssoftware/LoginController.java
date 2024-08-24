@@ -4,9 +4,21 @@
  */
 package com.mycompany.oscarssoftware;
 
+import com.mycompany.oscarssoftware.modelos.Empleado;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -14,17 +26,45 @@ import javafx.fxml.Initializable;
  * @author Orne
  */
 public class LoginController implements Initializable {
+    private Empleado e = new Empleado();
+    @FXML
+    private Button btnIngresar;
+    @FXML
+    private Button btnRegistro;
+    @FXML
+    private TextField txtUsuario;
+    @FXML
+    private PasswordField txtContra;
+    @FXML
+    private Button btnCancelar;
 
-    /**
-     * Initializes the controller class.
-     */
+    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        holaOrne();
+        
     }    
-    
-    private void holaOrne(){
-        System.out.println("hola orne");
+
+    @FXML
+    private void ingresar(ActionEvent event) {
+        
     }
+
+    @FXML
+    private void registro(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("empleado.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();           
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void cancelar(ActionEvent event) {
+    }
+    
     
 }
