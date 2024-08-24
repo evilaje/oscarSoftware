@@ -11,8 +11,6 @@ import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -24,7 +22,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
@@ -35,7 +32,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.controlsfx.control.textfield.TextFields;
 
 /**
  * FXML Controller class
@@ -64,10 +60,6 @@ public class PedidoController implements Initializable {
     private Button btnFechaHoy;
     @FXML
     private Button btnNuevoPedido;
-    @FXML
-    private Button btnEliminarPedido;
-    @FXML
-    private Button btnModificarPedido;
     @FXML
     private Button btnCancelarPedido;
     @FXML
@@ -110,8 +102,8 @@ public class PedidoController implements Initializable {
     private Button btnGuardarDetalle;
     @FXML
     private Button btnNuevoDetalle;
-    ArrayList<DetallePedido> detalles = new ArrayList<>();
     //listas
+    private ArrayList<DetallePedido> detalles = new ArrayList<>();
     private ObservableList<Cliente> listaClientes;
     private ObservableList<Pedido> listaPedidos;
     private ObservableList<Empleado> listaEmpleados;
@@ -122,43 +114,53 @@ public class PedidoController implements Initializable {
     private boolean banderaSeleccion;
     private boolean isUpdating = false; // Flag to prevent recursive updates
     //listas nombres
-    List<String> nombresProductos = new ArrayList<>();
-    List<String> nombresClientes = new ArrayList<>();
-    List<String> nombresEmpleados = new ArrayList<>();
+    private ObservableList<String> nombresProductos;
+    private ObservableList<String> nombresClientes;
+    private ObservableList<String> nombresEmpleados;
 
 
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        nombresClientes = FXCollections.observableArrayList();
+        nombresEmpleados = FXCollections.observableArrayList();
+        nombresProductos = FXCollections.observableArrayList();
         cargarComboClientes();
         cargarComboEmpleados();
         cargarComboProductos();
         mostrarDatos();
-        comboCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filtrarCombos(newValue, nombresClientes, comboCliente));
+        comboCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboCliente, nombresClientes, newValue));
+        comboEmpleado.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboEmpleado, nombresEmpleados, newValue));
+        comboProductos.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboProductos, nombresProductos, newValue));
+
     }
     
-private void filtrarCombos(String input, List<String> listaNombres, ComboBox<String> comboBox) {
-    if (isUpdating) return; // Prevent recursive updates
-    isUpdating = true;
+    private void filterNames(ComboBox<String> comboBox, ObservableList<String> originalItems, String input) {
+        if (isUpdating) return; // Prevent recursive updates
+        isUpdating = true;
 
-    ObservableList<String> filteredNames = FXCollections.observableArrayList();
+        // Almacenar el texto actual del editor
+        String currentText = comboBox.getEditor().getText();
 
-    if (input == null || input.isEmpty()) {
-        filteredNames = FXCollections.observableArrayList(listaNombres);
-    } else {
-        String lowerCaseInput = input.toLowerCase();
-        for (String name : listaNombres) {
-            if (name.toLowerCase().contains(lowerCaseInput)) {
-                filteredNames.add(name);
+        ObservableList<String> filteredNames = FXCollections.observableArrayList();
+
+        if (input == null || input.isEmpty()) {
+            filteredNames.setAll(originalItems);
+        } else {
+            String lowerCaseInput = input.toLowerCase();
+            for (String name : originalItems) {
+                if (name.toLowerCase().startsWith(lowerCaseInput)) {
+                    filteredNames.add(name);
+                }
             }
         }
+
+        comboBox.setItems(filteredNames);
+        comboBox.getEditor().setText(currentText);
+        comboBox.show(); // Esto fuerza que el comboBox muestre las opciones filtradas
+
+        isUpdating = false;
     }
-    comboBox.setItems(filteredNames);
-    comboBox.show(); // Show filtered options
-
-    isUpdating = false;
-}
-
 
 
 
@@ -191,50 +193,13 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
     }
 
     @FXML
-    private void eliminar(ActionEvent event) {
-        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
-        a.setTitle("Aviso de eliminacion");
-        a.setHeaderText(null);
-        a.setContentText("Desea eliminar el pedido?");
-        Optional<ButtonType> opcion = a.showAndWait();
-        if (opcion.get() == ButtonType.OK) {
-            int id = Integer.parseInt(txtId.getText());
-            p.setIdpedido(id);
-            if (p.eliminarDetallePedidos()) {
-                if (p.borrar()) {
-                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Pedido eliminado con exito");
-                } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "Error eliminando pedido");
-                }
-            }
-
-        }
-        mostrarDatos();
-        cancelar(event);
-    }
-
-    @FXML
-    private void modificar(ActionEvent event) {
-        btnNuevoDetalle.setDisable(false);
-        comboCliente.setDisable(false);
-        comboEmpleado.setDisable(false);
-        dateFecha.setDisable(false);
-        btnGuardarPedido.setDisable(false);
-        modificar = true;
-    }
-
-    @FXML
     private void cancelar(ActionEvent event) {
         tablaPedidos.setDisable(false);
         tablaPedidos.getSelectionModel().clearSelection();
         tablaDetalles.getSelectionModel().clearSelection();;
         btnNuevoPedido.setDisable(false);
-        btnEliminarPedido.setDisable(true);
-        btnModificarPedido.setDisable(true);
         btnCancelarPedido.setDisable(true);
-
         comboCliente.getSelectionModel().clearSelection();
-
         comboEmpleado.getSelectionModel().clearSelection();
         dateFecha.setValue(null);
         btnNuevoCliente.setDisable(true);
@@ -244,10 +209,6 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
         comboEmpleado.setDisable(true);
         dateFecha.setDisable(true);
         tablaDetalles.getItems().clear();
-        btnNuevoDetalle.setDisable(true);
-        btnGuardarDetalle.setDisable(true);
-        cargarComboClientes();
-        cargarComboEmpleados();
         modificar = false;
         btnNuevoPedido.setDisable(false);
     }
@@ -344,8 +305,6 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
         //desactivar botones
         btnCancelarPedido.setDisable(false);
         btnNuevoPedido.setDisable(true);
-        btnModificarPedido.setDisable(false);
-        btnEliminarPedido.setDisable(false);
         //desactivar datos del pedido
         comboCliente.setDisable(true);
         dateFecha.setDisable(true);
@@ -388,7 +347,8 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
             mostrarAlerta(Alert.AlertType.ERROR, "Error", "La cantidad debe ser un número válido.");
             return;
         }
-
+        int idnuevoPedido = p.obtenerID() + 1;
+        nuevoDetalle.setIdPedido(idnuevoPedido);
         double precioUnitario = productoSeleccionado.getPrecio();
         nuevoDetalle.setIdProducto(productoSeleccionado.getIdproducto());
         nuevoDetalle.setCantidad(cantidad);
@@ -403,6 +363,7 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
         txtCantidad.clear();
         mostrarDetallesAgregados();
         cancelarDetalle(event);
+        comboProductos.hide();
 
     }
 
@@ -427,10 +388,7 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
             } else {
                 boolean resultado = true;
                 if (pedido.insertar()) {
-                    int idPedidoInsertado = pedido.obtenerID();// Asegúrate de que el id se actualice correctamente en el objeto Pedido
                     for (DetallePedido d : detalles) {
-                        System.out.println("id del pedido nuevo: " + idPedidoInsertado);
-                        d.setIdPedido(idPedidoInsertado);
                         System.out.println("idproducto" + d.getIdProducto());
 
                         if (!d.insertar()) {
@@ -456,17 +414,19 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
         tablaPedidos.setDisable(false);
         cancelar(event);
         btnGuardarPedido.setDisable(true);
+        ocultarCombos();
         mostrarDatos();
 
     }
 
     private void mostrarDatos() {
-        listaPedidos = (ObservableList<Pedido>) FXCollections.observableArrayList(p.consulta());
+        listaPedidos = FXCollections.observableArrayList(p.consulta());
         colNroPedido.setCellValueFactory(new PropertyValueFactory<>("idpedido"));
         colClientes.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         colFechas.setCellValueFactory(new PropertyValueFactory<>("fecha_pedido"));
         tablaPedidos.setItems(listaPedidos);
     }
+    
 
     private void mostrarDetalles() {
         d.setIdPedido(tablaPedidos.getSelectionModel().getSelectedItem().getIdpedido());
@@ -556,6 +516,13 @@ private void filtrarCombos(String input, List<String> listaNombres, ComboBox<Str
             }
         }
         return 0; // Devuelve 0 si no se encuentra el producto
+    }
+    
+    private void ocultarCombos() {
+        comboCliente.hide();
+        
+        comboEmpleado.hide();
+        comboProductos.hide();
     }
 
 }

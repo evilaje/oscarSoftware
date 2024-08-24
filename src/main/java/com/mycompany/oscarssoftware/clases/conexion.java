@@ -12,14 +12,14 @@ public class conexion {
     private String db;
     private String host;
     private String user;
-    private String password = "";
+    private String password = "1234";
     Connection con;
 
     public conexion() {
         this.db = "oscar_db";
         this.host = "localhost";
         this.user = "root";
-        this.password = "";
+        this.password = "1234";
     }
         public Connection getCon() {
             try {
