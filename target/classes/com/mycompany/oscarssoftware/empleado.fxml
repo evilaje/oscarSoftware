@@ -30,7 +30,7 @@
             <Font size="13.0" />
          </font>
       </TextField>
-      <Label layoutX="46.0" layoutY="29.0" text="Id " textFill="#12273d">
+      <Label layoutX="27.0" layoutY="29.0" text="Cedula " textFill="#12273d">
          <font>
             <Font size="13.0" />
          </font>

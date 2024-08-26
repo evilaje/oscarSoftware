@@ -58,30 +58,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="76.0" prefWidth="131.0">
-               <children>
-                  <Button fx:id="btnRegistro" mnemonicParsing="false" onAction="#registro" prefHeight="27.0" prefWidth="200.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #9bbbd3;" text="Nuevo Empleado" textFill="#243346">
-                     <font>
-                        <Font name="Tw Cen MT" size="14.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                  </Button>
-                  <HBox alignment="TOP_RIGHT" prefHeight="76.0" prefWidth="226.0">
-                     <children>
-                        <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" prefHeight="0.0" prefWidth="166.0" style="-fx-border-radius: 50; -fx-background-radius: 50; -fx-background-color: #9bbbd3;" text="Cancelar" textFill="#243346">
-                           <font>
-                              <Font name="Tw Cen MT" size="14.0" />
-                           </font>
-                           <cursor>
-                              <Cursor fx:constant="HAND" />
-                           </cursor>
-                        </Button>
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
+            <HBox alignment="TOP_CENTER" prefHeight="76.0" prefWidth="131.0" />
          </children>
          <stylesheets>
             <URL value="@../../../styles/login.css" />

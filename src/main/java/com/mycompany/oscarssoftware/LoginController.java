@@ -4,16 +4,24 @@
  */
 package com.mycompany.oscarssoftware;
 
+import com.mycompany.oscarssoftware.clases.conexion;
 import com.mycompany.oscarssoftware.modelos.Empleado;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -27,16 +35,13 @@ import javafx.stage.Stage;
  */
 public class LoginController implements Initializable {
     private Empleado e = new Empleado();
+  
     @FXML
     private Button btnIngresar;
-    @FXML
-    private Button btnRegistro;
     @FXML
     private TextField txtUsuario;
     @FXML
     private PasswordField txtContra;
-    @FXML
-    private Button btnCancelar;
 
     
     @Override
@@ -46,10 +51,36 @@ public class LoginController implements Initializable {
 
     @FXML
     private void ingresar(ActionEvent event) {
-        
+  {
+    String nombreUsuario = txtUsuario.getText();
+    String cedula = txtContra.getText();
+
+    if (nombreUsuario.isEmpty() || cedula.isEmpty()) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Debe completar todos los campos.");
+        return;
     }
 
-    @FXML
+    
+    if(e.ingresar(nombreUsuario, Integer.parseInt(cedula)) != null ){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
+            Parent root = loader.load();
+
+            // Cambiar la escena en la misma ventana
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.getScene().setRoot(root);
+            stage.sizeToScene();
+
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }else{
+        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Usuario o Contraseña Incorrectas");
+    }
+}
+
+}
     private void registro(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("empleado.fxml"));
@@ -61,10 +92,13 @@ public class LoginController implements Initializable {
             e.printStackTrace();
         }
     }
-
-    @FXML
-    private void cancelar(ActionEvent event) {
+      public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
+        Alert a = new Alert(tipo);
+        a.setTitle(titulo);
+        a.setHeaderText(null);
+        a.setContentText(mensaje);
+        a.show();
     }
-    
-    
+
+
 }

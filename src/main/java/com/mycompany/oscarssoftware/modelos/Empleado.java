@@ -162,10 +162,40 @@ public class Empleado extends conexion implements sentencias{
             return false;
         }
     }
+    public Empleado ingresar (String nombre, int numero){
+        String sql = "Select * from empleado where nombre = ? and idempleado = ?";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setString(1, nombre);
+            stm.setInt(2, numero);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()){
+                int id = rs.getInt("idEmpleado"); //obtenemos el codigo de la tabla idproducto
+                    String nm = rs.getString("nombre");//obtenemos el nombre de la tabla nombre
+                    String telefono = rs.getString("telefono");//lomismo
+                    String direccion = rs.getString("direccion");//lomismo
+                    
+                    Empleado empleado = new Empleado(id, nombre, telefono, direccion);
+                    return empleado;
+                   
+            }
+            }catch(SQLException e) { 
+            Logger.getLogger(Empleado.class.getName()).log(Level.SEVERE, null, e);
+            return null;
+        }   
 
+                    
+                    
+                    
+          
+    return null;                
+    }
+    
+    }
 
     
     
     
     
-}
+
