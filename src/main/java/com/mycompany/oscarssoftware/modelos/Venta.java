@@ -297,6 +297,22 @@ public class Venta extends conexion implements sentencias {
         return ventas;
     }
     
+    public int obtenerID(){
+        String sql = "SELECT MAX(idventa) as ultimo_id FROM venta";
+        int id = 0;
+        try {
+            Connection con = getCon();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                id = rs.getInt("ultimo_id");
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return id;
+    }
+    
     
     
     

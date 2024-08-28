@@ -8,16 +8,22 @@ import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
+import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Venta;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -26,6 +32,8 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -36,8 +44,6 @@ public class VentaController implements Initializable {
 
     @FXML
     private Button btnNuevaVenta;
-    @FXML
-    private ComboBox<String> cboPedidos;
     @FXML
     private TextField txtNroVenta;
     @FXML
@@ -56,8 +62,6 @@ public class VentaController implements Initializable {
     private TableColumn<DetallePedido, Double> columnPrecio;
     @FXML
     private TableColumn<DetallePedido, Double> columnTotal;
-    @FXML
-    private Button btnCambiarPedido;
     
     private Pedido p = new Pedido();
     private DetallePedido detalle = new DetallePedido();
@@ -65,10 +69,6 @@ public class VentaController implements Initializable {
     private ObservableList<DetallePedido> listaDetalles;
     private ObservableList<Venta> listaVentas;
     private ObservableList<Pedido> listaPedidos;
-    @FXML
-    private Button btnGuardarPedido;
-    @FXML
-    private TextField txtCliente;
     @FXML
     private TextField txtEmpleado;
     @FXML
@@ -97,10 +97,10 @@ public class VentaController implements Initializable {
     private TableColumn<Venta, String> colEmpleado;
     @FXML
     private TableColumn<Venta, Date> colFecha;
+    
+    private Producto pr = new Producto();
     @FXML
-    private Button btnEliminarVenta;
-    @FXML
-    private Button btnModificarVenta;
+    private TextField txtNroPedido;
 
     /**
      * Initializes the controller class.
@@ -110,10 +110,8 @@ public class VentaController implements Initializable {
         mostrarVentas();
     }
 
-    private void mostrarDatos(){
-        int idPedido = obtenerPedido(cboPedidos.getSelectionModel().getSelectedItem());
-        detalle.setIdPedido(idPedido);
-        p.setIdpedido(idPedido);
+    public void mostrarDatos(Pedido ped){
+        detalle.setIdPedido(ped.getIdpedido());
         listaDetalles = FXCollections.observableArrayList(detalle.consulta());
         columnId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
         columnDesc.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
@@ -124,9 +122,12 @@ public class VentaController implements Initializable {
         txtTotal.setText(String.valueOf(p.consultaTotal()));
         txtTotal2.setText(String.valueOf(p.consultaTotal()));
         //obtener pedido
-        Pedido pedidoSeleccionado = obtenerPedidoSeleccionado(idPedido);
-        txtCliente.setText(pedidoSeleccionado.getNombreCliente());
-        txtEmpleado.setText(pedidoSeleccionado.getNombreEmpleado());
+        txtNroPedido.setText(String.valueOf(ped.getIdpedido()));
+        txtPedidoSeleccionado.setText(ped.getNombreCliente());
+        txtEmpleado.setText(ped.getNombreEmpleado());
+        tablaDetalles.refresh();
+        dateVenta.setValue(LocalDate.now());
+        txtNroVenta.setText(String.valueOf(v.obtenerID() + 1));
     }
 
     // Método auxiliar para obtener el pedido seleccionado basado en el ID del pedido
@@ -142,35 +143,14 @@ public class VentaController implements Initializable {
     @FXML
     private void nuevo(ActionEvent event) {
         btnNuevaVenta.setDisable(true);
-        cboPedidos.setDisable(false);
-        btnGuardarPedido.setDisable(false);
         btnCancelarVenta.setDisable(false);
-        cargarComboPedido();
+        buscarpedidos();
 
         
     }
 
-    @FXML
-    private void cambiar(ActionEvent event) {
-    }
-    
-    private void cargarComboPedido(){
-        cboPedidos.getItems().clear();
-        listaPedidos = FXCollections.observableArrayList(p.consulta());
-        if (listaPedidos != null && !listaPedidos.isEmpty()) {
-            for (Pedido p : listaPedidos) {
-                cboPedidos.getItems().add("Pedido de " + p.getNombreCliente());
-            }
-        }
-        cboPedidos.setPromptText("Seleccionar pedido");
-    }
 
-    @FXML
     private void guardarPedido(ActionEvent event) {
-        cboPedidos.setDisable(true);
-        mostrarDatos();
-        btnGuardarPedido.setDisable(true);
-        btnCambiarPedido.setDisable(false);
     }
     
     private int obtenerPedido(String nombreClientePedido) {
@@ -207,36 +187,58 @@ public class VentaController implements Initializable {
         //habilitar botones
         btnNuevaVenta.setDisable(false);
         btnCancelarVenta.setDisable(true);
-        btnCambiarPedido.setDisable(true);
-        cboPedidos.setDisable(false);
-        cboPedidos.getSelectionModel().clearSelection();
-        cboPedidos.getItems().clear();
-        cboPedidos.setPromptText("Seleccionar pedido");
-        cboPedidos.setDisable(true);
         tablaDetalles.getItems().clear();
         txtTotal.setDisable(true);
         txtTotal2.setDisable(true);
-        btnGuardarPedido.setDisable(true);
     }
 
-    @FXML
-    private void guardarVenta(ActionEvent event) {
-        int idpedido = obtenerPedido(cboPedidos.getSelectionModel().getSelectedItem());
+@FXML
+private void guardarVenta(ActionEvent event) {
+    try {
+        // Validar y obtener los valores
+        int idpedido = Integer.parseInt(txtNroPedido.getText());
         java.sql.Date fecha = java.sql.Date.valueOf(dateVenta.getValue());
         double total = Double.parseDouble(txtTotal.getText());
-        int idcliente = obtenerCliente(txtCliente.getText());
+        int idcliente = obtenerCliente(txtPedidoSeleccionado.getText());
         int idempleado = obtenerEmpleado(txtEmpleado.getText());
+        
+        // Configurar la venta
         v.setIdPedido(idpedido);
         v.setFecha_venta(fecha);
         v.setIdEmpleado(idempleado);
         v.setClienteRuc(idcliente);
         v.setTotal(total);
+        p.setIdpedido(idpedido);
+        // Insertar la venta y procesar detalles
         if (v.insertar()) {
-            mostrarAlerta(Alert.AlertType.CONFIRMATION, "Venta registrada con exito!");
+            if (p.modificarEstado()) {
+                procesarDetallesPedido(detalle.consulta());
+                mostrarAlerta(Alert.AlertType.CONFIRMATION, "Venta registrada con éxito!");
+            }
+
         } else {
-            mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada");
+            mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada.");
+        }
+        
+    } catch (NumberFormatException e) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Formato de número inválido: " + e.getMessage());
+    } catch (NullPointerException e) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Campo requerido vacío: " + e.getMessage());
+    } catch (Exception e) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Ocurrió un error al registrar la venta: " + e.getMessage());
+    }
+}
+
+private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exception {
+    for (DetallePedido d : dp) {
+        Producto producto = pr.buscarPorId(d.getIdProducto());
+        if (!producto.restarStock(d.getCantidad())) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Stock insuficiente para el producto: " + producto.getNombre());
+            throw new Exception("Stock insuficiente.");
         }
     }
+}
+
     
     private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
         Alert a = new Alert(tipo);
@@ -254,7 +256,27 @@ public class VentaController implements Initializable {
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha_venta"));
         tablaVentas.setItems(listaVentas);
     }
-    
+    public void buscarpedidos() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("buscarPedidos.fxml"));
+            Parent root = loader.load();
+
+            // Obtener el controlador de la ventana de búsqueda
+            BuscarPedidosController buscarPedidosController = loader.getController();
+            buscarPedidosController.setVentaController(this); // Pasar la referencia de VentaController
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL); // Hacer la ventana modal
+            stage.showAndWait(); // Esperar hasta que se cierre la ventana
+
+            // Después de que se cierre la ventana, actualizar el combo box
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
     
     
 }
