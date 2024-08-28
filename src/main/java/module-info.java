@@ -5,6 +5,7 @@ module com.mycompany.oscarssoftware {
     requires java.base;
     requires java.sql;
     requires jasperreports;
+    requires com.jfoenix;
 
     requires org.controlsfx.controls;
     

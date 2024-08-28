@@ -129,7 +129,7 @@ public class PrimaryController implements Initializable {
             String proveedorSeleccionado = comboProveedores.getValue();
             int idCat = obtenerCategoria(categoriaSeleccionada);
             int idProv = obtenerProveedor(proveedorSeleccionado);
-            if (cantidad < 1 || precio < 1) {
+            if (cantidad < 0 || precio < 1) {
                 throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
             }
 

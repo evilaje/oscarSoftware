@@ -33,5 +33,22 @@ public class Reporte extends conexion{
                   Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
               }
     }
+        public void generarReporteParametros(String ubicacion, String titulo, Map<String, Object> parameters) {
+        try {
+            // Ruta al archivo .jasper
+            String reportPath = getClass().getResource(ubicacion).getPath();
+
+            // Llenar el informe
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportPath, parameters, getCon());
+
+            // Mostrar el informe en una nueva ventana
+            JasperViewer viewer = new JasperViewer(jasperPrint, false);
+            viewer.setTitle(titulo);
+            viewer.setVisible(true);
+
+        } catch (JRException ex) {
+            Logger.getLogger(Reporte.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     
 }

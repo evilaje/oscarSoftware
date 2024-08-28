@@ -1,6 +1,8 @@
 package com.mycompany.oscarssoftware;
 
 
+import com.jfoenix.controls.JFXButton;
+import com.mycompany.oscarssoftware.clases.Reporte;
 import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
@@ -8,9 +10,10 @@ import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -63,14 +67,6 @@ public class PedidoController implements Initializable {
     @FXML
     private Button btnCancelarPedido;
     @FXML
-    private TableView<Pedido> tablaPedidos;
-    @FXML
-    private TableColumn<Pedido, Integer> colNroPedido;
-    @FXML
-    private TableColumn<Pedido, String> colClientes;
-    @FXML
-    private TableColumn<Pedido, Date> colFechas;
-    @FXML
     private TableView<DetallePedido> tablaDetalles;
     @FXML
     private TableColumn<DetallePedido, Integer> colIdPedido;
@@ -95,8 +91,6 @@ public class PedidoController implements Initializable {
     @FXML
     private Button btnEditarCantidad;
     @FXML
-    private Label labNroSeleccionado;
-    @FXML
     private Button btnGuardarPedido;
     @FXML
     private Button btnGuardarDetalle;
@@ -117,6 +111,13 @@ public class PedidoController implements Initializable {
     private ObservableList<String> nombresProductos;
     private ObservableList<String> nombresClientes;
     private ObservableList<String> nombresEmpleados;
+    @FXML
+    private Pane paneCabecera;
+    @FXML
+    private Label labTotal;
+    int total = 0;
+    @FXML
+    private JFXButton btnReporte;
 
 
 
@@ -128,7 +129,6 @@ public class PedidoController implements Initializable {
         cargarComboClientes();
         cargarComboEmpleados();
         cargarComboProductos();
-        mostrarDatos();
         comboCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboCliente, nombresClientes, newValue));
         comboEmpleado.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboEmpleado, nombresEmpleados, newValue));
         comboProductos.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboProductos, nombresProductos, newValue));
@@ -144,7 +144,7 @@ public class PedidoController implements Initializable {
 
         ObservableList<String> filteredNames = FXCollections.observableArrayList();
 
-        if (input == null || input.isEmpty()) {
+        if (input.equals(null)|| input.isEmpty()) {
             filteredNames.setAll(originalItems);
         } else {
             String lowerCaseInput = input.toLowerCase();
@@ -166,9 +166,7 @@ public class PedidoController implements Initializable {
 
     @FXML
     private void nuevoPedido(ActionEvent event) {
-        labNroSeleccionado.setText("Numero de pedido seleccionado: "
-                + (p.obtenerID() + 1));
-        tablaPedidos.setDisable(true);
+        detalles.clear();
         banderaSeleccion = true;
         comboCliente.setDisable(false);
         dateFecha.setDisable(false);
@@ -182,6 +180,7 @@ public class PedidoController implements Initializable {
         comboEmpleado.setPromptText("Buscar empleado");
         comboCliente.setPromptText("Buscar cliente");
         btnNuevoPedido.setDisable(true);
+        btnGuardarPedido.setDisable(false);
 
     }
 
@@ -190,17 +189,21 @@ public class PedidoController implements Initializable {
         txtCantidad.setDisable(false);
         comboProductos.setDisable(false);
         btnGuardarDetalle.setDisable(false);
+        btnNuevoDetalle.setDisable(true);
     }
 
     @FXML
     private void cancelar(ActionEvent event) {
-        tablaPedidos.setDisable(false);
-        tablaPedidos.getSelectionModel().clearSelection();
-        tablaDetalles.getSelectionModel().clearSelection();;
-        btnNuevoPedido.setDisable(false);
-        btnCancelarPedido.setDisable(true);
+        total = 0;
+        labTotal.setText("0 Gs.");
+        tablaDetalles.getSelectionModel().clearSelection();
         comboCliente.getSelectionModel().clearSelection();
         comboEmpleado.getSelectionModel().clearSelection();
+        comboEmpleado.getEditor().clear();
+        comboCliente.getEditor().clear();
+        btnNuevoPedido.setDisable(false);
+        btnCancelarPedido.setDisable(true);
+
         dateFecha.setValue(null);
         btnNuevoCliente.setDisable(true);
         btnFechaHoy.setDisable(true);
@@ -210,16 +213,26 @@ public class PedidoController implements Initializable {
         dateFecha.setDisable(true);
         tablaDetalles.getItems().clear();
         modificar = false;
-        btnNuevoPedido.setDisable(false);
+        btnGuardarPedido.setDisable(true);
+        ocultarCombos();
+        cancelarDetalle(event);
     }
 
     @FXML
     private void cancelarDetalle(ActionEvent event) {
+        tablaDetalles.getSelectionModel().clearSelection();
+        btnGuardarPedido.setDisable(false);
         btnNuevoDetalle.setDisable(false);
+        txtCantidad.clear();
         txtCantidad.setDisable(true);
         comboProductos.getSelectionModel().clearSelection();
         comboProductos.setDisable(true);
         btnGuardarDetalle.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+        btnEditarCantidad.setDisable(true);
+        btnGuardarDetalle.setDisable(true);
+        comboProductos.hide();
+
 
     }
 
@@ -230,18 +243,21 @@ public class PedidoController implements Initializable {
             detalles.remove(d);
             mostrarDetallesAgregados();
             btnEliminarDetalle.setDisable(true);
-        } else {
-            if (d.borrar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Producto eliminado correctamente");
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "Error eliminando el producto");
-            }
-            mostrarDetalles();
+            total -= d.getPrecioTotal();
+            labTotal.setText(total + " Gs.");
         }
+        
     }
 
     @FXML
     private void editarDetalle(ActionEvent event) {
+        txtCantidad.setDisable(false);
+        btnGuardarDetalle.setDisable(false);
+        btnEditarCantidad.setDisable(true);
+        btnEliminarDetalle.setDisable(true);
+        btnCancelarDetalle.setDisable(false);
+        btnGuardarPedido.setDisable(true);
+        paneCabecera.setDisable(true);
     }
 
     @FXML
@@ -289,83 +305,78 @@ public class PedidoController implements Initializable {
         btnCancelarDetalle.setDisable(false);
         btnEliminarDetalle.setDisable(false);
         btnEditarCantidad.setDisable(false);
-        txtCantidad.setDisable(true);
         DetallePedido detalleSeleccionado = tablaDetalles.getSelectionModel().getSelectedItem();
         if (detalleSeleccionado != null) {
-            comboProductos.setValue(detalleSeleccionado.getNombreProducto());
+            comboProductos.getEditor().setText(detalleSeleccionado.getNombreProducto());
             txtCantidad.setText(String.valueOf(detalleSeleccionado.getCantidad()));
 
         }
     }
 
     @FXML
-    private void mostrarFila(MouseEvent event) {
+  private void guardarDetalle(ActionEvent event) {
+      String selectedProduct = comboProductos.getSelectionModel().getSelectedItem();
+      if (selectedProduct == null || txtCantidad.getText().isEmpty()) {
+          mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Seleccione un producto y especifique una cantidad.");
+          return;
+      }
 
-        banderaSeleccion = false;
-        //desactivar botones
-        btnCancelarPedido.setDisable(false);
-        btnNuevoPedido.setDisable(true);
-        //desactivar datos del pedido
-        comboCliente.setDisable(true);
-        dateFecha.setDisable(true);
-        comboEmpleado.setDisable(true);
-        //rellenar datos del pedido
-        p = tablaPedidos.getSelectionModel().getSelectedItem();
-        if (p != null) {
-            comboCliente.setValue(p.getNombreCliente());
-            dateFecha.setValue(p.getFecha_pedido().toLocalDate());
-            comboEmpleado.setValue(p.getNombreEmpleado());
-            txtId.setText(String.valueOf(p.getIdpedido()));
-        }
-        mostrarDetalles();
-    }
+      int cantidad;
+      try {
+          cantidad = Integer.parseInt(txtCantidad.getText());
+          if (cantidad <= 0) {
+              mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "La cantidad debe ser mayor a cero.");
+              return;
+          }
+      } catch (NumberFormatException e) {
+          mostrarAlerta(Alert.AlertType.ERROR, "Error", "La cantidad debe ser un número válido.");
+          return;
+      }
 
-    @FXML
-    private void guardarDetalle(ActionEvent event) {
-        String selectedProduct = comboProductos.getSelectionModel().getSelectedItem();
-        if (selectedProduct == null || txtCantidad.getText().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Seleccione un producto y especifique una cantidad.");
-            return;
-        }
+      int idProducto = obtenerProducto(selectedProduct, cantidad);
+      if (idProducto == 0) {
+          mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "Producto no encontrado.");
+          return;
+      } else if (idProducto == -1) {
+          mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "No hay suficiente stock para el producto seleccionado.");
+          return;
+      }
 
-        DetallePedido nuevoDetalle = new DetallePedido();
-        Producto productoSeleccionado = pr.buscarPorId(obtenerProducto(selectedProduct));
+      Producto productoSeleccionado = pr.buscarPorId(idProducto);
+      if (productoSeleccionado == null) {
+          mostrarAlerta(Alert.AlertType.ERROR, "Error", "Producto no encontrado.");
+          return;
+      }
 
-        if (productoSeleccionado == null) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Producto no encontrado.");
-            return;
-        }
+      DetallePedido detalleExistente = null;
+      for (DetallePedido detalle : detalles) {
+          if (detalle.getNombreProducto().equals(selectedProduct)) {
+              detalleExistente = detalle;
+              break;
+          }
+      }
 
-        int cantidad;
-        try {
-            cantidad = Integer.parseInt(txtCantidad.getText());
-            if (cantidad <= 0) {
-                mostrarAlerta(Alert.AlertType.WARNING, "Advertencia", "La cantidad debe ser mayor a cero.");
-                return;
-            }
-        } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "La cantidad debe ser un número válido.");
-            return;
-        }
-        int idnuevoPedido = p.obtenerID() + 1;
-        nuevoDetalle.setIdPedido(idnuevoPedido);
-        double precioUnitario = productoSeleccionado.getPrecio();
-        nuevoDetalle.setIdProducto(productoSeleccionado.getIdproducto());
-        nuevoDetalle.setCantidad(cantidad);
-        nuevoDetalle.setNombreProducto(productoSeleccionado.getNombre());
-        nuevoDetalle.setPrecioUnit(precioUnitario);
-        nuevoDetalle.setPrecioTotal(precioUnitario * cantidad); // Calculate total price based on user input
+      if (detalleExistente != null) {
+          detalleExistente.setCantidad(cantidad);
+          detalleExistente.setPrecioTotal(productoSeleccionado.getPrecio() * cantidad);
+      } else {
+          DetallePedido nuevoDetalle = new DetallePedido();
+          int idnuevoPedido = p.obtenerID() + 1;
+          nuevoDetalle.setIdPedido(idnuevoPedido);
+          nuevoDetalle.setIdProducto(productoSeleccionado.getIdproducto());
+          nuevoDetalle.setCantidad(cantidad);
+          nuevoDetalle.setNombreProducto(productoSeleccionado.getNombre());
+          nuevoDetalle.setPrecioUnit(productoSeleccionado.getPrecio());
+          nuevoDetalle.setPrecioTotal(productoSeleccionado.getPrecio() * cantidad);
+          total += nuevoDetalle.getPrecioTotal();
+          detalles.add(nuevoDetalle);
+      }
 
-        detalles.add(nuevoDetalle);
-
-        btnGuardarPedido.setDisable(false);
-        comboProductos.getSelectionModel().clearSelection();
-        txtCantidad.clear();
-        mostrarDetallesAgregados();
-        cancelarDetalle(event);
-        comboProductos.hide();
-
-    }
+      mostrarDetallesAgregados();
+      cancelarDetalle(event);
+      mostrarAlerta(Alert.AlertType.INFORMATION, "Detalle Guardado", "El detalle del producto ha sido guardado correctamente.");
+      labTotal.setText(String.valueOf(total) + " Gs.");
+  }
 
     @FXML
     private void guardar(ActionEvent event) {
@@ -377,69 +388,41 @@ public class PedidoController implements Initializable {
             pedido.setIdEmpleado(obtenerEmpleado(comboEmpleado.getSelectionModel().getSelectedItem()));
             java.sql.Date fecha = java.sql.Date.valueOf(dateFecha.getValue());
             pedido.setFecha_pedido(fecha);
-            if (modificar) {
-                int idpedido = Integer.parseInt(txtId.getText());
-                pedido.setIdpedido(idpedido);
-                if (pedido.modificar()) {
-                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Pedido modificado con exito");
+            boolean resultado = true;
+            if (pedido.insertar()) {
+                for (DetallePedido d : detalles) {
+                    System.out.println("idproducto" + d.getIdProducto());
+
+                    if (!d.insertar()) {
+                        System.out.println("error");
+                        resultado = false;
+                        
+                        System.out.println("detalle: " + d.getIdProducto());
+                        break;
+                    }
                 }
-
-                modificar = false;
-            } else {
-                boolean resultado = true;
-                if (pedido.insertar()) {
-                    for (DetallePedido d : detalles) {
-                        System.out.println("idproducto" + d.getIdProducto());
-
-                        if (!d.insertar()) {
-                            System.out.println("error");
-                            resultado = false;
-                            System.out.println("detalle: " + d.getIdProducto());
-                            break;
-                        }
-                    }
-                    if (resultado) {
-                        mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Pedido y detalles guardados correctamente");
-                    } else {
-                        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido");
-                    }
+                if (resultado) {
+                    cancelar(event);
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Pedido y detalles guardados correctamente");
                 } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar el pedido");
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido");
                 }
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar el pedido");
             }
 
         } catch (Exception e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido");
         }
-        tablaPedidos.setDisable(false);
-        cancelar(event);
+
+        btnNuevoDetalle.setDisable(true);
         btnGuardarPedido.setDisable(true);
-        ocultarCombos();
-        mostrarDatos();
 
     }
 
-    private void mostrarDatos() {
-        listaPedidos = FXCollections.observableArrayList(p.consulta());
-        colNroPedido.setCellValueFactory(new PropertyValueFactory<>("idpedido"));
-        colClientes.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
-        colFechas.setCellValueFactory(new PropertyValueFactory<>("fecha_pedido"));
-        tablaPedidos.setItems(listaPedidos);
-    }
     
-
-    private void mostrarDetalles() {
-        d.setIdPedido(tablaPedidos.getSelectionModel().getSelectedItem().getIdpedido());
-        listaDetalles = FXCollections.observableArrayList(d.consulta());
-        colIdPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
-        colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
-        colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
-        colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
-        colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
-        tablaDetalles.setItems(listaDetalles);
-    }
-
     private void mostrarDetallesAgregados() {
+        
         ObservableList<DetallePedido> detallesAgregados = FXCollections.observableArrayList(detalles);
         colIdPedido.setCellValueFactory(new PropertyValueFactory<>("idPedido"));
         colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
@@ -447,6 +430,7 @@ public class PedidoController implements Initializable {
         colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
         tablaDetalles.setItems(detallesAgregados);
+        tablaDetalles.refresh();
 
     }
 
@@ -499,7 +483,7 @@ public class PedidoController implements Initializable {
     }
 
     private void cargarComboProductos() {
-        listaProductos = FXCollections.observableList(pr.consulta());
+        listaProductos = FXCollections.observableList(pr.consultaProductosDisponibles());
 
         for (Producto producto : listaProductos) {
             nombresProductos.add(producto.getNombre());
@@ -507,22 +491,36 @@ public class PedidoController implements Initializable {
         comboProductos.setItems(FXCollections.observableArrayList(nombresProductos));
     }
 
-    private int obtenerProducto(String nombreProducto) {
+    private int obtenerProducto(String nombreProducto, int cantidadSolicitada) {
         ArrayList<Producto> listaProductos = pr.consulta();
-        String input = comboProductos.getEditor().getText();
         for (Producto pro : listaProductos) {
-            if (pro.getNombre().equalsIgnoreCase(nombreProducto) || pro.getNombre().equalsIgnoreCase(input)) {
-                return pro.getIdproducto();
+            // Comprobar si el nombre del producto coincide y si hay suficiente stock
+            if (pro.getNombre().equalsIgnoreCase(nombreProducto)) {
+                if (pro.getCantidad() >= cantidadSolicitada) {
+                    return pro.getIdproducto();
+                } else {
+                    return -1; // Indicar que no hay suficiente stock
+                }
             }
         }
         return 0; // Devuelve 0 si no se encuentra el producto
     }
+
     
     private void ocultarCombos() {
         comboCliente.hide();
-        
         comboEmpleado.hide();
         comboProductos.hide();
+    }
+
+    @FXML
+    private void generarReporte(ActionEvent event) {
+        Reporte r = new Reporte();
+        String ubi = "/reportes/pedidoF1.jasper";
+        String tit = "Informe de pedido";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("idpedido", p.obtenerID()); 
+        r.generarReporteParametros(ubi, tit, parameters);
     }
 
 }

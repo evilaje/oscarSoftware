@@ -105,7 +105,8 @@ public class Pedido extends conexion implements sentencias{
                 + "nombreempleado , p.fecha_pedido "
                 + "FROM pedido p "
                 + "JOIN cliente c ON p.idcliente = c.ruc "
-                + "JOIN empleado e ON p.idempleado = e.idempleado";
+                + "JOIN empleado e ON p.idempleado = e.idempleado "
+                + "WHERE estado = true";
         try {
             Connection con = getCon();
             Statement stm = con.createStatement();
@@ -256,6 +257,20 @@ public class Pedido extends conexion implements sentencias{
         }
     }
     
+    public boolean modificarEstado(){
+        String sql = "UPDATE pedido SET estado = 0 WHERE idpedido = ?";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, this.idpedido);
+            stm.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+
     
     
     
