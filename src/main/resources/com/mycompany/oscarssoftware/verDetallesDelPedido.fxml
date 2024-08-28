@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="521.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.mycompany.oscarssoftware.VerDetallesDelPedidoController">
+    <stylesheets>
+        <URL value="@/styles/verdetallesdelpedido.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="-20.0" layoutY="14.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 5 10 40; -fx-text-fill: white; -fx-background-radius: 20;" text="Detalles del pedido">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="18.0" />
+         </font>
+      </Label>
+      <Label layoutX="-20.0" layoutY="69.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Id del pedido:">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtIdPedido" layoutX="134.0" layoutY="69.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="0">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="-20.0" layoutY="116.0" prefHeight="39.0" prefWidth="249.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del cliente:">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtNombreCliente" layoutX="178.0" layoutY="116.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="-20.0" layoutY="160.0" prefHeight="39.0" prefWidth="276.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del vendedor:">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtNombreEmpleado" layoutX="200.0" layoutY="160.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin nombre">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="-20.0" layoutY="206.0" prefHeight="39.0" prefWidth="249.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Fecha del pedido:">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="txtFecha" layoutX="158.0" layoutY="206.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tablaDetalles" layoutX="18.0" layoutY="256.0" prefHeight="200.0" prefWidth="555.0">
+        <columns>
+          <TableColumn fx:id="colProducto" prefWidth="226.66665649414062" text="Producto" />
+          <TableColumn fx:id="colPrecioUnit" prefWidth="113.33331298828125" text="Precio unitario" />
+            <TableColumn fx:id="colCantidad" prefWidth="78.0" text="Cantidad" />
+            <TableColumn fx:id="colTotal" prefWidth="140.66668701171875" text="Total por producto" />
+        </columns>
+      </TableView>
+      <Button fx:id="btnVolver" layoutX="540.0" layoutY="14.0" mnemonicParsing="false" onAction="#volver" opacity="0.72" style="-fx-text-fill: white; -fx-background-color: #2A5EA4;" text="Volver">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="10.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnReporte" layoutX="394.0" layoutY="476.0" mnemonicParsing="false" onAction="#generarReporte" style="-fx-text-fill: white; -fx-background-color: #2A5EA4;" text="Generar presupuesto">
+         <font>
+            <Font name="Microsoft YaHei Bold" size="15.0" />
+         </font>
+      </Button>
+   </children>
+</AnchorPane>

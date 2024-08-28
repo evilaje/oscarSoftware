@@ -1,4 +1,8 @@
 com\mycompany\oscarssoftware\ClienteController.class
+<<<<<<< HEAD
+=======
+com\mycompany\oscarssoftware\BuscarPedidosController.class
+>>>>>>> origin/main
 com\mycompany\oscarssoftware\modelos\CategoriaProducto.class
 com\mycompany\oscarssoftware\VentaController.class
 com\mycompany\oscarssoftware\clases\Reporte.class
@@ -7,6 +11,10 @@ com\mycompany\oscarssoftware\App.class
 com\mycompany\oscarssoftware\modelos\DetallePedido.class
 com\mycompany\oscarssoftware\modelos\Producto.class
 com\mycompany\oscarssoftware\ProveedorController.class
+<<<<<<< HEAD
+=======
+com\mycompany\oscarssoftware\VerDetallesDelPedidoController.class
+>>>>>>> origin/main
 com\mycompany\oscarssoftware\modelos\Pedido.class
 com\mycompany\oscarssoftware\clases\conexion.class
 module-info.class
@@ -17,8 +25,14 @@ com\mycompany\oscarssoftware\MenuController.class
 com\mycompany\oscarssoftware\modelos\Cliente.class
 com\mycompany\oscarssoftware\modelos\Venta.class
 com\mycompany\oscarssoftware\clases\sentencias.class
+<<<<<<< HEAD
 com\mycompany\oscarssoftware\menu.class
 com\mycompany\oscarssoftware\PedidoController.class
 com\mycompany\oscarssoftware\LoginController.class
 com\mycompany\oscarssoftware\modelos\Login.class
+=======
+com\mycompany\oscarssoftware\PedidoController.class
+com\mycompany\oscarssoftware\LoginController.class
+com\mycompany\oscarssoftware\VerPedidoController.class
+>>>>>>> origin/main
 com\mycompany\oscarssoftware\SecondaryController.class

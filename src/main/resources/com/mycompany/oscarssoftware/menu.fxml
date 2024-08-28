@@ -79,5 +79,6 @@
             <Pane fx:id="pane_111" layoutX="415.0" layoutY="128.0" prefHeight="307.0" prefWidth="143.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
          </children>
       </Pane>
+
    </children>
 </HBox>

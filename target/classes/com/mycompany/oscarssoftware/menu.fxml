@@ -12,6 +12,7 @@
 
 <HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <children>
+<<<<<<< HEAD
       <VBox prefHeight="513.0" prefWidth="183.0">
          <children>
             <AnchorPane fx:id="side_ankerpane" prefHeight="513.0" prefWidth="182.0" styleClass="side_ankerpane" stylesheets="@estilos/menustyle.css">
@@ -79,5 +80,35 @@
             <Pane fx:id="pane_111" layoutX="415.0" layoutY="128.0" prefHeight="307.0" prefWidth="143.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
          </children>
       </Pane>
+=======
+      <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <menus>
+          <Menu mnemonicParsing="false" text="Formularios">
+            <items>
+                  <MenuItem mnemonicParsing="false" onAction="#abrirCategorias" text="Categorias" />
+              <MenuItem mnemonicParsing="false" onAction="#abrirProductos" text="Productos" />
+                  <MenuItem mnemonicParsing="false" onAction="#abrirPedidos" text="Pedidos">
+                     <accelerator>
+                        <KeyCodeCombination alt="UP" code="P" control="ANY" meta="UP" shift="UP" shortcut="UP" />
+                     </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#abrirClientes" text="Clientes" />
+                  <MenuItem mnemonicParsing="false" onAction="#abrirEmpleados" text="Empleados" />
+                  <MenuItem mnemonicParsing="false" onAction="#abrirInicio" text="Inicio" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Venta">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#abrirVentas" text="Nueva venta" />
+            </items>
+          </Menu>
+          <Menu mnemonicParsing="false" text="Informes">
+            <items>
+              <MenuItem mnemonicParsing="false" onAction="#reporteClientes" text="Clientes" />
+                  <MenuItem mnemonicParsing="false" onAction="#abrirVerPedidos" text="Ver pedidos" />
+            </items>
+          </Menu>
+        </menus>
+      </MenuBar>
+>>>>>>> origin/main
    </children>
 </HBox>

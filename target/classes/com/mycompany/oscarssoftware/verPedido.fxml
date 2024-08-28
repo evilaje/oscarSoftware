@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.mycompany.oscarssoftware.VerPedidoController">
+    <stylesheets>
+        <URL value="@/styles/verpedido.css" />
+    </stylesheets>
+   <children>
+      <Label layoutX="14.0" layoutY="14.0" prefHeight="24.0" prefWidth="157.0" text="Lista de pedidos">
+         <font>
+            <Font name="Microsoft YaHei UI Bold" size="18.0" />
+         </font>
+      </Label>
+      <TableView fx:id="tablaPedidos" layoutX="14.0" layoutY="58.0" prefHeight="321.0" prefWidth="573.0">
+        <columns>
+          <TableColumn fx:id="colId" prefWidth="44.0" text="Id" />
+          <TableColumn fx:id="colCliente" prefWidth="220.66665649414062" text="Cliente" />
+            <TableColumn fx:id="colFecha" prefWidth="126.6666259765625" text="Fecha del pedido" />
+            <TableColumn fx:id="colEmpleado" prefWidth="180.66664632161462" text="Empleado" />
+        </columns>
+      </TableView>
+      <TextField layoutX="368.0" layoutY="13.0" prefHeight="25.0" prefWidth="203.0" promptText="🔍Buscar cliente..." />
+   </children>
+</AnchorPane>
