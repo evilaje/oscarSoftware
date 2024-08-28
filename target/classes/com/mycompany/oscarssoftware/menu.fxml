@@ -1,39 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.input.KeyCodeCombination?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.MenuController">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <MenuBar layoutY="1.0" prefHeight="25.0" prefWidth="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-        <menus>
-          <Menu mnemonicParsing="false" text="Formularios">
-            <items>
-                  <MenuItem mnemonicParsing="false" onAction="#abrirCategorias" text="Categorias" />
-              <MenuItem mnemonicParsing="false" onAction="#abrirProductos" text="Productos" />
-                  <MenuItem mnemonicParsing="false" onAction="#abrirPedidos" text="Pedidos">
-                     <accelerator>
-                        <KeyCodeCombination alt="UP" code="P" control="ANY" meta="UP" shift="UP" shortcut="UP" />
-                     </accelerator></MenuItem>
-                  <MenuItem mnemonicParsing="false" onAction="#abrirClientes" text="Clientes" />
-                  <MenuItem mnemonicParsing="false" onAction="#abrirEmpleados" text="Empleados" />
-                  <MenuItem mnemonicParsing="false" onAction="#abrirInicio" text="Inicio" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Venta">
-            <items>
-              <MenuItem mnemonicParsing="false" onAction="#abrirVentas" text="Nueva venta" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" onAction="#reporteClientes" text="Informes">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Clientes" />
-            </items>
-          </Menu>
-        </menus>
-      </MenuBar>
+      <VBox prefHeight="513.0" prefWidth="183.0">
+         <children>
+            <AnchorPane fx:id="side_ankerpane" prefHeight="513.0" prefWidth="182.0" styleClass="side_ankerpane" stylesheets="@estilos/menustyle.css">
+               <children>
+                  <ImageView fitHeight="173.0" fitWidth="173.0" layoutX="3.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/logocom.png" />
+                     </image>
+                  </ImageView>
+                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnuno1" layoutX="5.0" layoutY="170.0" prefHeight="43.0" prefWidth="173.0" styleClass="btndos" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnuno2" layoutX="5.0" layoutY="233.0" prefHeight="43.0" prefWidth="173.0" styleClass="btntres" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnuno3" layoutX="5.0" layoutY="297.0" prefHeight="43.0" prefWidth="173.0" styleClass="btncuatro" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnuno4" layoutX="5.0" layoutY="363.0" prefHeight="43.0" prefWidth="173.0" styleClass="btncinco" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="12.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton fx:id="btnuno5" layoutX="5.0" layoutY="432.0" prefHeight="43.0" prefWidth="173.0" styleClass="btnseis" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic" size="12.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <Pane prefHeight="513.0" prefWidth="650.0">
+         <children>
+            <Pane prefHeight="50.0" prefWidth="575.0" style="-fx-background-color: #cdd7e3;">
+               <children>
+                  <JFXButton layoutX="506.0" layoutY="-4.0" prefHeight="43.0" prefWidth="35.0" text="  " />
+                  <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="541.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/usuario.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </Pane>
+            <Label layoutX="27.0" layoutY="60.0" prefHeight="50.0" prefWidth="195.0" text="Bienvenido!" textFill="#435b78">
+               <font>
+                  <Font name="Century Gothic Bold" size="30.0" />
+               </font>
+            </Label>
+            <Pane fx:id="pane_1" layoutX="25.0" layoutY="121.0" prefHeight="153.0" prefWidth="200.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
+            <Pane fx:id="pane_11" layoutX="248.0" layoutY="121.0" prefHeight="153.0" prefWidth="143.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
+            <Pane fx:id="pane_12" layoutX="27.0" layoutY="295.0" prefHeight="139.0" prefWidth="127.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
+            <Pane fx:id="pane_121" layoutX="178.0" layoutY="295.0" prefHeight="139.0" prefWidth="220.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
+            <Pane fx:id="pane_111" layoutX="415.0" layoutY="128.0" prefHeight="307.0" prefWidth="143.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
+         </children>
+      </Pane>
    </children>
-</AnchorPane>
+</HBox>

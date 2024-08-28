@@ -1,0 +1,76 @@
+.root{
+ -fx-background-color: #dde3eb;   
+   
+}
+.side_ankerpane{
+-fx-background-color: #3a4f68;
+-fx-border-color:#2c3b4e;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid;
+
+}
+.btnuno{
+-fx-background-color: #2c3b4e;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid; 
+-fx-border-color:#2c3b4e;
+    
+}
+.btndos{
+-fx-background-color: #2c3b4e;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid; 
+-fx-border-color:#2c3b4e;
+    
+}
+.btntres{
+-fx-background-color: #2c3b4e;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid; 
+-fx-border-color:#2c3b4e;
+    
+}
+.btncuatro{
+-fx-background-color: #2c3b4e;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid; 
+-fx-border-color:#2c3b4e;
+    
+}
+.btncinco{
+-fx-background-color: #2c3b4e;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid; 
+-fx-border-color:#2c3b4e;
+    
+}
+.btnseis{
+-fx-background-color: #2c3b4e;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid; 
+-fx-border-color:#2c3b4e;
+    
+}
+.pane_1{
+-fx-background-color: white;
+-fx-border-width: 2px 2px 2px 2px;
+-fx-border-radius: 20px;
+-fx-background-radius: 20px;
+-fx-border-style: solid; 
+-fx-border-color:#99adc5;   
+       
+}
