@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="765.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.MenuController">
    <children>
       <VBox prefHeight="513.0" prefWidth="183.0">
          <children>
@@ -21,7 +21,7 @@
                         <Image url="@../../../images/logocom.png" />
                      </image>
                   </ImageView>
-                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" onAction="#abrirVenta" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
@@ -57,10 +57,10 @@
       </VBox>
       <Pane prefHeight="513.0" prefWidth="650.0">
          <children>
-            <Pane prefHeight="50.0" prefWidth="575.0" style="-fx-background-color: #cdd7e3;">
+            <Pane prefHeight="50.0" prefWidth="583.0" style="-fx-background-color: #cdd7e3;">
                <children>
                   <JFXButton layoutX="506.0" layoutY="-4.0" prefHeight="43.0" prefWidth="35.0" text="  " />
-                  <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="541.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="544.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/usuario.png" />
                      </image>
