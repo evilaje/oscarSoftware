@@ -214,6 +214,10 @@ private void guardarVenta(ActionEvent event) {
             if (p.modificarEstado()) {
                 procesarDetallesPedido(detalle.consulta());
                 mostrarAlerta(Alert.AlertType.CONFIRMATION, "Venta registrada con éxito!");
+                MenuController menuController = (MenuController) getMenuController();
+                if (menuController != null) {
+                    menuController.actualizarGanancias();
+                }
             }
 
         } else {
@@ -229,6 +233,9 @@ private void guardarVenta(ActionEvent event) {
     }
 }
 
+private Object getMenuController() {
+    return null;
+}
 private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exception {
     for (DetallePedido d : dp) {
         Producto producto = pr.buscarPorId(d.getIdProducto());
@@ -274,9 +281,7 @@ private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exceptio
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-
+    }    
     
     
 }

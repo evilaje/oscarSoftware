@@ -75,7 +75,7 @@ public class ClienteController implements Initializable {
         tablaCliente.setItems(Clientes);
     }
     private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("menu", 780, 460);
     }
     @FXML
     private void mostrarFila(MouseEvent event) {

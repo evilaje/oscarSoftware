@@ -4,7 +4,9 @@
  */
 package com.mycompany.oscarssoftware;
 
+import com.jfoenix.controls.JFXButton;
 import com.mycompany.oscarssoftware.clases.Reporte;
+import com.mycompany.oscarssoftware.modelos.Pedido;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,15 +18,47 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MenuController implements Initializable {
     private static Scene scene;
-    /**
-     * Initializes the controller class.
-     */
+    @FXML
+    private HBox root;
+    @FXML
+    private AnchorPane side_ankerpane;
+    @FXML
+    private JFXButton btnuno;
+    @FXML
+    private JFXButton btnuno1;
+    @FXML
+    private JFXButton btnuno2;
+    @FXML
+    private JFXButton btnuno3;
+    @FXML
+    private JFXButton btnuno4;
+    @FXML
+    private JFXButton btnuno5;
+    @FXML
+    private Pane pane_12;
+    @FXML
+    private Label lblGananciasTotales;
+    private double gananciasTotales = 0.00;
+    private Pedido p = new Pedido();
+    @FXML
+    private Button btnPedido;
     @Override
-    public void initialize(URL url, ResourceBundle rb) {  
+    public void initialize(URL url, ResourceBundle rb) { 
+        actualizarGanancias();
+        
+    }
+     public void actualizarGanancias() {
+        gananciasTotales = p.ingresosTotales();
+        lblGananciasTotales.setText(String.format("%.2f", gananciasTotales));
     }
 
     public void abrirFxml(String fxml, String titulo) {    
@@ -39,57 +73,48 @@ public class MenuController implements Initializable {
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
-    @FXML
-    private void abrirProductos(ActionEvent event) {
-        abrirFxml("producto.fxml", "Formulario de productos");
-    }
-
-    @FXML
-    private void abrirCategorias(ActionEvent event) {
-        abrirFxml("categoria.fxml", "Formulario de empleados");
-    }
-
-    @FXML
-    private void abrirPedidos(ActionEvent event) {
-        abrirFxml("pedido.fxml", "Formulario de pedidos");
-    }
-
-    @FXML
-    private void abrirClientes(ActionEvent event) {
-        abrirFxml("cliente.fxml", "Formulario de clientes");
-    }
-
-    @FXML
-    private void abrirEmpleados(ActionEvent event) {
-        abrirFxml("empleado.fxml", "Formulario de empleados");
-    }
-
-    @FXML
-    private void abrirVentas(ActionEvent event) {
-        abrirFxml("venta.fxml", "Formulario venta");
-    }
-
-    @FXML
-    private void reporteClientes(ActionEvent event) {
-        Reporte r = new Reporte();
-        String ubi = "/reportes/clienteF1.jasper";
-        String tit = "Informe de cliente";
-        r.generarReporte(ubi, tit);
-    }
-
-    @FXML
+   
     private void abrirInicio(ActionEvent event) {
         abrirFxml("login.fxml", "login");
 
     }
 
-    @FXML
     private void abrirVerPedidos(ActionEvent event) {
         abrirFxml("verPedido.fxml", "Lista de pedidos");
     }
+
+    @FXML
+    private void pedido(ActionEvent event) {
+        abrirFxml("pedido.fxml", "Formulario Pedido");
+    }
+
+    @FXML
+    private void venta(ActionEvent event) {
+        abrirFxml("venta.fxml", "Formulario Venta");
+    }
+
+    @FXML
+    private void producto(ActionEvent event) {
+        abrirFxml("Producto.fxml", "Formulario Producto");
+    }
+
+    @FXML
+    private void clientes(ActionEvent event) {
+        abrirFxml("cliente.fxml", "Formulario Cliente");
+    }
+
+    @FXML
+    private void proveedor(ActionEvent event) {
+        abrirFxml("proveedor.fxml", "Formulario Proveedor");
+    }
+
+    @FXML
+    private void empleado(ActionEvent event) {
+        abrirFxml("empleado.fxml", "Formulario Empleado");
+    }
+    private void switchToMenu() throws IOException {
+        App.setRoot("menu", 757, 513);
     
     
     
-    
-}
+    }}

@@ -9,48 +9,52 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="460.0" prefWidth="780.0" style="-fx-background-color: #9fd3e4;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="460.0" prefWidth="780.0" style="-fx-background-color: #c8d3e0;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.LoginController">
     <stylesheets>
         <URL value="@/styles/login.css" />
     </stylesheets>
    <children>
-      <VBox layoutX="-2.0" layoutY="-2.0" prefHeight="460.0" prefWidth="332.0" styleClass="vbox_background_right">
+      <VBox layoutX="-2.0" layoutY="-2.0" prefHeight="460.0" prefWidth="332.0" styleClass="vbox_background_right" stylesheets="@../../../styles/login.css">
          <children>
-            <VBox alignment="TOP_CENTER" prefHeight="152.0" prefWidth="332.0">
+            <VBox alignment="CENTER" prefHeight="152.0" prefWidth="332.0">
                <children>
-                  <HBox prefHeight="100.0" prefWidth="332.0" />
-                  <ImageView fitHeight="58.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../images/logo.png" />
-                     </image>
-                  </ImageView>
+                  <Pane prefHeight="162.0" prefWidth="332.0">
+                     <children>
+                        <ImageView fitHeight="90.0" fitWidth="90.0" layoutX="121.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../images/logo.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </Pane>
                </children></VBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="60.0" prefWidth="250.0">
                <children>
-                  <TextField fx:id="txtUsuario" prefWidth="250.0" promptText=" Usuario..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
+                  <TextField fx:id="txtUsuario" prefHeight="40.0" prefWidth="250.0" promptText=" Usuario..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Century Gothic" size="15.0" />
                      </font>
                   </TextField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="35.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="75.0" prefWidth="332.0">
                <children>
-                  <PasswordField fx:id="txtContra" prefWidth="250.0" promptText=" Contraseña..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
+                  <PasswordField fx:id="txtContra" prefHeight="40.0" prefWidth="250.0" promptText=" Contraseña..." style="-fx-background-color: white; -fx-background-radius: 50; -fx-border-radius: 50;">
                      <font>
-                        <Font size="14.0" />
+                        <Font name="Century Gothic" size="15.0" />
                      </font>
                   </PasswordField>
                </children>
             </HBox>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+            <HBox alignment="CENTER" prefHeight="69.0" prefWidth="332.0">
                <children>
-                  <Button fx:id="btnIngresar" mnemonicParsing="false" onAction="#ingresar" prefWidth="200.0" style="-fx-border-radius: 50; -fx-background-radius: 50;" styleClass="ButtonIngresar" text="Ingresar" textFill="#243346">
+                  <Button fx:id="btnIngresar1" mnemonicParsing="false" onAction="#ingresar" prefHeight="35.0" prefWidth="211.0" style="-fx-border-radius: 50; -fx-background-radius: 50;" styleClass="ButtonIngresar" text="Ingresar" textFill="#34475d">
                      <font>
-                        <Font name="Tw Cen MT" size="14.0" />
+                        <Font name="Century Gothic Bold" size="13.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
@@ -58,12 +62,7 @@
                   </Button>
                </children>
             </HBox>
-            <HBox alignment="TOP_CENTER" prefHeight="76.0" prefWidth="131.0" />
-         </children>
-         <stylesheets>
-            <URL value="@../../../styles/login.css" />
-            <URL value="@estilos/style.css" />
-         </stylesheets></VBox>
-      <VBox layoutX="330.0" prefHeight="460.0" prefWidth="458.0" styleClass="vbox_background_center" stylesheets="@estilos/style.css" />
+         </children></VBox>
+      <VBox layoutX="330.0" prefHeight="460.0" prefWidth="458.0" styleClass="vbox_background_center" stylesheets="@../../../styles/login.css" />
    </children>
 </AnchorPane>

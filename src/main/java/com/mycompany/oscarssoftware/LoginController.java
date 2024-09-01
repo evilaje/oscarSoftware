@@ -81,17 +81,7 @@ public class LoginController implements Initializable {
 }
 
 }
-    private void registro(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("empleado.fxml"));
-            Parent root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.showAndWait();           
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
+ 
       public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);
@@ -99,6 +89,11 @@ public class LoginController implements Initializable {
         a.setContentText(mensaje);
         a.show();
     }
-
-
+       @FXML
+    private void switchToLogin() throws IOException {
+        App.setRoot("login", 780, 460); 
+    }
 }
+
+
+

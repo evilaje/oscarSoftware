@@ -1,19 +1,19 @@
 .vbox_background_center{
- -fx-background-image:url("/images/fondo.png");   
+ -fx-background-image:url("/images/eslogan.png");   
  -fx-background-size:cover; 
        
 }
 .vbox_background_right{
-    -fx-background-image:url("/images/izq.png");
+    -fx-background-image:url("/images/iz.png");
     -fx-background-size:cover; 
     
 }
 .ButtonIngresar{
-   -fx-background-color: #9bbbd3;  
+   -fx-background-color: #dde3eb;  
 }
 .ButtonIngresar:hover {
-    -fx-background-color:#cdd7e3;
+    -fx-background-color:#aebed1;
 }
 .ButtonIngresar:pressed {
-    -fx-background-color:#3d536d;
+    -fx-background-color:#849db9
 }

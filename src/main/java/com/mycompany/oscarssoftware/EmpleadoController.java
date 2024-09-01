@@ -77,7 +77,7 @@ public class EmpleadoController implements Initializable {
         tablaEmpleado.setItems(Empleados);//en la tabla general carga la lista ya completa
     }
     private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("menu", 780, 460);
     }
 
     @FXML

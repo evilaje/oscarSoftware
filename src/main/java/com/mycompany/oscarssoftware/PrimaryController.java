@@ -115,7 +115,7 @@ public class PrimaryController implements Initializable {
     }
     //esta funcion no hace nada vino con el controlador me da paja sacar capaz sirve
     private void switchToSecondary() throws IOException {
-        App.setRoot("secondary");
+        App.setRoot("menu", 780, 460);
     }
     //Funcion para guardar los datos ingresados
     @FXML

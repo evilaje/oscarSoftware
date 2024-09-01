@@ -272,7 +272,26 @@ public class Pedido extends conexion implements sentencias{
     }
 
     
-    
+public double ingresosTotales() {
+    String sql = "SELECT SUM(d.cantidad * pr.precio) AS total " +
+                 "FROM pedido p " +
+                 "JOIN detalle_pedido d ON d.idPedido = p.idpedido " +
+                 "JOIN producto pr ON pr.idproducto = d.idProducto " +
+                 "WHERE p.estado = ?";
+    try {
+        Connection con = getCon();
+        PreparedStatement stm = con.prepareStatement(sql);
+        stm.setBoolean(1, false);  // Asegúrate de que "estado" es un booleano.
+        ResultSet rs = stm.executeQuery();
+        if (rs.next()) {
+            return rs.getDouble("total");
+        }
+    } catch (SQLException e) {
+        Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+    }
+    return 0;
+}
+
     
     
 }

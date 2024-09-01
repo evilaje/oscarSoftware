@@ -20,13 +20,18 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         conexion conectar = new conexion();
         conectar.getCon();
-        scene = new Scene(loadFXML("menu"), 757, 513);
+        scene = new Scene(loadFXML("menu"));     
         stage.setScene(scene);
+        stage.setResizable(false); 
         stage.show();
     }
 
-    static void setRoot(String fxml) throws IOException {
+    static void setRoot(String fxml, double width, double height) throws IOException {
         scene.setRoot(loadFXML(fxml));
+        Stage stage = (Stage) scene.getWindow();
+        stage.setWidth(width);
+        stage.setHeight(height);
+        stage.centerOnScreen(); 
     }
 
     private static Parent loadFXML(String fxml) throws IOException {

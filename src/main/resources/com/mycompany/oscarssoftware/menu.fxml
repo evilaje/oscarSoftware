@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -10,74 +11,187 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.MenuController">
    <children>
       <VBox prefHeight="513.0" prefWidth="183.0">
          <children>
-            <AnchorPane fx:id="side_ankerpane" prefHeight="513.0" prefWidth="182.0" styleClass="side_ankerpane" stylesheets="@estilos/menustyle.css">
+            <AnchorPane fx:id="side_ankerpane" prefHeight="513.0" prefWidth="182.0" styleClass="side_ankerpane">
                <children>
                   <ImageView fitHeight="173.0" fitWidth="173.0" layoutX="3.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/logocom.png" />
                      </image>
                   </ImageView>
-                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" onAction="#pedido" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="      Nuevo Pedido" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno1" layoutX="5.0" layoutY="170.0" prefHeight="43.0" prefWidth="173.0" styleClass="btndos" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                  <JFXButton fx:id="btnuno1" layoutX="5.0" layoutY="170.0" onAction="#venta" prefHeight="43.0" prefWidth="173.0" styleClass="btndos" stylesheets="@estilos/menustyle.css" text="        Nueva Venta" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno2" layoutX="5.0" layoutY="233.0" prefHeight="43.0" prefWidth="173.0" styleClass="btntres" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                  <JFXButton fx:id="btnuno2" layoutX="5.0" layoutY="233.0" onAction="#producto" prefHeight="43.0" prefWidth="173.0" styleClass="btntres" stylesheets="@estilos/menustyle.css" text="   Productos" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno3" layoutX="5.0" layoutY="297.0" prefHeight="43.0" prefWidth="173.0" styleClass="btncuatro" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                  <JFXButton fx:id="btnuno3" layoutX="5.0" layoutY="297.0" onAction="#clientes" prefHeight="43.0" prefWidth="173.0" styleClass="btncuatro" stylesheets="@estilos/menustyle.css" text="Clientes" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno4" layoutX="5.0" layoutY="363.0" prefHeight="43.0" prefWidth="173.0" styleClass="btncinco" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                  <JFXButton fx:id="btnuno4" layoutX="5.0" layoutY="363.0" onAction="#proveedor" prefHeight="43.0" prefWidth="173.0" styleClass="btncinco" stylesheets="@estilos/menustyle.css" text="    Proveedor" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno5" layoutX="5.0" layoutY="432.0" prefHeight="43.0" prefWidth="173.0" styleClass="btnseis" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+                  <JFXButton fx:id="btnuno5" layoutX="5.0" layoutY="433.0" onAction="#empleado" prefHeight="43.0" prefWidth="173.0" styleClass="btnseis" stylesheets="@estilos/menustyle.css" text="    Empleado" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="25.0" layoutY="117.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/historial-de-pedidos%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="25.0" layoutY="180.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/venta%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="25.0" layoutY="243.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/herramientas%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="373.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/proveedor-alternativo%20(1)%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="23.0" layoutY="307.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/sonrisa-alternativa%20(1).png" />
+                     </image>
+                  </ImageView>
+                  <ImageView fitHeight="25.0" fitWidth="25.0" layoutX="25.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/hombre-empleado%20(2).png" />
+                     </image>
+                  </ImageView>
                </children>
+               <stylesheets>
+                  <URL value="@estilos/menustyle.css" />
+                  <URL value="@../../../styles/menustyle.css" />
+               </stylesheets>
             </AnchorPane>
          </children>
       </VBox>
       <Pane prefHeight="513.0" prefWidth="650.0">
          <children>
-            <Pane prefHeight="50.0" prefWidth="575.0" style="-fx-background-color: #cdd7e3;">
+            <Pane fx:id="pane_12" layoutX="14.0" layoutY="388.0" prefHeight="111.0" prefWidth="240.0" style="-fx-background-color: #99adc5; -fx-background-radius: 20;">
                <children>
-                  <JFXButton layoutX="506.0" layoutY="-4.0" prefHeight="43.0" prefWidth="35.0" text="  " />
-                  <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="541.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="23.0" fitWidth="25.0" layoutX="13.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@../../../images/usuario.png" />
+                        <Image url="@../../../images/dinero.png" />
+                     </image>
+                  </ImageView>
+                  <Label fx:id="lblGananciasTotales" layoutX="40.0" layoutY="56.0" prefHeight="31.0" prefWidth="196.0" text=" 0" textFill="#23394d">
+                     <font>
+                        <Font name="Century Gothic Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="12.0" layoutY="22.0" prefHeight="31.0" prefWidth="196.0" text="Ganancias del mes:" textFill="#23394d">
+                     <font>
+                        <Font name="Tw Cen MT" size="24.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
+            <Pane layoutX="14.0" layoutY="35.0" prefHeight="111.0" prefWidth="524.0" style="-fx-background-color: #dde3eb; -fx-background-radius: 30;">
+               <children>
+                  <Label layoutX="14.0" layoutY="20.0" prefHeight="50.0" prefWidth="335.0" text="Bienvenido de vuelta!" textFill="#435b78">
+                     <font>
+                        <Font name="Century Gothic Bold" size="31.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="16.0" layoutY="55.0" prefHeight="43.0" prefWidth="435.0" text="Calidad y confianza en cada pieza" textFill="#2f465e">
+                     <font>
+                        <Font name="Microsoft New Tai Lue" size="14.0" />
+                     </font>
+                  </Label>
+                  <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="349.0" layoutY="-18.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/repuestos.png" />
                      </image>
                   </ImageView>
                </children>
             </Pane>
-            <Label layoutX="27.0" layoutY="60.0" prefHeight="50.0" prefWidth="195.0" text="Bienvenido!" textFill="#435b78">
-               <font>
-                  <Font name="Century Gothic Bold" size="30.0" />
-               </font>
-            </Label>
-            <Pane fx:id="pane_1" layoutX="25.0" layoutY="121.0" prefHeight="153.0" prefWidth="200.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
-            <Pane fx:id="pane_11" layoutX="248.0" layoutY="121.0" prefHeight="153.0" prefWidth="143.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
-            <Pane fx:id="pane_12" layoutX="27.0" layoutY="295.0" prefHeight="139.0" prefWidth="127.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
-            <Pane fx:id="pane_121" layoutX="178.0" layoutY="295.0" prefHeight="139.0" prefWidth="220.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
-            <Pane fx:id="pane_111" layoutX="415.0" layoutY="128.0" prefHeight="307.0" prefWidth="143.0" styleClass="pane_1" stylesheets="@estilos/menustyle.css" />
+            <Pane layoutX="265.0" layoutY="388.0" prefHeight="111.0" prefWidth="296.0" styleClass="pane_1">
+               <children>
+                  <Pane fx:id="pane_1211" layoutX="9.0" layoutY="12.0" prefHeight="88.0" prefWidth="135.0" style="-fx-background-color: #e7ecf1; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="16.0" layoutY="8.0" prefHeight="23.0" prefWidth="70.0" text="Pedidos " textFill="#23394d">
+                           <font>
+                              <Font name="Tw Cen MT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblPedidos" layoutX="60.0" layoutY="46.0" prefHeight="31.0" prefWidth="16.0" text="0" textFill="#23394d">
+                           <font>
+                              <Font name="Century Gothic Bold" size="24.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="16.0" layoutY="21.0" prefHeight="23.0" prefWidth="96.0" text="pendientes:" textFill="#23394d">
+                           <font>
+                              <Font name="Tw Cen MT" size="16.0" />
+                           </font>
+                        </Label>
+                     </children></Pane>
+                  <Pane fx:id="pane_12111" layoutX="151.0" layoutY="12.0" prefHeight="88.0" prefWidth="135.0" style="-fx-background-color: #e7ecf1; -fx-background-radius: 20;">
+                     <children>
+                        <Label layoutX="14.0" layoutY="8.0" prefHeight="23.0" prefWidth="70.0" text="Ventas" textFill="#23394d">
+                           <font>
+                              <Font name="Tw Cen MT" size="18.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="14.0" layoutY="21.0" prefHeight="23.0" prefWidth="96.0" text="realizadas:" textFill="#23394d">
+                           <font>
+                              <Font name="Tw Cen MT" size="16.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="lblPedidos1" layoutX="60.0" layoutY="46.0" prefHeight="31.0" prefWidth="16.0" text="0" textFill="#23394d">
+                           <font>
+                              <Font name="Century Gothic Bold" size="24.0" />
+                           </font>
+                        </Label>
+                     </children></Pane>
+               </children>
+            </Pane>
+            <Pane fx:id="pane_121" layoutX="28.0" layoutY="171.0" prefHeight="195.0" prefWidth="135.0" style="-fx-background-color: #dde3eb; -fx-background-radius: 20;">
+               <children>
+                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="43.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../../images/verped.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="44.0" layoutY="98.0" prefHeight="34.0" prefWidth="56.0" text="Ver" textFill="#23394d">
+                     <font>
+                        <Font name="Century Gothic Bold" size="25.0" />
+                     </font>
+                  </Label>
+                  <Label layoutX="24.0" layoutY="121.0" prefHeight="32.0" prefWidth="96.0" text="pedido" textFill="#23394d">
+                     <font>
+                        <Font name="Century Gothic" size="25.0" />
+                     </font>
+                  </Label>
+               </children></Pane>
          </children>
+         <stylesheets>
+            <URL value="@../../../styles/menustyle.css" />
+            <URL value="@../../../styles/menustyle.css" />
+         </stylesheets>
       </Pane>
 
    </children>

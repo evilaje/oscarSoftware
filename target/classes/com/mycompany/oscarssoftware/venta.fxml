@@ -10,132 +10,146 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="552.0" prefWidth="1225.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.VentaController">
+
+<AnchorPane xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.VentaController">
    <children>
-      <Pane layoutX="15.0" layoutY="52.0" prefHeight="51.0" prefWidth="840.0" style="-fx-background-color: gray;">
+      <AnchorPane id="AnchorPane" layoutX="-14.0" layoutY="1.0" prefHeight="552.0" prefWidth="1225.0" style="-fx-background-color: #e7ecf1;">
          <children>
-            <Button fx:id="btnNuevaVenta" layoutX="14.0" layoutY="7.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="38.0" prefWidth="152.0" text="Nueva venta">
+            <Pane layoutX="13.0" layoutY="48.0" prefHeight="51.0" prefWidth="851.0" style="-fx-background-color: #c8d3e0;">
+               <children>
+                  <Button fx:id="btnNuevaVenta" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #7083a4; -fx-background-radius: 13;" text="Nueva venta" textFill="#f9f8f7">
+                     <font>
+                        <Font name="Century Gothic Bold" size="16.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnCancelarVenta" disable="true" layoutX="677.0" layoutY="10.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="30.0" prefWidth="148.0" style="-fx-background-color: #7083a4; -fx-background-radius: 13;" text="Cancelar venta" textFill="#f9f8f7">
+                     <font>
+                        <Font name="Century Gothic Bold" size="16.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+            <Label layoutX="569.0" layoutY="8.0" text="Venta" textFill="#4f6b8c">
                <font>
-                  <Font size="16.0" />
+                  <Font name="Century Gothic Bold" size="30.0" />
+               </font>
+            </Label>
+            <Pane layoutX="21.0" layoutY="107.0" prefHeight="390.0" prefWidth="425.0" style="-fx-background-color: #4f6b8c; -fx-background-radius: 20;">
+               <children>
+                  <Pane layoutX="16.0" layoutY="15.0" prefHeight="150.0" prefWidth="393.0" style="-fx-border-color: white; -fx-background-radius: 30;">
+                     <children>
+                        <Label layoutX="23.0" layoutY="63.0" prefHeight="25.0" prefWidth="131.0" text="Fecha de la venta" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="23.0" layoutY="14.0" prefHeight="25.0" prefWidth="139.0" text="Numero de venta" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="24.0" layoutY="115.0" text="Pedido del cliente" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtNroVenta" disable="true" layoutX="179.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" />
+                        <DatePicker fx:id="dateVenta" disable="true" layoutX="179.0" layoutY="63.0" prefHeight="25.0" prefWidth="200.0" />
+                        <TextField fx:id="txtPedidoSeleccionado" disable="true" layoutX="179.0" layoutY="111.0" prefHeight="25.0" prefWidth="200.0" />
+                     </children>
+                  </Pane>
+                  <Pane layoutX="16.0" layoutY="169.0" prefHeight="205.0" prefWidth="393.0" style="-fx-border-color: white;">
+                     <children>
+                        <TextField fx:id="txtEmpleado" disable="true" editable="false" layoutX="179.0" layoutY="42.0" prefHeight="25.0" prefWidth="200.0" />
+                        <TextField fx:id="txtProducto" disable="true" editable="false" layoutX="179.0" layoutY="73.0" prefHeight="25.0" prefWidth="200.0" />
+                        <TextField fx:id="txtPrecioUnit" disable="true" editable="false" layoutX="179.0" layoutY="106.0" prefHeight="25.0" prefWidth="200.0" />
+                        <TextField fx:id="txtCantidad" disable="true" editable="false" layoutX="179.0" layoutY="139.0" prefHeight="25.0" prefWidth="200.0" />
+                        <TextField fx:id="txtTotal" disable="true" editable="false" layoutX="179.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" />
+                        <Label layoutX="23.0" layoutY="15.0" text="Nro. pedido" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtNroPedido" disable="true" editable="false" layoutX="179.0" layoutY="12.0" prefHeight="25.0" prefWidth="200.0" />
+                        <Label layoutX="23.0" layoutY="45.0" text="Empleado" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="23.0" layoutY="78.0" text="Articulo" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="23.0" layoutY="109.0" text="Precio unitario" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="23.0" layoutY="141.0" text="Cantidad" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="31.0" layoutY="174.0" text="Total:" textFill="#f9f8f7">
+                           <font>
+                              <Font name="Century Gothic Bold" size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+               </children>
+            </Pane>
+            <Pane layoutX="453.0" layoutY="107.0" prefHeight="390.0" prefWidth="413.0" style="-fx-background-color: #7083a4; -fx-background-radius: 12;">
+               <children>
+                  <TableView fx:id="tablaDetalles" layoutX="10.0" layoutY="7.0" prefHeight="376.0" prefWidth="393.0" style="-fx-background-radius: 29;">
+                    <columns>
+                      <TableColumn fx:id="columnId" prefWidth="75.0" style="-fx-background-radius: 10;" text="Id Art." />
+                      <TableColumn fx:id="columnDesc" prefWidth="75.0" style="-fx-background-radius: 10;" text="Descripcion" />
+                        <TableColumn fx:id="columnCantidad" prefWidth="75.0" style="-fx-background-radius: 10;" text="Cantidad" />
+                        <TableColumn fx:id="columnPrecio" prefWidth="75.0" style="-fx-background-radius: 10;" text="Precio" />
+                        <TableColumn fx:id="columnTotal" prefWidth="90.33331298828125" style="-fx-background-radius: 10;" text="Total p/ Art." />
+                    </columns>
+                  </TableView>
+               </children>
+            </Pane>
+            <Pane layoutX="501.0" layoutY="505.0" prefHeight="38.0" prefWidth="312.0" style="-fx-background-color: #7083a4;">
+               <children>
+                  <Label layoutX="24.0" layoutY="8.0" style="-fx-text-fill: white;" text="Total:" textFill="WHITE">
+                     <font>
+                        <Font name="Century Gothic Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtTotal2" layoutX="99.0" layoutY="7.0" prefHeight="25.0" prefWidth="183.0" style="-fx-background-radius: 10;" />
+               </children>
+            </Pane>
+            <Button fx:id="btnGuardarVenta" layoutX="39.0" layoutY="509.0" mnemonicParsing="false" onAction="#guardarVenta" prefHeight="30.0" prefWidth="140.0" style="-fx-background-color: #7083a4; -fx-background-radius: 13;" text="Guardar venta" textFill="#f9f8f7">
+               <font>
+                  <Font name="Century Gothic Bold" size="16.0" />
                </font>
             </Button>
-            <Button fx:id="btnCancelarVenta" disable="true" layoutX="695.0" layoutY="7.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="38.0" prefWidth="131.0" text="Cancelar venta">
-               <font>
-                  <Font size="16.0" />
-               </font></Button>
-         </children>
-      </Pane>
-      <Label layoutX="373.0" layoutY="14.0" text="Venta">
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Label>
-      <Pane layoutX="14.0" layoutY="107.0" prefHeight="390.0" prefWidth="425.0" style="-fx-background-color: gray;">
-         <children>
-            <Pane layoutX="21.0" layoutY="14.0" prefHeight="150.0" prefWidth="393.0" style="-fx-border-color: white;">
+            <Pane layoutX="874.0" layoutY="107.0" prefHeight="390.0" prefWidth="343.0" style="-fx-background-color: #7083a4; -fx-background-radius: 12;">
                <children>
-                  <Label layoutX="14.0" layoutY="63.0" prefHeight="25.0" prefWidth="131.0" text="Fecha de la venta">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="139.0" text="Numero de venta">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="111.0" text="Pedido del cliente">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtNroVenta" disable="true" layoutX="179.0" layoutY="14.0" prefHeight="25.0" prefWidth="200.0" />
-                  <DatePicker fx:id="dateVenta" disable="true" layoutX="179.0" layoutY="63.0" prefHeight="25.0" prefWidth="200.0" />
-                  <TextField fx:id="txtPedidoSeleccionado" disable="true" layoutX="179.0" layoutY="111.0" prefHeight="25.0" prefWidth="200.0" />
+                  <TableView fx:id="tablaVentas" layoutX="11.0" layoutY="7.0" prefHeight="376.0" prefWidth="322.0" style="-fx-background-radius: 20;">
+                    <columns>
+                      <TableColumn fx:id="colIdVenta" prefWidth="68.0" style="-fx-background-radius: 10;" text="Nro Venta" />
+                      <TableColumn fx:id="colCliente" prefWidth="82.0" style="-fx-background-radius: 10;" text="Cliente" />
+                        <TableColumn fx:id="colEmpleado" prefWidth="84.0" style="-fx-background-radius: 10;" text="Empleado" />
+                        <TableColumn fx:id="colFecha" prefWidth="87.0" style="-fx-background-radius: 10;" text="Fecha venta" />
+                    </columns>
+                  </TableView>
                </children>
             </Pane>
-            <Pane layoutX="21.0" layoutY="164.0" prefHeight="217.0" prefWidth="393.0" style="-fx-border-color: white;">
+            <Pane layoutX="874.0" layoutY="48.0" prefHeight="51.0" prefWidth="343.0" style="-fx-background-color: #c8d3e0;">
                <children>
-                  <Label layoutX="16.0" layoutY="42.0" text="Empleado:">
+                  <Label layoutX="93.0" layoutY="13.0" text="LISTA DE VENTAS" textFill="#4f6b8c">
                      <font>
-                        <Font size="16.0" />
+                        <Font name="Century Gothic Bold" size="20.0" />
                      </font>
                   </Label>
-                  <Label layoutX="18.0" layoutY="73.0" text="Articulo:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="16.0" layoutY="106.0" text="Precio unitario:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="139.0" text="Cantidad:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <Label layoutX="14.0" layoutY="171.0" text="Total:">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtEmpleado" disable="true" editable="false" layoutX="179.0" layoutY="42.0" prefHeight="25.0" prefWidth="200.0" />
-                  <TextField fx:id="txtProducto" disable="true" editable="false" layoutX="179.0" layoutY="73.0" prefHeight="25.0" prefWidth="200.0" />
-                  <TextField fx:id="txtPrecioUnit" disable="true" editable="false" layoutX="179.0" layoutY="106.0" prefHeight="25.0" prefWidth="200.0" />
-                  <TextField fx:id="txtCantidad" disable="true" editable="false" layoutX="179.0" layoutY="139.0" prefHeight="25.0" prefWidth="200.0" />
-                  <TextField fx:id="txtTotal" disable="true" editable="false" layoutX="179.0" layoutY="171.0" prefHeight="25.0" prefWidth="200.0" />
-                  <Label layoutX="16.0" layoutY="13.0" text="Nro. pedido">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtNroPedido" disable="true" editable="false" layoutX="179.0" layoutY="12.0" prefHeight="25.0" prefWidth="200.0" />
                </children>
             </Pane>
          </children>
-      </Pane>
-      <Pane layoutX="442.0" layoutY="107.0" prefHeight="390.0" prefWidth="413.0" style="-fx-background-color: gray;">
-         <children>
-            <TableView fx:id="tablaDetalles" layoutX="10.0" layoutY="7.0" prefHeight="376.0" prefWidth="393.0">
-              <columns>
-                <TableColumn fx:id="columnId" prefWidth="75.0" text="Id Art." />
-                <TableColumn fx:id="columnDesc" prefWidth="75.0" text="Descripcion" />
-                  <TableColumn fx:id="columnCantidad" prefWidth="75.0" text="Cantidad" />
-                  <TableColumn fx:id="columnPrecio" prefWidth="75.0" text="Precio" />
-                  <TableColumn fx:id="columnTotal" prefWidth="90.33331298828125" text="Total p/ Art." />
-              </columns>
-            </TableView>
-         </children>
-      </Pane>
-      <Pane layoutX="442.0" layoutY="497.0" prefHeight="25.0" prefWidth="413.0" style="-fx-background-color: black;">
-         <children>
-            <Label layoutX="21.0" layoutY="4.0" style="-fx-text-fill: white;" text="Total" />
-            <TextField fx:id="txtTotal2" layoutX="229.0" prefHeight="25.0" prefWidth="183.0" />
-         </children>
-      </Pane>
-      <Button fx:id="btnGuardarVenta" layoutX="14.0" layoutY="497.0" mnemonicParsing="false" onAction="#guardarVenta" text="Guardar venta">
-         <font>
-            <Font size="16.0" />
-         </font>
-      </Button>
-      <Pane layoutX="867.0" layoutY="107.0" prefHeight="390.0" prefWidth="343.0" style="-fx-background-color: gray;">
-         <children>
-            <TableView fx:id="tablaVentas" layoutX="16.0" layoutY="7.0" prefHeight="376.0" prefWidth="312.0">
-              <columns>
-                <TableColumn fx:id="colIdVenta" prefWidth="75.0" text="Nro Venta" />
-                <TableColumn fx:id="colCliente" prefWidth="75.0" text="Cliente" />
-                  <TableColumn fx:id="colEmpleado" prefWidth="75.0" text="Empleado" />
-                  <TableColumn fx:id="colFecha" prefWidth="84.666748046875" text="Fecha venta" />
-              </columns>
-            </TableView>
-         </children>
-      </Pane>
-      <Pane layoutX="867.0" layoutY="52.0" prefHeight="51.0" prefWidth="343.0" style="-fx-background-color: gray;">
-         <children>
-            <Label layoutX="125.0" layoutY="17.0" text="LISTA DE VENTAS" />
-         </children>
-      </Pane>
+      </AnchorPane>
    </children>
 </AnchorPane>
