@@ -128,6 +128,8 @@ public class VentaController implements Initializable {
         tablaDetalles.refresh();
         dateVenta.setValue(LocalDate.now());
         txtNroVenta.setText(String.valueOf(v.obtenerID() + 1));
+        int  t = (int) ped.consultaTotal();
+        txtTotal2.setText(String.valueOf(t));
     }
 
     // Método auxiliar para obtener el pedido seleccionado basado en el ID del pedido

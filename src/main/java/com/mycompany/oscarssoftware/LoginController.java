@@ -49,9 +49,8 @@ public class LoginController implements Initializable {
         
     }    
 
-    @FXML
-    private void ingresar(ActionEvent event) {
-  {
+@FXML
+private void ingresar(ActionEvent event) {
     String nombreUsuario = txtUsuario.getText();
     String cedula = txtContra.getText();
 
@@ -60,28 +59,41 @@ public class LoginController implements Initializable {
         return;
     }
 
-    
-    if(e.ingresar(nombreUsuario, Integer.parseInt(cedula)) != null ){
+    if (e.ingresar(nombreUsuario, Integer.parseInt(cedula)) != null) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
             Parent root = loader.load();
 
-            // Cambiar la escena en la misma ventana
+            // Obtener la escena y el escenario actuales
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.getScene().setRoot(root);
-            stage.sizeToScene();
+            Scene newScene = new Scene(root); // Crear una nueva escena
+
+            // Ajustar tamaño del stage
+            stage.setScene(newScene);
+            stage.sizeToScene();  // Reajustar el tamaño de la ventana
+            stage.centerOnScreen(); // Centrar la ventana en la pantalla
 
         } catch (IOException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-    }else{
+    } else {
         mostrarAlerta(Alert.AlertType.ERROR, "Error", "Usuario o Contraseña Incorrectas");
     }
 }
 
-}
  
+
+    private void registro(ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("empleado.fxml"));
+            Parent root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();           
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
       public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);

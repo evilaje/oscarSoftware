@@ -11,7 +11,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<<<<<<< HEAD
 <HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.MenuController">
+=======
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="765.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.MenuController">
+>>>>>>> 90052857b5936c54812d19b10f912e34778da327
    <children>
       <VBox prefHeight="513.0" prefWidth="183.0">
          <children>
@@ -22,7 +26,11 @@
                         <Image url="@../../../images/logocom.png" />
                      </image>
                   </ImageView>
+<<<<<<< HEAD
                   <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" onAction="#pedido" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="      Nuevo Pedido" textFill="WHITE">
+=======
+                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" onAction="#abrirVenta" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="Button" textFill="WHITE">
+>>>>>>> 90052857b5936c54812d19b10f912e34778da327
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
@@ -92,9 +100,16 @@
       </VBox>
       <Pane prefHeight="513.0" prefWidth="650.0">
          <children>
+<<<<<<< HEAD
             <Pane fx:id="pane_12" layoutX="14.0" layoutY="388.0" prefHeight="111.0" prefWidth="240.0" style="-fx-background-color: #99adc5; -fx-background-radius: 20;">
                <children>
                   <ImageView fitHeight="23.0" fitWidth="25.0" layoutX="13.0" layoutY="60.0" pickOnBounds="true" preserveRatio="true">
+=======
+            <Pane prefHeight="50.0" prefWidth="583.0" style="-fx-background-color: #cdd7e3;">
+               <children>
+                  <JFXButton layoutX="506.0" layoutY="-4.0" prefHeight="43.0" prefWidth="35.0" text="  " />
+                  <ImageView fitHeight="28.0" fitWidth="25.0" layoutX="544.0" layoutY="12.0" pickOnBounds="true" preserveRatio="true">
+>>>>>>> 90052857b5936c54812d19b10f912e34778da327
                      <image>
                         <Image url="@../../../images/dinero.png" />
                      </image>
