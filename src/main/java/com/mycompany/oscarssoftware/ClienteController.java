@@ -18,6 +18,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 
 /**
  * FXML Controller class
@@ -25,11 +26,12 @@ import javafx.scene.input.MouseEvent;
  * @author Orne
  */
 public class ClienteController implements Initializable {
+
     private Cliente c = new Cliente();
     private boolean modificar = false;
     ObservableList<Cliente> Clientes;
-    
-    private String[] header={"Nombre","Telefono","Ruc","Direccion"};
+
+    private String[] header = {"Nombre", "Telefono", "Ruc", "Direccion"};
     @FXML
     private Button btnGuardar;
     @FXML
@@ -58,14 +60,18 @@ public class ClienteController implements Initializable {
     private TableColumn<Cliente, String> columnaDire;
     @FXML
     private Button btnNuevo;
+    @FXML
+    private Pane side_ankerpane;
+    @FXML
+    private TextField txtId;
 
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarDatos();
-    }    
-    
-     public void mostrarDatos() {
+    }
+
+    public void mostrarDatos() {
+        tablaCliente.refresh();
         Clientes = FXCollections.observableArrayList(c.consulta()); //aca se crea una lista observable que va a ser cargada a la tabla, la parte de p.consulta() trae todos los elementos de Producto como un ArrayLists
         tablaCliente.getItems().clear(); //vaciamos la lista antigua por si hay datos que en la vista conflictuan
         columnaNom.setCellValueFactory(new PropertyValueFactory<>("nombre"));//Carga en la casilla de ID el id
@@ -74,13 +80,15 @@ public class ClienteController implements Initializable {
         columnaDire.setCellValueFactory(new PropertyValueFactory<>("direccion"));//igual
         tablaCliente.setItems(Clientes);
     }
+
     private void switchToSecondary() throws IOException {
         App.setRoot("menu", 780, 460);
     }
+
     @FXML
     private void mostrarFila(MouseEvent event) {
         //desactivar botonesi
-       
+
         btnCancelar.setDisable(false);
         btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
@@ -90,25 +98,31 @@ public class ClienteController implements Initializable {
         if (clien != null) {
             txtNombre.setText(clien.getNombre());
             txtTel.setText(String.valueOf(clien.getTelefono()));
-            txtRuc.setText(String.valueOf(clien.getRuc()));      
+            txtRuc.setText(clien.getRuc());
+            txtId.setText(String.valueOf(clien.getId()));
             txtDire.setText(String.valueOf(clien.getDireccion()));
         }
     }
+
     @FXML
     private void guardar(ActionEvent event) {
-    btnGuardar.setDisable(true); 
-    btnCancelar.setDisable(true);
-    btnNuevo.setDisable(false);
-    try {
-        int ruc = Integer.parseInt(txtRuc.getText());
-        String nombre = txtNombre.getText();
-        String telefono = txtTel.getText();
-        String direccion = txtDire.getText();
-
-            Cliente cliente = new Cliente(nombre, telefono, ruc, direccion );
+        btnGuardar.setDisable(true);
+        btnCancelar.setDisable(true);
+        btnNuevo.setDisable(false);
+        try {
+            String ruc = txtRuc.getText();
+            String nombre = txtNombre.getText();
+            String telefono = txtTel.getText();
+            String direccion = txtDire.getText();
+            c.setNombre(nombre);
+            c.setDireccion(direccion);
+            c.setTelefono(telefono);
+            c.setRuc(ruc);
 
             if (modificar) {
-                if (cliente.modificar()) {
+                int id = Integer.parseInt(txtId.getText());
+                c.setId(id);
+                if (c.modificar()) {
                     mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Cliente modificado con exito");
                     modificar = false;
                     txtNombre.clear();
@@ -120,7 +134,7 @@ public class ClienteController implements Initializable {
                 }
                 modificar = false;
             } else {
-                if (cliente.insertar()) {
+                if (c.insertar()) {
                     mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Cliente registrado correctamente");
                     txtNombre.clear();
                     txtRuc.clear();
@@ -136,12 +150,12 @@ public class ClienteController implements Initializable {
             mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", c.getMessage());
         }
         cancelar(event);
-        mostrarDatos();   
-    
+        mostrarDatos();
 
-    mostrarDatos();   
+        mostrarDatos();
     }
-    public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
+
+    public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);
         a.setHeaderText(null);
@@ -161,22 +175,22 @@ public class ClienteController implements Initializable {
         btnNuevo.setDisable(true);
         btnCancelar.setDisable(false);
         modificar = true;
-       
+
     }
 
     @FXML
     private void eliminar(ActionEvent event) {
-         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("El Sistema comunica:");
         a.setHeaderText(null);
-        a.setContentText("Desea eliminar los datos de este cliente");
+        a.setContentText("Desea eliminar los datos de este cliente?");
         Optional<ButtonType> option = a.showAndWait();
-        if(option.get() == ButtonType.OK){
-            int codigo = Integer.parseInt(txtRuc.getText());
-            c.setRuc(codigo);
-            if(c.borrar()){
+        if (option.get() == ButtonType.OK) {
+            int codigo = Integer.parseInt(txtId.getText());
+            c.setId(codigo);
+            if (c.borrar()) {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "El Sistema comunica", "Datos del cliente eliminado correctamente");
-            }else{
+            } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "El Sistema comunica", "ERROR!! Los Datos del cliente no se pudieron eliminar");
             }
         }
@@ -197,11 +211,10 @@ public class ClienteController implements Initializable {
         txtNombre.clear();
         txtRuc.clear();
         txtTel.clear();
-        txtDire.clear();        
+        txtDire.clear();
         btnCancelar.setDisable(true);
         tablaCliente.getSelectionModel().clearSelection();
     }
-    
 
     @FXML
     private void nuevo(ActionEvent event) {

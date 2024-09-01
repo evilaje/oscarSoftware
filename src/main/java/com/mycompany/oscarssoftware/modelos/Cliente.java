@@ -20,31 +20,37 @@ import java.util.logging.Logger;
  * @author Anibal
  */
 public class Cliente extends conexion implements sentencias{
-    private int ruc;
+    private int id;
     private String nombre;
     private String telefono;
     private String direccion;
+    private String ruc;
 
-    public Cliente(String nombre, String telefono, int ruc, String direccion) {
-        this.ruc = ruc;
+    public Cliente(int id, String nombre, String telefono, String direccion, String ruc) {
+        this.id = id;
         this.nombre = nombre;
         this.telefono = telefono;
         this.direccion = direccion;
+        this.ruc = ruc;
     }
 
     public Cliente() {
-        this.ruc = ruc;
-        this.nombre = nombre;
-        this.telefono = telefono;
-        this.direccion = direccion;
     }
 
-    public int getRuc() {
+    public String getRuc() {
         return ruc;
     }
 
-    public void setRuc(int ruc) {
+    public void setRuc(String ruc) {
         this.ruc = ruc;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -79,11 +85,12 @@ public class Cliente extends conexion implements sentencias{
             Statement stm = con.createStatement(); 
             ResultSet rs = stm.executeQuery(sql)) { 
                 while (rs.next()) { 
+                    int id = rs.getInt("id");
                     String nombre = rs.getString("nombre");
                     String telefono = rs.getString("telefono");
-                    int ruc = rs.getInt("ruc"); 
+                    String ruc = rs.getString("ruc"); 
                     String direccion = rs.getString("direccion");
-                    Cliente cliente = new Cliente(nombre, telefono, ruc, direccion);
+                    Cliente cliente = new Cliente(id, nombre, telefono, direccion, ruc);
                     clien.add(cliente);    
                 }
        } catch (SQLException c) {
@@ -100,7 +107,7 @@ public class Cliente extends conexion implements sentencias{
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
             
-            stm.setInt(1, this.ruc);
+            stm.setString(1, this.ruc);
             stm.setString(2, this.nombre);
             stm.setString(3, this.telefono);
             stm.setString(4, this.direccion);
@@ -117,11 +124,11 @@ public class Cliente extends conexion implements sentencias{
 
     @Override
     public boolean borrar() {
-        String sql = "Delete from cliente where ruc  = ?";
+        String sql = "Delete from cliente where id = ?";
         try {
             Connection con = getCon(); 
             PreparedStatement stm = con.prepareStatement(sql); 
-            stm.setInt(1, this.ruc); 
+            stm.setInt(1, this.id); 
             stm.executeUpdate();
             return true;
         } catch (SQLException ex){
@@ -133,15 +140,16 @@ public class Cliente extends conexion implements sentencias{
     @Override
     public boolean modificar() {
          //preparamos el texto que servira de orden sql
-        String sql = "update cliente set nombre = ?, telefono = ?, direccion = ? where ruc = ?" ;
+        String sql = "update cliente set ruc = ?, nombre = ?, telefono = ?, direccion = ? where (id = ?)" ;
         //abrimos el try para los errores que puedan haber
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
-            stm.setString(1, this.nombre);
-            stm.setString(2, this.telefono);
-            stm.setString(3, this.direccion);
-            stm.setInt(4, this.ruc);
+            stm.setString(1, this.ruc);
+            stm.setString(2, this.nombre);
+            stm.setString(3, this.telefono);
+            stm.setString(4, this.direccion);
+            stm.setInt(5, this.id);
             stm.executeUpdate();
             return true;
         } catch (SQLException ex) {

@@ -26,6 +26,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 public class MenuController implements Initializable {
+
     private static Scene scene;
     @FXML
     private HBox root;
@@ -51,17 +52,19 @@ public class MenuController implements Initializable {
     private Pedido p = new Pedido();
     @FXML
     private Button btnPedido;
+
     @Override
-    public void initialize(URL url, ResourceBundle rb) { 
+    public void initialize(URL url, ResourceBundle rb) {
         actualizarGanancias();
-        
+
     }
-     public void actualizarGanancias() {
+
+    public void actualizarGanancias() {
         gananciasTotales = p.ingresosTotales();
         lblGananciasTotales.setText(String.format("%.2f", gananciasTotales));
     }
 
-    public void abrirFxml(String fxml, String titulo) {    
+    public void abrirFxml(String fxml, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
@@ -73,7 +76,7 @@ public class MenuController implements Initializable {
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-   
+
     private void abrirInicio(ActionEvent event) {
         abrirFxml("login.fxml", "login");
 
@@ -90,7 +93,19 @@ public class MenuController implements Initializable {
 
     @FXML
     private void venta(ActionEvent event) {
-        abrirFxml("venta.fxml", "Formulario Venta");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("venta.fxml"));
+            Parent root = loader.load();
+
+            VentaController ventaController = loader.getController();
+            ventaController.setMenuController(this); // Pasar la referencia del MenuController
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -112,9 +127,9 @@ public class MenuController implements Initializable {
     private void empleado(ActionEvent event) {
         abrirFxml("empleado.fxml", "Formulario Empleado");
     }
+
     private void switchToMenu() throws IOException {
         App.setRoot("menu", 757, 513);
-    
-    
-    
-    }}
+
+    }
+}
