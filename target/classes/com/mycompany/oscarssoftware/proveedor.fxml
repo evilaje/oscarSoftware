@@ -10,15 +10,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="434.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.ProveedorController">
+<AnchorPane id="AnchorPane" prefHeight="434.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.ProveedorController">
    <children>
       <Text layoutX="91.0" layoutY="51.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="59.0" />
       <TableView fx:id="tablaProveedor" layoutX="229.0" layoutY="58.0" onMouseClicked="#mostrarfila" prefHeight="306.0" prefWidth="446.0" style="-fx-background-color: #d7dfe8;">
         <columns>
-          <TableColumn fx:id="columnaId" prefWidth="91.0" text="Id" />
           <TableColumn fx:id="columnaNombre" prefWidth="115.0" text="Nombre" />
             <TableColumn fx:id="columnaTel" prefWidth="121.0" text="Telefono" />
             <TableColumn fx:id="columnaDire" prefWidth="118.0" text="Direccion" />
+            <TableColumn fx:id="columnaEmail" prefWidth="90.0" text="Email" />
         </columns>
       </TableView>
       <Button fx:id="btnNuevo" layoutX="70.0" layoutY="383.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="24.0" prefWidth="84.0" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Nuevo" textFill="#dee2ea">
@@ -43,30 +43,30 @@
          </font></Button>
       <Pane fx:id="side_ankerpane" layoutX="21.0" layoutY="58.0" prefHeight="306.0" prefWidth="190.0" styleClass="side_ankerpane" stylesheets="@../../../styles/proveedor.css">
          <children>
-            <Label layoutX="52.0" layoutY="21.0" text="Id Proveedor" textFill="#f9f8f7">
+            <Label layoutX="67.0" layoutY="20.0" text="Nombre" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtId" disable="true" layoutX="17.0" layoutY="45.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100;" />
-            <Label layoutX="68.0" layoutY="90.0" text="Nombre" textFill="#f9f8f7">
+            <TextField fx:id="txtNombre" disable="true" layoutX="17.0" layoutY="45.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100;" />
+            <Label layoutX="65.0" layoutY="90.0" text="Telefono" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtNombre" disable="true" layoutX="16.0" layoutY="114.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100; -fx-border-radius: 100;" />
-            <Label layoutX="68.0" layoutY="160.0" text="Telefono" textFill="#f9f8f7">
+            <TextField fx:id="txtTel" disable="true" layoutX="16.0" layoutY="114.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100; -fx-border-radius: 100;" />
+            <Label layoutX="64.0" layoutY="160.0" text="Direccion" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtTel" disable="true" layoutX="16.0" layoutY="185.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100;" />
-            <Label layoutX="64.0" layoutY="222.0" text="Direccion" textFill="#f9f8f7">
+            <TextField fx:id="txtDire" disable="true" layoutX="16.0" layoutY="185.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100;" />
+            <Label layoutX="76.0" layoutY="222.0" text="Email" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
-            <TextField fx:id="txtDire" disable="true" layoutX="16.0" layoutY="246.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100;" />
+            <TextField fx:id="txtEmail" disable="true" layoutX="16.0" layoutY="246.0" prefHeight="24.0" prefWidth="160.0" style="-fx-background-radius: 100;" />
          </children>
       </Pane>
       <Pane layoutX="41.0" layoutY="12.0" prefHeight="34.0" prefWidth="149.0" style="-fx-background-color: #c8d3e0; -fx-background-radius: 11;">
@@ -78,5 +78,6 @@
             </Label>
          </children>
       </Pane>
+      <TextField fx:id="txtId" editable="false" layoutX="229.0" layoutY="17.0" prefHeight="25.0" prefWidth="54.0" visible="false" />
    </children>
 </AnchorPane>

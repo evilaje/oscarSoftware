@@ -19,16 +19,29 @@ public class Proveedor extends conexion implements sentencias{
     private String nombre;
     private String direccion;
     private String telefono;
-    
-    public Proveedor(int idproveedor, String nombre, String telefono, String direccion) {
+    private String email;
+
+    public Proveedor(int idproveedor, String nombre, String direccion, String telefono, String email) {
         this.idproveedor = idproveedor;
         this.nombre = nombre;
-        this.telefono = telefono;
         this.direccion = direccion;
+        this.telefono = telefono;
+        this.email = email;
     }
+    
     
     public Proveedor() {
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+    
+    
     
     public int getIdproveedor() {
         return idproveedor;
@@ -77,9 +90,10 @@ public class Proveedor extends conexion implements sentencias{
                 String nombre = rs.getString("nombre");
                 String tel = rs.getString("telefono");
                 String direcc = rs.getString("direccion");
+                String email = rs.getString("email");
                 
                 
-                Proveedor proveedor = new Proveedor(idprov, nombre, tel, direcc);
+                Proveedor proveedor = new Proveedor(idprov, nombre, tel, direcc, email);
                 prove.add(proveedor);
             }
         } catch (SQLException p) {
@@ -89,15 +103,15 @@ public class Proveedor extends conexion implements sentencias{
     }
     @Override
     public boolean insertar() {
-        String sql = "insert into proveedor values (?, ?, ?, ?)"; 
+        String sql = "insert into proveedor (nombre, telefono, direccion, email) values (?, ?, ?, ?)"; 
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
             
-            stm.setInt(1, this.idproveedor);
-            stm.setString(2, this.nombre);
-            stm.setString(3, this.telefono);
-            stm.setString(4, this.direccion);
+            stm.setString(1, this.nombre);
+            stm.setString(2, this.telefono);
+            stm.setString(3, this.direccion);
+            stm.setString(4, this.email);
            
             stm.executeUpdate();
             
@@ -111,7 +125,7 @@ public class Proveedor extends conexion implements sentencias{
 
     @Override
     public boolean borrar() {
-        String sql = "Delete from proveedor where idproveedor  = ?";
+        String sql = "Delete from proveedor where idproveedor = ?";
         try {
             Connection con = getCon(); 
             PreparedStatement stm = con.prepareStatement(sql); 
@@ -126,14 +140,16 @@ public class Proveedor extends conexion implements sentencias{
 
     @Override
     public boolean modificar() {
-        String sql = "update proveedor set nombre = ?, telefono = ?, direccion = ? where idproveedor = ?" ;
+        String sql = "update proveedor set nombre = ?, telefono = ?, direccion = ?, email = ? where idproveedor = ?" ;
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setString(1, this.nombre);
             stm.setString(2, this.telefono);
             stm.setString(3, this.direccion);
-            stm.setInt(4, this.idproveedor);
+            stm.setString(4, this.email);
+            
+            stm.setInt(5, this.idproveedor);
             stm.executeUpdate();
             return true;
         } catch (SQLException ex) {

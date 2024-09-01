@@ -11,43 +11,43 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@estilos/menustyle.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.MenuController">
+<HBox fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="513.0" prefWidth="757.0" styleClass="root" stylesheets="@../../../styles/menustyle.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.MenuController">
    <children>
       <VBox prefHeight="513.0" prefWidth="183.0">
          <children>
-            <AnchorPane fx:id="side_ankerpane" prefHeight="513.0" prefWidth="182.0" styleClass="side_ankerpane">
+            <AnchorPane fx:id="side_ankerpane" prefHeight="513.0" prefWidth="182.0" styleClass="side_ankerpane" stylesheets="@../../../styles/menustyle.css">
                <children>
                   <ImageView fitHeight="173.0" fitWidth="173.0" layoutX="3.0" layoutY="20.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../../images/logocom.png" />
                      </image>
                   </ImageView>
-                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" onAction="#pedido" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@estilos/menustyle.css" text="      Nuevo Pedido" textFill="WHITE">
+                  <JFXButton fx:id="btnuno" layoutX="5.0" layoutY="107.0" onAction="#pedido" prefHeight="43.0" prefWidth="173.0" styleClass="btnuno" stylesheets="@../../../styles/menustyle.css" text="      Nuevo Pedido" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno1" layoutX="5.0" layoutY="170.0" onAction="#venta" prefHeight="43.0" prefWidth="173.0" styleClass="btndos" stylesheets="@estilos/menustyle.css" text="        Nueva Venta" textFill="WHITE">
+                  <JFXButton fx:id="btnuno1" layoutX="5.0" layoutY="170.0" onAction="#venta" prefHeight="43.0" prefWidth="173.0" styleClass="btndos" stylesheets="@../../../styles/menustyle.css" text="        Nueva Venta" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno2" layoutX="5.0" layoutY="233.0" onAction="#producto" prefHeight="43.0" prefWidth="173.0" styleClass="btntres" stylesheets="@estilos/menustyle.css" text="   Productos" textFill="WHITE">
+                  <JFXButton fx:id="btnuno2" layoutX="5.0" layoutY="233.0" onAction="#producto" prefHeight="43.0" prefWidth="173.0" styleClass="btntres" stylesheets="@../../../styles/menustyle.css" text="   Productos" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno3" layoutX="5.0" layoutY="297.0" onAction="#clientes" prefHeight="43.0" prefWidth="173.0" styleClass="btncuatro" stylesheets="@estilos/menustyle.css" text="Clientes" textFill="WHITE">
+                  <JFXButton fx:id="btnuno3" layoutX="5.0" layoutY="297.0" onAction="#clientes" prefHeight="43.0" prefWidth="173.0" styleClass="btncuatro" stylesheets="@../../../styles/menustyle.css" text="Clientes" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno4" layoutX="5.0" layoutY="363.0" onAction="#proveedor" prefHeight="43.0" prefWidth="173.0" styleClass="btncinco" stylesheets="@estilos/menustyle.css" text="    Proveedor" textFill="WHITE">
+                  <JFXButton fx:id="btnuno4" layoutX="5.0" layoutY="363.0" onAction="#proveedor" prefHeight="43.0" prefWidth="173.0" styleClass="btncinco" stylesheets="@../../../styles/menustyle.css" text="    Proveedor" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton fx:id="btnuno5" layoutX="5.0" layoutY="433.0" onAction="#empleado" prefHeight="43.0" prefWidth="173.0" styleClass="btnseis" stylesheets="@estilos/menustyle.css" text="    Empleado" textFill="WHITE">
+                  <JFXButton fx:id="btnuno5" layoutX="5.0" layoutY="433.0" onAction="#empleado" prefHeight="43.0" prefWidth="173.0" styleClass="btnseis" stylesheets="@../../../styles/menustyle.css" text="    Empleado" textFill="WHITE">
                      <font>
                         <Font name="Century Gothic" size="12.0" />
                      </font>
@@ -83,10 +83,6 @@
                      </image>
                   </ImageView>
                </children>
-               <stylesheets>
-                  <URL value="@estilos/menustyle.css" />
-                  <URL value="@../../../styles/menustyle.css" />
-               </stylesheets>
             </AnchorPane>
          </children>
       </VBox>
