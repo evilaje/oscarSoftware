@@ -10,50 +10,50 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="750.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="846.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
    <children>
-      <TableView fx:id="tablaProductos" centerShape="false" layoutX="259.0" layoutY="95.0" onMouseClicked="#mostrarFila" prefHeight="333.0" prefWidth="491.0" style="-fx-background-color: #F3F5F8;" AnchorPane.bottomAnchor="52.0" AnchorPane.leftAnchor="259.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="95.0">
+      <TableView fx:id="tablaProductos" centerShape="false" layoutX="237.0" layoutY="74.0" onMouseClicked="#mostrarFila" prefHeight="333.0" prefWidth="597.0" style="-fx-background-color: #F3F5F8;" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="74.0">
          <columns>
-            <TableColumn fx:id="columnId" minWidth="0.0" prefWidth="69.0" text="Id" />
-            <TableColumn fx:id="columnNombre" prefWidth="105.0" text="Nombre" />
-            <TableColumn fx:id="columnStock" minWidth="0.0" prefWidth="109.0" text="Stock" />
-            <TableColumn fx:id="columnPrecio" prefWidth="105.0" text="Precio" />
-            <TableColumn fx:id="columnCategoria" prefWidth="96.0" text="Categoria" />
-            <TableColumn fx:id="columnProveedor" prefWidth="93.66666666666663" text="Proveedor" />
+            <TableColumn fx:id="columnId" minWidth="0.0" prefWidth="64.0" text="Id" />
+            <TableColumn fx:id="columnNombre" prefWidth="117.0" text="Nombre" />
+            <TableColumn fx:id="columnStock" minWidth="0.0" prefWidth="111.0" text="Stock" />
+            <TableColumn fx:id="columnPrecio" prefWidth="101.0" text="Precio" />
+            <TableColumn fx:id="columnCategoria" prefWidth="92.0" text="Categoria" />
+            <TableColumn fx:id="columnProveedor" prefWidth="111.0" text="Proveedor" />
          </columns>
       </TableView>
       <Pane layoutX="-6.0" layoutY="-1.0" prefHeight="48.0" prefWidth="756.0" style="-fx-background-color: #c8d3e0;" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="0.0">
          <children>
             <TextField fx:id="txtBuscar" layoutX="40.0" layoutY="13.0" onAction="#search" prefHeight="25.0" prefWidth="180.0" promptText="🔎 Buscar producto...." />
-            <Label layoutX="263.0" layoutY="15.0" style="-fx-text-fill: white;" text="Filtrar por:" textFill="#566d94">
+            <Label layoutX="330.0" layoutY="14.0" style="-fx-text-fill: white;" text="Filtrar por:" textFill="#566d94">
                <font>
                   <Font name="Century Gothic Bold" size="16.0" />
                </font></Label>
-            <ComboBox fx:id="filtroCategoria" editable="true" layoutX="353.0" layoutY="13.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Categoria..." />
-            <ComboBox fx:id="filtroProveedor" editable="true" layoutX="567.0" layoutY="12.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Proveedor..." />
+            <ComboBox fx:id="filtroCategoria" editable="true" layoutX="419.0" layoutY="12.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Categoria..." />
+            <ComboBox fx:id="filtroProveedor" editable="true" layoutX="668.0" layoutY="12.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Proveedor..." />
          </children>
       </Pane>
-      <Button fx:id="btnEliminar" disable="true" layoutX="294.0" layoutY="431.0" mnemonicParsing="false" onAction="#eliminarProducto" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Eliminar" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="294.0">
+      <Button fx:id="btnEliminar" disable="true" layoutX="344.0" layoutY="431.0" mnemonicParsing="false" onAction="#eliminarProducto" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Eliminar" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="344.0">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnModificar" disable="true" layoutX="425.0" layoutY="431.0" mnemonicParsing="false" onAction="#modificar" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Modificar" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="425.0">
+      <Button fx:id="btnModificar" disable="true" layoutX="489.0" layoutY="431.0" mnemonicParsing="false" onAction="#modificar" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Modificar" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="489.0">
          <font>
             <Font name="Microsoft YaHei UI Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnNuevo" layoutX="40.0" layoutY="431.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Nuevo" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="40.0">
+      <Button fx:id="btnNuevo" layoutX="66.0" layoutY="431.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Nuevo" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="66.0">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnCancelar" disable="true" layoutX="167.0" layoutY="431.0" mnemonicParsing="false" onAction="#vaciar" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Cancelar" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="167.0">
+      <Button fx:id="btnCancelar" disable="true" layoutX="201.0" layoutY="431.0" mnemonicParsing="false" onAction="#vaciar" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Cancelar" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="201.0">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Button>
-      <Button fx:id="btnReestablecer" disable="true" layoutX="553.0" layoutY="431.0" mnemonicParsing="false" onAction="#reestablecer" prefHeight="30.0" prefWidth="163.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Reestablecer vista" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="553.0">
+      <Button fx:id="btnReestablecer" disable="true" layoutX="629.0" layoutY="431.0" mnemonicParsing="false" onAction="#reestablecer" prefHeight="30.0" prefWidth="163.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Reestablecer vista" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="629.0">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
