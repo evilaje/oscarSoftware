@@ -24,6 +24,37 @@ public class Empleado extends conexion implements sentencias{
     private String nombre;
     private String telefono;
     private String direccion;
+    private String cedula;
+    private String password;
+
+    public Empleado(int idempleado, String nombre, String telefono, String direccion, String cedula, String password) {
+        this.idempleado = idempleado;
+        this.nombre = nombre;
+        this.telefono = telefono;
+        this.direccion = direccion;
+        this.cedula = cedula;
+        this.password = password;
+    }
+
+    
+    
+    public String getCedula() {
+        return cedula;
+    }
+
+    public void setCedula(String cedula) {
+        this.cedula = cedula;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+    
+    
 
     public Empleado() {
         this.idempleado = idempleado;
@@ -100,17 +131,18 @@ public class Empleado extends conexion implements sentencias{
     @Override
     public boolean insertar() {
        //creamos el texto que luego usaremos como orden sql
-        String sql = "insert into empleado values (?, ?, ?, ?)"; 
+        String sql = "insert into empleado (nombre, telefono, direccion, cedula, password) values (?, ?, ?, ?, ?)"; 
         try {
             Connection con = getCon();//creamos la conexion
             PreparedStatement stm = con.prepareStatement(sql);//creamos un objeto que sirve como orden
             //a la orden le asignamos el texto sql...
             
             //por cada ? obtenemos el objeto determinado y le ponemos en el lugar que corresponda
-            stm.setInt(1, this.idempleado);
-            stm.setString(2, this.nombre);//
-            stm.setString(3, this.telefono);
-            stm.setString(4, this.direccion);
+            stm.setString(1, this.nombre);
+            stm.setString(2, this.telefono);//
+            stm.setString(3, this.direccion);
+            stm.setString(4, this.cedula);
+            stm.setString(5, this.password);
             //una vez obtenidos todos los valores ejecutamos la orden
             stm.executeUpdate();
             // devolvemos verdadero para que sepamos que la insercion se realizo con exito

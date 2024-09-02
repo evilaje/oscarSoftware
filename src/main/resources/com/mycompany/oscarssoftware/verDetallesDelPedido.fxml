@@ -6,75 +6,84 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="521.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.mycompany.oscarssoftware.VerDetallesDelPedidoController">
+<AnchorPane id="AnchorPane" prefHeight="521.0" prefWidth="698.0" style="-fx-background-color: #f1f4f7;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.VerDetallesDelPedidoController">
     <stylesheets>
         <URL value="@/styles/verdetallesdelpedido.css" />
     </stylesheets>
    <children>
-      <Label layoutX="-20.0" layoutY="14.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 5 10 40; -fx-text-fill: white; -fx-background-radius: 20;" text="Detalles del pedido">
+      <Label layoutX="77.0" layoutY="72.0" prefHeight="39.0" prefWidth="218.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Id del pedido:">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="18.0" />
+            <Font name="Century Gothic Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="-20.0" layoutY="69.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Id del pedido:">
+      <Label fx:id="txtIdPedido" layoutX="233.0" layoutY="73.0" prefHeight="38.0" prefWidth="29.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="0">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="txtIdPedido" layoutX="134.0" layoutY="69.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="0">
+      <Label layoutX="373.0" layoutY="141.0" prefHeight="39.0" prefWidth="257.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del cliente:">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="-20.0" layoutY="116.0" prefHeight="39.0" prefWidth="249.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del cliente:">
+      <Label fx:id="txtNombreCliente" layoutX="571.0" layoutY="141.0" prefHeight="39.0" prefWidth="94.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="txtNombreCliente" layoutX="178.0" layoutY="116.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
+      <Label layoutX="23.0" layoutY="141.0" prefHeight="39.0" prefWidth="277.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del vendedor:">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="15.0" />
          </font>
       </Label>
-      <Label layoutX="-20.0" layoutY="160.0" prefHeight="39.0" prefWidth="276.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del vendedor:">
+      <Label fx:id="txtNombreEmpleado" layoutX="242.0" layoutY="141.0" prefHeight="39.0" prefWidth="105.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin nombre  ">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="txtNombreEmpleado" layoutX="200.0" layoutY="160.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin nombre">
+      <Label layoutX="394.0" layoutY="73.0" prefHeight="38.0" prefWidth="236.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Fecha del pedido:">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="-20.0" layoutY="206.0" prefHeight="39.0" prefWidth="249.0" style="-fx-background-color: #2A5EA4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Fecha del pedido:">
+      <Label fx:id="txtFecha" layoutX="571.0" layoutY="73.0" prefHeight="29.0" prefWidth="82.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
+            <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="txtFecha" layoutX="158.0" layoutY="206.0" style="-fx-text-fill: white; -fx-background-color: #2A5EA4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
+      <Button fx:id="btnReporte" layoutX="262.0" layoutY="476.0" mnemonicParsing="false" onAction="#generarReporte" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Generar presupuesto" textFill="#f4f5f8">
          <font>
-            <Font name="Microsoft YaHei UI Bold" size="14.0" />
-         </font>
-      </Label>
-      <TableView fx:id="tablaDetalles" layoutX="18.0" layoutY="256.0" prefHeight="200.0" prefWidth="555.0">
-        <columns>
-          <TableColumn fx:id="colProducto" prefWidth="226.66665649414062" text="Producto" />
-          <TableColumn fx:id="colPrecioUnit" prefWidth="113.33331298828125" text="Precio unitario" />
-            <TableColumn fx:id="colCantidad" prefWidth="78.0" text="Cantidad" />
-            <TableColumn fx:id="colTotal" prefWidth="140.66668701171875" text="Total por producto" />
-        </columns>
-      </TableView>
-      <Button fx:id="btnVolver" layoutX="540.0" layoutY="14.0" mnemonicParsing="false" onAction="#volver" opacity="0.72" style="-fx-text-fill: white; -fx-background-color: #2A5EA4;" text="Volver">
-         <font>
-            <Font name="Microsoft YaHei Bold" size="10.0" />
+            <Font name="Century Gothic Bold" size="15.0" />
          </font>
       </Button>
-      <Button fx:id="btnReporte" layoutX="394.0" layoutY="476.0" mnemonicParsing="false" onAction="#generarReporte" style="-fx-text-fill: white; -fx-background-color: #2A5EA4;" text="Generar presupuesto">
-         <font>
-            <Font name="Microsoft YaHei Bold" size="15.0" />
-         </font>
-      </Button>
+      <Pane prefHeight="45.0" prefWidth="698.0" style="-fx-background-color: #c8d3e0;">
+         <children>
+            <Label layoutX="262.0" layoutY="11.0" text="Detalles del pedido" textFill="#3b5672">
+               <font>
+                  <Font name="Microsoft YaHei UI Bold" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="btnVolver" layoutX="597.0" layoutY="11.0" mnemonicParsing="false" onAction="#volver" opacity="0.72" prefHeight="22.0" prefWidth="68.0" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Volver" textFill="#f4f5f8">
+               <font>
+                  <Font name="Century Gothic Bold" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
+      <Pane layoutX="49.0" layoutY="211.0" prefHeight="249.0" prefWidth="600.0" style="-fx-background-color: #c8d3e0; -fx-background-radius: 10;">
+         <children>
+            <TableView fx:id="tablaDetalles" layoutX="11.0" layoutY="7.0" prefHeight="236.0" prefWidth="579.0" style="-fx-background-radius: 10;">
+              <columns>
+                <TableColumn fx:id="colProducto" prefWidth="178.0" text="Producto" />
+                <TableColumn fx:id="colPrecioUnit" prefWidth="152.0" text="Precio unitario" />
+                  <TableColumn fx:id="colCantidad" prefWidth="96.0" text="Cantidad" />
+                  <TableColumn fx:id="colTotal" prefWidth="152.0" text="Total por producto" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
