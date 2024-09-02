@@ -51,7 +51,17 @@ public class MenuController implements Initializable {
     private double gananciasTotales = 0.00;
     private Pedido p = new Pedido();
     @FXML
-    private Button btnPedido;
+    private Pane pane_1211;
+    @FXML
+    private Label lblPedidos;
+    @FXML
+    private Pane pane_12111;
+    @FXML
+    private Label lblPedidos1;
+    @FXML
+    private Pane pane_121;
+    @FXML
+    private Button btnVerPedido;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -131,5 +141,10 @@ public class MenuController implements Initializable {
     private void switchToMenu() throws IOException {
         App.setRoot("menu", 757, 513);
 
+    }
+
+    @FXML
+    private void verPedidos(ActionEvent event) throws IOException {
+        abrirFxml("verPedido.fxml", "Ver pedidos disponibles");
     }
 }

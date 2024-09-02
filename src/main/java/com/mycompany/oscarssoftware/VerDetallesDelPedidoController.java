@@ -71,8 +71,8 @@ public class VerDetallesDelPedidoController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-    }    
-    
+    }
+
     public void inicializarConDatos(int idPedido, String cliente, String empleado, Date fecha) {
         d.setIdPedido(idPedido);
         txtIdPedido.setText(String.valueOf(idPedido));
@@ -81,20 +81,21 @@ public class VerDetallesDelPedidoController implements Initializable {
         txtFecha.setText(String.valueOf(fecha));
         mostrarDatos();
     }
-    
-    private void cargarDetallesPedido(int idPedido ) {
-        
+
+    private void cargarDetallesPedido(int idPedido) {
+
     }
-    
-    public void mostrarDatos(){
+
+    public void mostrarDatos() {
         listaDetalles = FXCollections.observableList(d.consulta());
         colProducto.setCellValueFactory(new PropertyValueFactory<>("nombreProducto"));
         colCantidad.setCellValueFactory(new PropertyValueFactory<>("cantidad"));
         colPrecioUnit.setCellValueFactory(new PropertyValueFactory<>("precioUnit"));
         colTotal.setCellValueFactory(new PropertyValueFactory<>("precioTotal"));
         tablaDetalles.setItems(listaDetalles);
-        
+
     }
+
     @FXML
     private void volver(ActionEvent event) {
         try {
@@ -114,12 +115,17 @@ public class VerDetallesDelPedidoController implements Initializable {
     @FXML
     private void generarReporte(ActionEvent event) {
         Reporte r = new Reporte();
-        String ubi = "/reportes/pedidoF.jasper";
+        String ubi = "/reportes/pedidoPresupuesto.jasper";
         String tit = "Informe de pedido";
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("idpedido", d.getIdPedido());    
-        r.generarReporteParametros(ubi, tit, parameters);
+        parameters.put("idpedido", d.getIdPedido());
+
+        // Ruta de la imagen
+        String rutaImagen = "/images/logocom.png"; // Cambia la ruta según sea necesario
+
+        r.generarReporteConImagen(ubi, tit, parameters, rutaImagen, d.getIdPedido());
+
+        // Puedes agregar un mensaje o notificación aquí para informar al usuario que el reporte se generó
     }
 
-    
 }

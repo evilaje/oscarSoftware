@@ -162,13 +162,13 @@ public class Empleado extends conexion implements sentencias{
             return false;
         }
     }
-    public Empleado ingresar (String nombre, int numero){
+    public Empleado ingresar (String nombre, String pass){
         String sql = "Select * from empleado where nombre = ? and password = ?";
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
             stm.setString(1, nombre);
-            stm.setInt(2, numero);
+            stm.setString(2, pass);
             ResultSet rs = stm.executeQuery();
             while (rs.next()){
                 int id = rs.getInt("idEmpleado"); //obtenemos el codigo de la tabla idproducto
