@@ -103,7 +103,7 @@
             </Pane>
             <Pane layoutX="453.0" layoutY="107.0" prefHeight="390.0" prefWidth="413.0" style="-fx-background-color: #7083a4; -fx-background-radius: 12;">
                <children>
-                  <TableView fx:id="tablaDetalles" layoutX="10.0" layoutY="7.0" prefHeight="376.0" prefWidth="393.0" style="-fx-background-radius: 29;">
+                  <TableView fx:id="tablaDetalles" layoutX="10.0" layoutY="7.0" onMouseClicked="#mostrarProducto" prefHeight="376.0" prefWidth="393.0" style="-fx-background-radius: 29;">
                     <columns>
                       <TableColumn fx:id="columnId" prefWidth="75.0" style="-fx-background-radius: 10;" text="Id Art." />
                       <TableColumn fx:id="columnDesc" prefWidth="75.0" style="-fx-background-radius: 10;" text="Descripcion" />

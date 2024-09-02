@@ -32,6 +32,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -209,52 +210,108 @@ public class VentaController implements Initializable {
         tablaDetalles.getItems().clear();
         txtTotal.setDisable(true);
         txtTotal2.setDisable(true);
+        //limpiar campos
+        dateVenta.setValue(null);
+        txtNroVenta.clear();
+        txtCantidad.clear();
+        txtEmpleado.clear();
+        txtNroPedido.clear();
+        txtNroVenta.clear();
+        txtPedidoSeleccionado.clear();
+        txtPrecioUnit.clear();
+        txtProducto.clear();
+        txtTotal.clear();
+        txtTotal2.clear();
     }
 
-    @FXML
-    private void guardarVenta(ActionEvent event) {
-        try {
-            // Validar y obtener los valores
-            int idpedido = Integer.parseInt(txtNroPedido.getText());
-            java.sql.Date fecha = java.sql.Date.valueOf(dateVenta.getValue());
-            double total = Double.parseDouble(txtTotal.getText());
-            int idcliente = obtenerCliente(txtPedidoSeleccionado.getText());
-            int idempleado = obtenerEmpleado(txtEmpleado.getText());
-            String pago = cboPago.getSelectionModel().getSelectedItem();
-
-            // Configurar la venta
-            v.setIdPedido(idpedido);
-            v.setFecha_venta(fecha);
-            v.setIdEmpleado(idempleado);
-            v.setClienteRuc(idcliente);
-            v.setTotal(total);
-            p.setIdpedido(idpedido);
-            v.setMetodoPago(pago);
-            // Insertar la venta y procesar detalles
-            if (v.insertar()) {
-                if (p.modificarEstado()) {
-                    procesarDetallesPedido(detalle.consulta());
-                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "¡Venta registrada con éxito!");
-                    cboPago.getSelectionModel().clearSelection();
-                    cboPago.setDisable(true);
-
-                    if (menuController != null) {
-                        menuController.actualizarGanancias();
-                    }
-                }
-
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada.");
-            }
-
-        } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Formato de número inválido: " + e.getMessage());
-        } catch (NullPointerException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Campo requerido vacío: " + e.getMessage());
-        } catch (Exception e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Ocurrió un error al registrar la venta: " + e.getMessage());
+   @FXML
+private void guardarVenta(ActionEvent event) {
+    try {
+        // Validar el número de pedido
+        String nroPedidoText = txtNroPedido.getText();
+        if (nroPedidoText == null || nroPedidoText.trim().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, "El número de pedido es obligatorio.");
+            return;
         }
+        int idpedido = Integer.parseInt(nroPedidoText);
+
+        // Validar la fecha de venta
+        if (dateVenta.getValue() == null) {
+            mostrarAlerta(Alert.AlertType.ERROR, "La fecha de venta es obligatoria.");
+            return;
+        }
+        java.sql.Date fecha = java.sql.Date.valueOf(dateVenta.getValue());
+
+        // Validar el total
+        String totalText = txtTotal.getText();
+        if (totalText == null || totalText.trim().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, "El total es obligatorio.");
+            return;
+        }
+        double total;
+        try {
+            total = Double.parseDouble(totalText);
+        } catch (NumberFormatException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Formato de total inválido: " + e.getMessage());
+            return;
+        }
+
+        // Validar el cliente
+        String clienteText = txtPedidoSeleccionado.getText();
+        if (clienteText == null || clienteText.trim().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, "El cliente es obligatorio.");
+            return;
+        }
+        int idcliente = obtenerCliente(clienteText);
+
+        // Validar el empleado
+        String empleadoText = txtEmpleado.getText();
+        if (empleadoText == null || empleadoText.trim().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, "El empleado es obligatorio.");
+            return;
+        }
+        int idempleado = obtenerEmpleado(empleadoText);
+
+        // Validar el método de pago
+        String pago = cboPago.getSelectionModel().getSelectedItem();
+        if (pago == null || pago.trim().isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, "El método de pago es obligatorio.");
+            return;
+        }
+
+        // Configurar la venta
+        v.setIdPedido(idpedido);
+        v.setFecha_venta(fecha);
+        v.setIdEmpleado(idempleado);
+        v.setClienteRuc(idcliente);
+        v.setTotal(total);
+        p.setIdpedido(idpedido);
+        v.setMetodoPago(pago);
+
+        // Insertar la venta y procesar detalles
+        if (v.insertar()) {
+            if (p.modificarEstado()) {
+                procesarDetallesPedido(detalle.consulta());
+                mostrarAlerta(Alert.AlertType.CONFIRMATION, "¡Venta registrada con éxito!");
+                cancelar(event);
+                cboPago.getSelectionModel().clearSelection();
+                cboPago.setDisable(true);
+
+                if (menuController != null) {
+                    menuController.actualizarGanancias();
+                }
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "No se pudo modificar el estado del pedido.");
+            }
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada.");
+        }
+
+    } catch (Exception e) {
+        mostrarAlerta(Alert.AlertType.ERROR, "Ocurrió un error al registrar la venta: " + e.getMessage());
     }
+}
+
 
     private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exception {
         for (DetallePedido d : dp) {
@@ -300,6 +357,17 @@ public class VentaController implements Initializable {
             // Después de que se cierre la ventana, actualizar el combo box
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void mostrarProducto(MouseEvent event) {
+        DetallePedido d = tablaDetalles.getSelectionModel().getSelectedItem();
+        if (d != null) {
+            txtCantidad.setText(String.valueOf(d.getCantidad()));
+            txtPrecioUnit.setText(String.valueOf(d.getPrecioUnit()));
+            txtProducto.setText(d.getNombreProducto());
+            txtTotal.setText(String.valueOf(d.getPrecioTotal()));
         }
     }
 

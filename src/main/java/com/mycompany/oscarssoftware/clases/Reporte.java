@@ -24,7 +24,7 @@ public class Reporte extends conexion {
             JasperPrint jasperPrint = generarReporteConParametros(ubicacion, parameters);
 
             // Generar un nombre de archivo único basado en el ID del pedido
-            String rutaPDF = "C:/Users/Orne/Desktop/Reportes/Reporte_" + idPedido + ".pdf";
+            String rutaPDF = "C:\\Users\\Anibal\\OneDrive\\Desktop\\Reportes\\Reporte_" + idPedido + ".pdf";
             exportarAFilePDF(jasperPrint, rutaPDF);
 
             abrirArchivoConRuntime(rutaPDF);
