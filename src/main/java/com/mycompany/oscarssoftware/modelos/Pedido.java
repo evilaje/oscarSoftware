@@ -24,16 +24,30 @@ public class Pedido extends conexion implements sentencias{
     private String nombreCliente;
     private String nombreEmpleado;
     private boolean saved;
-    private int cliente_ruc;
 
-    public Pedido(int idpedido, Date fecha_pedido, int idEmpleado, int cliente_ruc, String cliente, String empleado) {
+    public Pedido() {
+    }
+    
+    
+
+    public Pedido(int idpedido, Date fecha_pedido, int idEmpleado, int idcliente, String cliente, String empleado) {
         this.idpedido = idpedido;
         this.fecha_pedido = fecha_pedido;
         this.idEmpleado = idEmpleado;
-        this.idCliente = cliente_ruc;
+        this.idCliente = idcliente;
         this.nombreCliente = cliente;
         this.nombreEmpleado = empleado;
     }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+    
+    
 
     public boolean isSaved() {
         return saved;
@@ -57,13 +71,6 @@ public class Pedido extends conexion implements sentencias{
 
     public void setNombreEmpleado(String nombreEmpleado) {
         this.nombreEmpleado = nombreEmpleado;
-    }
-
-    public Pedido() {
-        this.idpedido = idpedido;
-        this.fecha_pedido = fecha_pedido;
-        this.idEmpleado = idEmpleado;
-        this.cliente_ruc = cliente_ruc;
     }
 
     public int getIdpedido() {
@@ -90,13 +97,6 @@ public class Pedido extends conexion implements sentencias{
         this.idEmpleado = idEmpleado;
     }
 
-    public int getCliente_ruc() {
-        return cliente_ruc;
-    }
-
-    public void setCliente_ruc(int idCliente) {
-        this.idCliente = idCliente;
-    }
 
     @Override
     public ArrayList consulta() {
@@ -104,7 +104,7 @@ public class Pedido extends conexion implements sentencias{
         String sql = "SELECT p.idpedido, p.idcliente, c.nombre AS nombrecliente, p.idempleado, e.nombre AS "
                 + "nombreempleado , p.fecha_pedido "
                 + "FROM pedido p "
-                + "JOIN cliente c ON p.idcliente = c.ruc "
+                + "JOIN cliente c ON p.idcliente = c.id "
                 + "JOIN empleado e ON p.idempleado = e.idempleado "
                 + "WHERE estado = true";
         try {

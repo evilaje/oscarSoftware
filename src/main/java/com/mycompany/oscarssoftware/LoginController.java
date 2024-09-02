@@ -52,14 +52,14 @@ public class LoginController implements Initializable {
 @FXML
 private void ingresar(ActionEvent event) {
     String nombreUsuario = txtUsuario.getText();
-    String cedula = txtContra.getText();
+    String password = txtContra.getText();
 
-    if (nombreUsuario.isEmpty() || cedula.isEmpty()) {
+    if (nombreUsuario.isEmpty() || password.isEmpty()) {
         mostrarAlerta(Alert.AlertType.ERROR, "Error", "Debe completar todos los campos.");
         return;
     }
 
-    if (e.ingresar(nombreUsuario, Integer.parseInt(cedula)) != null) {
+    if (e.ingresar(nombreUsuario, Integer.parseInt(password)) != null) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
             Parent root = loader.load();

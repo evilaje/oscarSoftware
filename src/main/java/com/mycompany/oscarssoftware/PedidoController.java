@@ -384,7 +384,7 @@ public class PedidoController implements Initializable {
 
         try {
 
-            pedido.setCliente_ruc(obtenerCliente(comboCliente.getSelectionModel().getSelectedItem()));
+            pedido.setIdCliente(obtenerCliente(comboCliente.getSelectionModel().getSelectedItem()));
             pedido.setIdEmpleado(obtenerEmpleado(comboEmpleado.getSelectionModel().getSelectedItem()));
             java.sql.Date fecha = java.sql.Date.valueOf(dateFecha.getValue());
             pedido.setFecha_pedido(fecha);
@@ -438,7 +438,7 @@ public class PedidoController implements Initializable {
         ArrayList<Cliente> listaClientes = c.consulta();
         for (Cliente cliente : listaClientes) {
             if (cliente.getNombre().equals(nombreCliente)) {
-                return cliente.getRuc();
+                return cliente.getId();
             }
         }
         return 0;

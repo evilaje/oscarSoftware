@@ -163,7 +163,7 @@ public class Empleado extends conexion implements sentencias{
         }
     }
     public Empleado ingresar (String nombre, int numero){
-        String sql = "Select * from empleado where nombre = ? and idempleado = ?";
+        String sql = "Select * from empleado where nombre = ? and password = ?";
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);

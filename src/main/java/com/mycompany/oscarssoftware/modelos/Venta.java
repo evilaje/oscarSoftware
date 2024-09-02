@@ -215,7 +215,7 @@ public class Venta extends conexion implements sentencias {
 
     @Override
     public boolean insertar() {
-        String sql = "INSERT INTO venta (fecha_venta, total, idPedido, clienteRuc, idEmpleado) values (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO venta (fecha_venta, total, idPedido, idCliente, idEmpleado) values (?, ?, ?, ?, ?)";
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -270,10 +270,10 @@ public class Venta extends conexion implements sentencias {
 
     public ArrayList<Venta> consulta2() {   
         ArrayList<Venta> ventas = new ArrayList<>();
-        String sql = "SELECT v.idventa, v.fecha_venta, v.total, v.idPedido, v.clienteRuc as ruc, "
+        String sql = "SELECT v.idventa, v.fecha_venta, v.total, v.idPedido, v.idCliente as id, "
                    + "c.nombre as nombrecliente, v.idEmpleado, e.nombre as nombreempleado "
                    + "FROM oscar_db.venta v "
-                   + "JOIN oscar_db.cliente c ON v.clienteRuc = c.ruc "
+                   + "JOIN oscar_db.cliente c ON v.idCliente = c.id "
                    + "JOIN oscar_db.empleado e ON v.idEmpleado = e.idempleado";
         try {
             Connection con = getCon();
@@ -284,7 +284,7 @@ public class Venta extends conexion implements sentencias {
                 Date fecha = rs.getDate("fecha_venta");
                 double total = rs.getDouble("total");
                 int idpedido = rs.getInt("idPedido");
-                int ruc = rs.getInt("ruc");
+                int ruc = rs.getInt("id");
                 String nombreCliente = rs.getString("nombrecliente");
                 int idempleado = rs.getInt("idEmpleado");
                 String nombreempleado = rs.getString("nombreempleado");

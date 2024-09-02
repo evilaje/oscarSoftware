@@ -89,15 +89,15 @@ public class Proveedor extends conexion implements sentencias{
     }
     @Override
     public boolean insertar() {
-        String sql = "insert into proveedor values (?, ?, ?, ?)"; 
+        String sql = "insert into proveedor (nombre, telefono, direccion, email) values (?, ?, ?, ?)"; 
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
             
-            stm.setInt(1, this.idproveedor);
-            stm.setString(2, this.nombre);
-            stm.setString(3, this.telefono);
-            stm.setString(4, this.direccion);
+            stm.setString(1, this.nombre);
+            stm.setString(2, this.telefono);
+            stm.setString(3, this.direccion);
+            stm.setString(4, "evilaje@gmail.com");
            
             stm.executeUpdate();
             

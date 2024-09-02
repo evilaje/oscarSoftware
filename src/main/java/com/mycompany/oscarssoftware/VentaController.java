@@ -62,7 +62,7 @@ public class VentaController implements Initializable {
     private TableColumn<DetallePedido, Double> columnPrecio;
     @FXML
     private TableColumn<DetallePedido, Double> columnTotal;
-    
+
     private Pedido p = new Pedido();
     private DetallePedido detalle = new DetallePedido();
     private Venta v = new Venta();
@@ -97,20 +97,24 @@ public class VentaController implements Initializable {
     private TableColumn<Venta, String> colEmpleado;
     @FXML
     private TableColumn<Venta, Date> colFecha;
-    
+
     private Producto pr = new Producto();
     @FXML
     private TextField txtNroPedido;
+    
+    private MenuController menuController;
 
-    /**
-     * Initializes the controller class.
-     */
+    // Método para pasar la referencia del MenuController
+    public void setMenuController(MenuController menuController) {
+        this.menuController = menuController;
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarVentas();
     }
 
-    public void mostrarDatos(Pedido ped){
+    public void mostrarDatos(Pedido ped) {
         detalle.setIdPedido(ped.getIdpedido());
         listaDetalles = FXCollections.observableArrayList(detalle.consulta());
         columnId.setCellValueFactory(new PropertyValueFactory<>("idProducto"));
@@ -128,7 +132,7 @@ public class VentaController implements Initializable {
         tablaDetalles.refresh();
         dateVenta.setValue(LocalDate.now());
         txtNroVenta.setText(String.valueOf(v.obtenerID() + 1));
-        int  t = (int) ped.consultaTotal();
+        int t = (int) ped.consultaTotal();
         txtTotal2.setText(String.valueOf(t));
     }
 
@@ -142,45 +146,50 @@ public class VentaController implements Initializable {
         }
         return null; // o manejar el caso cuando no se encuentre el pedido
     }
+
     @FXML
     private void nuevo(ActionEvent event) {
         btnNuevaVenta.setDisable(true);
         btnCancelarVenta.setDisable(false);
         buscarpedidos();
 
-        
     }
-
 
     private void guardarPedido(ActionEvent event) {
     }
-    
+
     private int obtenerPedido(String nombreClientePedido) {
         if (nombreClientePedido.startsWith("Pedido de ")) {
             nombreClientePedido = nombreClientePedido.substring(10);
         }
         ArrayList<Pedido> listaPedidos = p.consulta();
-        
+
         for (Pedido pedido : listaPedidos) {
-            if (pedido.getNombreCliente().equals(nombreClientePedido)) return pedido.getIdpedido();
+            if (pedido.getNombreCliente().equals(nombreClientePedido)) {
+                return pedido.getIdpedido();
+            }
         }
         return 0;
     }
-    
-    private int obtenerCliente (String nombreCliente) {
+
+    private int obtenerCliente(String nombreCliente) {
         ArrayList<Cliente> clientes = c.consulta();
         for (Cliente cl : clientes) {
-            if (cl.getNombre().equals(nombreCliente)) return cl.getRuc();
+            if (cl.getNombre().equals(nombreCliente)) {
+                return cl.getId();
+            }
         }
         return 0;
     }
-    
-    private int obtenerEmpleado (String nombreEmpleado) {
+
+    private int obtenerEmpleado(String nombreEmpleado) {
         ArrayList<Empleado> empleados = e.consulta();
         for (Empleado emp : empleados) {
-            if (emp.getNombre().equals(nombreEmpleado)) return emp.getIdempleado();
+            if (emp.getNombre().equals(nombreEmpleado)) {
+                return emp.getIdempleado();
+            }
         }
-        
+
         return 0;
     }
 
@@ -194,61 +203,57 @@ public class VentaController implements Initializable {
         txtTotal2.setDisable(true);
     }
 
-@FXML
-private void guardarVenta(ActionEvent event) {
-    try {
-        // Validar y obtener los valores
-        int idpedido = Integer.parseInt(txtNroPedido.getText());
-        java.sql.Date fecha = java.sql.Date.valueOf(dateVenta.getValue());
-        double total = Double.parseDouble(txtTotal.getText());
-        int idcliente = obtenerCliente(txtPedidoSeleccionado.getText());
-        int idempleado = obtenerEmpleado(txtEmpleado.getText());
-        
-        // Configurar la venta
-        v.setIdPedido(idpedido);
-        v.setFecha_venta(fecha);
-        v.setIdEmpleado(idempleado);
-        v.setClienteRuc(idcliente);
-        v.setTotal(total);
-        p.setIdpedido(idpedido);
-        // Insertar la venta y procesar detalles
-        if (v.insertar()) {
-            if (p.modificarEstado()) {
-                procesarDetallesPedido(detalle.consulta());
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "Venta registrada con éxito!");
-                MenuController menuController = (MenuController) getMenuController();
-                if (menuController != null) {
-                    menuController.actualizarGanancias();
+    @FXML
+    private void guardarVenta(ActionEvent event) {
+        try {
+            // Validar y obtener los valores
+            int idpedido = Integer.parseInt(txtNroPedido.getText());
+            java.sql.Date fecha = java.sql.Date.valueOf(dateVenta.getValue());
+            double total = Double.parseDouble(txtTotal.getText());
+            int idcliente = obtenerCliente(txtPedidoSeleccionado.getText());
+            int idempleado = obtenerEmpleado(txtEmpleado.getText());
+
+            // Configurar la venta
+            v.setIdPedido(idpedido);
+            v.setFecha_venta(fecha);
+            v.setIdEmpleado(idempleado);
+            v.setClienteRuc(idcliente);
+            v.setTotal(total);
+            p.setIdpedido(idpedido);
+            // Insertar la venta y procesar detalles
+            if (v.insertar()) {
+                if (p.modificarEstado()) {
+                    procesarDetallesPedido(detalle.consulta());
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "¡Venta registrada con éxito!");
+
+                    if (menuController != null) {
+                        menuController.actualizarGanancias();
+                    }
                 }
+
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada.");
             }
 
-        } else {
-            mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada.");
-        }
-        
-    } catch (NumberFormatException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Formato de número inválido: " + e.getMessage());
-    } catch (NullPointerException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Campo requerido vacío: " + e.getMessage());
-    } catch (Exception e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Ocurrió un error al registrar la venta: " + e.getMessage());
-    }
-}
-
-private Object getMenuController() {
-    return null;
-}
-private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exception {
-    for (DetallePedido d : dp) {
-        Producto producto = pr.buscarPorId(d.getIdProducto());
-        if (!producto.restarStock(d.getCantidad())) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Stock insuficiente para el producto: " + producto.getNombre());
-            throw new Exception("Stock insuficiente.");
+        } catch (NumberFormatException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Formato de número inválido: " + e.getMessage());
+        } catch (NullPointerException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Campo requerido vacío: " + e.getMessage());
+        } catch (Exception e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Ocurrió un error al registrar la venta: " + e.getMessage());
         }
     }
-}
 
-    
+    private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exception {
+        for (DetallePedido d : dp) {
+            Producto producto = pr.buscarPorId(d.getIdProducto());
+            if (!producto.restarStock(d.getCantidad())) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Stock insuficiente para el producto: " + producto.getNombre());
+                throw new Exception("Stock insuficiente.");
+            }
+        }
+    }
+
     private void mostrarAlerta(Alert.AlertType tipo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle("El sistema comunica");
@@ -256,8 +261,8 @@ private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exceptio
         a.setContentText(mensaje);
         a.show();
     }
-    
-    private void mostrarVentas(){
+
+    private void mostrarVentas() {
         listaVentas = FXCollections.observableArrayList(v.consulta2());
         colIdVenta.setCellValueFactory(new PropertyValueFactory<>("idventa"));
         colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
@@ -265,6 +270,7 @@ private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exceptio
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha_venta"));
         tablaVentas.setItems(listaVentas);
     }
+
     public void buscarpedidos() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("buscarPedidos.fxml"));
@@ -283,7 +289,6 @@ private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exceptio
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }    
-    
-    
+    }
+
 }
