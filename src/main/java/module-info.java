@@ -8,6 +8,8 @@ module com.mycompany.oscarssoftware {
     requires com.jfoenix;
 
     requires org.controlsfx.controls;
+    requires java.desktop;
+    requires java.logging;
     
     opens com.mycompany.oscarssoftware to javafx.fxml;
     exports com.mycompany.oscarssoftware;
