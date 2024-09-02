@@ -26,6 +26,10 @@ public class DetallePedido extends conexion implements sentencias {
     
 
     public DetallePedido(int idPedido, int idProducto, int cantidad, String nombreProducto, double precioUnit, double precioTotal) {
+        this(idPedido, nombreProducto, idProducto, precioUnit, precioTotal);
+    }
+
+    public DetallePedido(int idPedido, String nombreProducto, int idProducto, double precioUnit, double precioTotal) {
         this.idPedido = idPedido;
         this.idProducto = idProducto;
         this.cantidad = cantidad;

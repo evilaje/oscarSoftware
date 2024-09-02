@@ -21,6 +21,7 @@ import java.util.logging.Logger;
  * @author Anibal
  */
 public class Venta extends conexion implements sentencias {
+
     private int idventa;
     private Date fecha_venta;
     private double total;
@@ -29,18 +30,19 @@ public class Venta extends conexion implements sentencias {
     private int idEmpleado;
     private String nombreCliente;
     private String nombreEmpleado;
-
+    private String metodoPago;
     // Nuevos atributos
     private int idProducto;
     private String nombreProducto;
     private int cantidad;
     private double precio;
     private double totalArticulo;
-    
-    public Venta(){};
+
+    public Venta() {
+    }
 
     public Venta(int idventa, Date fecha_venta, double total, int idPedido, int clienteRuc, int idEmpleado, String nombreCliente, String nombreEmpleado,
-                 int idProducto, String nombreProducto, int cantidad, double precio, double totalArticulo) {
+            int idProducto, String nombreProducto, int cantidad, double precio, double totalArticulo) {
         this.idventa = idventa;
         this.fecha_venta = fecha_venta;
         this.total = total;
@@ -68,6 +70,13 @@ public class Venta extends conexion implements sentencias {
     }
     
     
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
 
     // Getters y setters para los nuevos atributos
     public int getIdProducto() {
@@ -175,7 +184,7 @@ public class Venta extends conexion implements sentencias {
     }
 
     @Override
-    public ArrayList consulta() {   
+    public ArrayList consulta() {
         ArrayList<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.idventa, v.fecha_venta, v.total, v.idPedido, v.clienteRuc as ruc, "
                 + "c.nombre as nombrecliente, v.idEmpleado, e.nombre as nombreempleado, "
@@ -215,7 +224,7 @@ public class Venta extends conexion implements sentencias {
 
     @Override
     public boolean insertar() {
-        String sql = "INSERT INTO venta (fecha_venta, total, idPedido, idCliente, idEmpleado) values (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO venta (fecha_venta, total, idPedido, idCliente, idEmpleado, metodo_pago) values (?, ?, ?, ?, ?, ?)";
         try {
             Connection con = getCon();
             PreparedStatement stm = con.prepareStatement(sql);
@@ -224,6 +233,7 @@ public class Venta extends conexion implements sentencias {
             stm.setInt(3, this.idPedido);
             stm.setInt(4, this.clienteRuc);
             stm.setInt(5, this.idEmpleado);
+            stm.setString(6, this.metodoPago);
             stm.executeUpdate();
             return true;
         } catch (SQLException e) {
@@ -267,14 +277,13 @@ public class Venta extends conexion implements sentencias {
         }
     }
 
-
-    public ArrayList<Venta> consulta2() {   
+    public ArrayList<Venta> consulta2() {
         ArrayList<Venta> ventas = new ArrayList<>();
         String sql = "SELECT v.idventa, v.fecha_venta, v.total, v.idPedido, v.idCliente as id, "
-                   + "c.nombre as nombrecliente, v.idEmpleado, e.nombre as nombreempleado "
-                   + "FROM oscar_db.venta v "
-                   + "JOIN oscar_db.cliente c ON v.idCliente = c.id "
-                   + "JOIN oscar_db.empleado e ON v.idEmpleado = e.idempleado";
+                + "c.nombre as nombrecliente, v.idEmpleado, e.nombre as nombreempleado "
+                + "FROM oscar_db.venta v "
+                + "JOIN oscar_db.cliente c ON v.idCliente = c.id "
+                + "JOIN oscar_db.empleado e ON v.idEmpleado = e.idempleado";
         try {
             Connection con = getCon();
             Statement stm = con.createStatement();
@@ -296,8 +305,8 @@ public class Venta extends conexion implements sentencias {
         }
         return ventas;
     }
-    
-    public int obtenerID(){
+
+    public int obtenerID() {
         String sql = "SELECT MAX(idventa) as ultimo_id FROM venta";
         int id = 0;
         try {
@@ -312,10 +321,5 @@ public class Venta extends conexion implements sentencias {
         }
         return id;
     }
-    
-    
-    
-    
-    
-    
+
 }

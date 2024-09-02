@@ -1,9 +1,10 @@
-/*
+    /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.oscarssoftware;
 
+import com.jfoenix.controls.JFXComboBox;
 import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
@@ -26,12 +27,12 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -103,6 +104,8 @@ public class VentaController implements Initializable {
     private TextField txtNroPedido;
     
     private MenuController menuController;
+    @FXML
+    private JFXComboBox<String> cboPago;
 
     // Método para pasar la referencia del MenuController
     public void setMenuController(MenuController menuController) {
@@ -112,6 +115,10 @@ public class VentaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarVentas();
+        cboPago.getItems().add("Efectivo");
+        cboPago.getItems().add("Tarjeta de credito");
+        cboPago.getItems().add("Tarjeta de debito");
+        
     }
 
     public void mostrarDatos(Pedido ped) {
@@ -151,6 +158,7 @@ public class VentaController implements Initializable {
     private void nuevo(ActionEvent event) {
         btnNuevaVenta.setDisable(true);
         btnCancelarVenta.setDisable(false);
+        cboPago.setDisable(false);
         buscarpedidos();
 
     }
@@ -212,6 +220,7 @@ public class VentaController implements Initializable {
             double total = Double.parseDouble(txtTotal.getText());
             int idcliente = obtenerCliente(txtPedidoSeleccionado.getText());
             int idempleado = obtenerEmpleado(txtEmpleado.getText());
+            String pago = cboPago.getSelectionModel().getSelectedItem();
 
             // Configurar la venta
             v.setIdPedido(idpedido);
@@ -220,11 +229,14 @@ public class VentaController implements Initializable {
             v.setClienteRuc(idcliente);
             v.setTotal(total);
             p.setIdpedido(idpedido);
+            v.setMetodoPago(pago);
             // Insertar la venta y procesar detalles
             if (v.insertar()) {
                 if (p.modificarEstado()) {
                     procesarDetallesPedido(detalle.consulta());
                     mostrarAlerta(Alert.AlertType.CONFIRMATION, "¡Venta registrada con éxito!");
+                    cboPago.getSelectionModel().clearSelection();
+                    cboPago.setDisable(true);
 
                     if (menuController != null) {
                         menuController.actualizarGanancias();

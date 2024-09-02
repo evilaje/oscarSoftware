@@ -88,6 +88,9 @@ public class EmpleadoController implements Initializable {
         btnModificar.setDisable(false);
         txtNombre.setDisable(true);
         btnNuevo.setDisable(true);
+        txtDire.setDisable(true);
+        txtTel.setDisable(true);
+        txtId.setDisable(true);
         Empleado emple = tablaEmpleado.getSelectionModel().getSelectedItem();
         if (emple != null) {
             txtId.setText(String.valueOf(emple.getIdempleado()));

@@ -24,12 +24,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 //orne riego esta hermosa como siempre
+import javafx.scene.layout.Pane;
+
 public class ProveedorController implements Initializable {
-    
+
     private Proveedor p = new Proveedor();
     private boolean modificar = false;
     ObservableList<Proveedor> Proveedores;
-    
 
     @FXML
     private TextField txtId;
@@ -41,7 +42,6 @@ public class ProveedorController implements Initializable {
     private TextField txtDire;
     @FXML
     private TableView<Proveedor> tablaProveedor;
-    @FXML
     private TableColumn<Proveedor, Integer> columnaId;
     @FXML
     private TableColumn<Proveedor, String> columnaNombre;
@@ -59,80 +59,87 @@ public class ProveedorController implements Initializable {
     private Button btnModificar;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private Pane side_ankerpane;
+    @FXML
+    private TextField txtEmail;
+    @FXML
+    private TableColumn<Proveedor, String> columnaEmail;
 
-  
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         mostrarDatos();
-    }  
-    
-     public void mostrarDatos() {
-         Proveedores = FXCollections.observableArrayList(p.consulta());
-         columnaId.setCellValueFactory(new PropertyValueFactory<>("idproveedor"));
-         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
-         columnaTel.setCellValueFactory(new PropertyValueFactory<>("telefono"));
-         columnaDire.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+    }
+
+    public void mostrarDatos() {
+        Proveedores = FXCollections.observableArrayList(p.consulta());
+        columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));
+        columnaTel.setCellValueFactory(new PropertyValueFactory<>("telefono"));
+        columnaDire.setCellValueFactory(new PropertyValueFactory<>("direccion"));
+        columnaEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         tablaProveedor.setItems(Proveedores);
     }
 
     @FXML
     private void nuevo(ActionEvent event) {
-    
+
         btnCancelar.setDisable(false);
-        txtId.setDisable(false);
         txtNombre.setDisable(false);
         txtTel.setDisable(false);
         txtDire.setDisable(false);
+        txtEmail.setDisable(false);
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
     }
 
-    
-
     @FXML
     private void guardar(ActionEvent event) {
-try {
-        int id = Integer.parseInt(txtId.getText());
-        String nombre = txtNombre.getText();
-        String telefono = txtTel.getText();
-        String direccion = txtDire.getText();
+        try {
+            String nombre = txtNombre.getText();
+            String telefono = txtTel.getText();
+            String direccion = txtDire.getText();
+            String email = txtEmail.getText();
+            p.setNombre(nombre);
+            p.setTelefono(telefono);
+            p.setDireccion(direccion);
+            p.setEmail(email);
+            if (modificar) {
+                int id = Integer.parseInt(txtId.getText());
+                p.setIdproveedor(id);
 
-        Proveedor pr = new Proveedor(id, nombre, telefono, direccion);
-
-        if (modificar) {
-            if (pr.modificar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Proveedor modificado con exito");
+                if (p.modificar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Proveedor modificado con exito");
+                    modificar = false;
+                    txtNombre.clear();
+                    txtId.clear();
+                    txtTel.clear();
+                    txtDire.clear();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el proveedor");
+                }
                 modificar = false;
-                txtNombre.clear();
-                txtId.clear();
-                txtTel.clear();
-                txtDire.clear();
             } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el proveedor");
+                if (p.insertar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Proveedor registrado correctamente");
+                    txtNombre.clear();
+                    txtId.clear();
+                    txtTel.clear();
+                    txtDire.clear();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El proveedor no pudo ser registrado.");
+                }
             }
-            modificar = false;
-        } else {
-            if (pr.insertar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Proveedor registrado correctamente");
-                txtNombre.clear();
-                txtId.clear();
-                txtTel.clear();
-                txtDire.clear();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El proveedor no pudo ser registrado.");
-            }
+        } catch (NumberFormatException p) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
+        } catch (IllegalArgumentException p) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", p.getMessage());
         }
-    } catch (NumberFormatException p) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
-    } catch (IllegalArgumentException p) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", p.getMessage());
+        cancelar(event);
+        mostrarDatos();
     }
-    cancelar(event);
-    mostrarDatos();   
-}
-    
- public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
+
+    public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);
         a.setHeaderText(null);
@@ -140,21 +147,20 @@ try {
         a.show();
     }
 
-
     @FXML
     private void eliminar(ActionEvent event) {
-          Alert a = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("El Sistema comunica:");
         a.setHeaderText(null);
         a.setContentText("Desea eliminar los datos de este proveedor");
         Optional<ButtonType> option = a.showAndWait();
-        if(option.get() == ButtonType.OK){
+        if (option.get() == ButtonType.OK) {
             int codigo = Integer.parseInt(txtId.getText());
             p.setIdproveedor(codigo);
-            if(p.borrar()){
-                mostrarAlerta(Alert.AlertType.INFORMATION, "El Sistema comunica", "Datos del cliente eliminado correctamente");
-            }else{
-                mostrarAlerta(Alert.AlertType.ERROR, "El Sistema comunica", "ERROR!! Los Datos del cliente no se pudieron eliminar");
+            if (p.borrar()) {
+                mostrarAlerta(Alert.AlertType.INFORMATION, "El Sistema comunica", "Datos del proveedor eliminados correctamente");
+            } else {
+                mostrarAlerta(Alert.AlertType.ERROR, "El Sistema comunica", "ERROR!! Los Datos del proveedor no se pudieron eliminar");
             }
         }
         mostrarDatos();
@@ -167,6 +173,7 @@ try {
         txtNombre.setDisable(false);
         txtDire.setDisable(false);
         txtTel.setDisable(false);
+        txtEmail.setDisable(false);
         btnEliminar.setDisable(true);
         btnGuardar.setDisable(false);
         btnModificar.setDisable(true);
@@ -181,14 +188,16 @@ try {
         txtNombre.setDisable(true);
         txtDire.setDisable(true);
         txtTel.setDisable(true);
-        btnModificar.setDisable(true); 
+        txtEmail.setDisable(true);
+        btnModificar.setDisable(true);
         btnEliminar.setDisable(true);
         btnGuardar.setDisable(true);
         btnNuevo.setDisable(false);
         txtNombre.clear();
         txtId.clear();
         txtTel.clear();
-        txtDire.clear();        
+        txtDire.clear();
+        txtEmail.clear();
         btnCancelar.setDisable(true);
         tablaProveedor.getSelectionModel().clearSelection();
     }
@@ -200,16 +209,19 @@ try {
         btnModificar.setDisable(false);
         btnNuevo.setDisable(true);
         txtNombre.setDisable(true);
+        txtDire.setDisable(true);
+        txtEmail.setDisable(true);
+        txtTel.setDisable(true);
         Proveedor provee = (Proveedor) tablaProveedor.getSelectionModel().getSelectedItem();
         if (provee != null) {
             txtNombre.setText(provee.getNombre());
             txtTel.setText(String.valueOf(provee.getTelefono()));
-            txtId.setText(String.valueOf(provee.getIdproveedor()));      
+            txtId.setText(String.valueOf(provee.getIdproveedor()));
             txtDire.setText(String.valueOf(provee.getDireccion()));
-        
+            txtEmail.setText(provee.getEmail());
+
         }
-        
+
     }
 
-    
 }
