@@ -538,14 +538,6 @@ public class PedidoController implements Initializable {
         comboProductos.hide();
     }
     
-    @FXML
-    private void generarReporte(ActionEvent event) {
-        Reporte r = new Reporte();
-        String ubi = "/reportes/pedidoF1.jasper";
-        String tit = "Informe de pedido";
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("idpedido", p.obtenerID());
-        r.generarReporteParametros(ubi, tit, parameters);
-    }
+
     
 }

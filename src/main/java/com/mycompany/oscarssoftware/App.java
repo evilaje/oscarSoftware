@@ -20,7 +20,7 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         conexion conectar = new conexion();
         conectar.getCon();
-        scene = new Scene(loadFXML("menu"));     
+        scene = new Scene(loadFXML("login"));     
         stage.setScene(scene);
         stage.setResizable(false); 
         stage.show();
