@@ -96,47 +96,53 @@ public class ProveedorController implements Initializable {
     @FXML
     private void guardar(ActionEvent event) {
         try {
-            String nombre = txtNombre.getText();
-            String telefono = txtTel.getText();
-            String direccion = txtDire.getText();
-            String email = txtEmail.getText();
+            String nombre = txtNombre.getText().trim();
+            String telefono = txtTel.getText().trim();
+            String direccion = txtDire.getText().trim();
+            String email = txtEmail.getText().trim();
+
+            if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || email.isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error de validación", "Todos los campos son obligatorios.");
+                return;
+            }
+
             p.setNombre(nombre);
             p.setTelefono(telefono);
             p.setDireccion(direccion);
             p.setEmail(email);
+
             if (modificar) {
-                int id = Integer.parseInt(txtId.getText());
+                int id = Integer.parseInt(txtId.getText().trim());
                 p.setIdproveedor(id);
 
                 if (p.modificar()) {
-                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Proveedor modificado con exito");
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Proveedor modificado con éxito");
                     modificar = false;
-                    txtNombre.clear();
-                    txtId.clear();
-                    txtTel.clear();
-                    txtDire.clear();
+                    limpiarCampos();
                 } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el proveedor");
+                    mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "Error modificando el proveedor");
                 }
-                modificar = false;
             } else {
                 if (p.insertar()) {
                     mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Proveedor registrado correctamente");
-                    txtNombre.clear();
-                    txtId.clear();
-                    txtTel.clear();
-                    txtDire.clear();
+                    limpiarCampos();
                 } else {
                     mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El proveedor no pudo ser registrado.");
                 }
             }
-        } catch (NumberFormatException p) {
+        } catch (NumberFormatException e) {
             mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
-        } catch (IllegalArgumentException p) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", p.getMessage());
         }
         cancelar(event);
         mostrarDatos();
+    }
+
+    private void limpiarCampos() {
+        txtNombre.clear();
+        txtTel.clear();
+        txtDire.clear();
+        txtEmail.clear();
+        txtId.clear();
     }
 
     public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {

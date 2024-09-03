@@ -26,13 +26,13 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 
-
 public class EmpleadoController implements Initializable {
+
     private Empleado e = new Empleado();
     private boolean modificar = false;
     ObservableList<Empleado> Empleados;
-    
-    private String[] header={"Id","Nombre","Telefono","Direccion"};
+
+    private String[] header = {"Id", "Nombre", "Telefono", "Direccion"};
     @FXML
     private TextField txtId;
     @FXML
@@ -61,12 +61,12 @@ public class EmpleadoController implements Initializable {
     private TableColumn<Empleado, String> columnaDireccion;
     @FXML
     private Button btnNuevo;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarDatos();
-    }  
-    
+    }
+
     public void mostrarDatos() {
         Empleados = FXCollections.observableArrayList(e.consulta()); //aca se crea una lista observable que va a ser cargada a la tabla, la parte de p.consulta() trae todos los elementos de Producto como un ArrayLists
         tablaEmpleado.getItems().clear(); //vaciamos la lista antigua por si hay datos que en la vista conflictuan
@@ -76,6 +76,7 @@ public class EmpleadoController implements Initializable {
         columnaDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));//igual
         tablaEmpleado.setItems(Empleados);//en la tabla general carga la lista ya completa
     }
+
     private void switchToSecondary() throws IOException {
         App.setRoot("menu", 780, 460);
     }
@@ -112,12 +113,12 @@ public class EmpleadoController implements Initializable {
         btnNuevo.setDisable(true);
         btnCancelar.setDisable(false);
         modificar = true;
-        
+
     }
 
     @FXML
     private void cancelar() {
-        
+
         txtId.setDisable(true);
         txtNombre.setDisable(true);
         txtDire.setDisable(true);
@@ -129,76 +130,78 @@ public class EmpleadoController implements Initializable {
         txtNombre.clear();
         txtId.clear();
         txtTel.clear();
-        txtDire.clear();        
+        txtDire.clear();
         btnCancelar.setDisable(true);
         tablaEmpleado.setDisable(false);
-        
+
     }
 
     @FXML
     private void guardar(ActionEvent event) {
-    try {
-        int idEmpleado = Integer.parseInt(txtId.getText());
-        String nombre = txtNombre.getText();
-        String telefono = txtTel.getText();
-        String direccion = txtDire.getText();
+        try {
+            int idEmpleado = Integer.parseInt(txtId.getText().trim());
+            String nombre = txtNombre.getText().trim();
+            String telefono = txtTel.getText().trim();
+            String direccion = txtDire.getText().trim();
 
-        Empleado empleado = new Empleado(idEmpleado, nombre, telefono, direccion );
+            if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error de validación", "Todos los campos son obligatorios.");
+                return;
+            }
 
-        if (modificar) {
-            if (empleado.modificar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Empleado modificado con exito");
-                modificar = false;
-                txtId.clear();
-                txtNombre.clear();
-                txtTel.clear();
-                txtDire.clear();
+            Empleado empleado = new Empleado(idEmpleado, nombre, telefono, direccion);
+
+            if (modificar) {
+                if (empleado.modificar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Empleado modificado con éxito");
+                    modificar = false;
+                    limpiarCampos();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "Error modificando el empleado");
+                }
             } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el empleado");
+                if (empleado.insertar()) {
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Empleado registrado correctamente");
+                    limpiarCampos();
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El empleado no pudo ser registrado.");
+                }
             }
-            modificar = false;
-        } else {
-            if (empleado.insertar()) {
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Empleado registrado correctamente");
-                txtId.clear();
-                txtNombre.clear();
-                txtTel.clear();
-                txtDire.clear();
-            } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El empleado no pudo ser registrado.");
-            }
+        } catch (NumberFormatException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
         }
-    } catch (NumberFormatException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
-    } catch (IllegalArgumentException e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", e.getMessage());
+        cancelar();
+        mostrarDatos();
     }
-    cancelar();
-    mostrarDatos();
-   
 
-        
+    private void limpiarCampos() {
+        txtId.clear();
+        txtNombre.clear();
+        txtTel.clear();
+        txtDire.clear();
     }
-     public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
+
+    public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);
         a.setHeaderText(null);
         a.setContentText(mensaje);
         a.show();
     }
-      @FXML
+
+    @FXML
     private void eliminarEmpleado(ActionEvent event) {
         Alert a = new Alert(Alert.AlertType.CONFIRMATION);
         a.setTitle("El Sistema comunica:");
         a.setHeaderText(null);
         a.setContentText("Desea eliminar los datos de este empleado");
         Optional<ButtonType> option = a.showAndWait();
-        if(option.get() == ButtonType.OK){
+        if (option.get() == ButtonType.OK) {
             int codigo = Integer.parseInt(txtId.getText());
             e.setIdempleado(codigo);
-            if(e.borrar()){
+            if (e.borrar()) {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "El Sistema comunica", "Datos del empleado eliminado correctamente");
-            }else{
+            } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "El Sistema comunica", "ERROR!! Los Datos del empleado no se pudieron eliminar");
             }
         }
@@ -206,11 +209,8 @@ public class EmpleadoController implements Initializable {
         cancelar();
     }
 
-
-    
-
     @FXML
-    private void nuevo(ActionEvent event) {       
+    private void nuevo(ActionEvent event) {
         btnCancelar.setDisable(false);
         txtId.setDisable(false);
         txtNombre.setDisable(false);

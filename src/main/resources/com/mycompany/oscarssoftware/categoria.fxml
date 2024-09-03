@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="253.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.mycompany.oscarssoftware.CategoriaController">
+    <stylesheets>
+        <URL value="@/styles/categoria.css" />
+    </stylesheets>
+   <children>
+      <Pane prefHeight="51.0" prefWidth="600.0">
+         <children>
+            <TextField fx:id="txtId" disable="true" layoutX="526.0" layoutY="13.0" prefHeight="25.0" prefWidth="60.0" visible="false" />
+            <Button fx:id="btnNuevo" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="25.0" prefWidth="68.0" text="Nuevo" />
+         </children>
+      </Pane>
+      <TableView fx:id="tablaCat" layoutX="303.0" layoutY="51.0" onMouseClicked="#select" prefHeight="200.0" prefWidth="283.0">
+        <columns>
+          <TableColumn fx:id="cat" prefWidth="281.99998982747394" text="Categorias" />
+        </columns>
+      </TableView>
+      <TextField fx:id="txtNombreCat" disable="true" layoutX="14.0" layoutY="51.0" prefHeight="25.0" prefWidth="242.0" promptText="Ingrese el nombre" />
+      <Button fx:id="btnGuardar" disable="true" layoutX="14.0" layoutY="85.0" mnemonicParsing="false" onAction="#guardar" prefHeight="25.0" prefWidth="84.0" text="Guardar" />
+      <Button fx:id="btnCancelar" disable="true" layoutX="14.0" layoutY="138.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="84.0" text="Cancelar" />
+      <Button fx:id="btnModificar" disable="true" layoutX="171.0" layoutY="85.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="84.0" text="Modificar" />
+      <Button fx:id="btnEliminar" disable="true" layoutX="171.0" layoutY="138.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="25.0" prefWidth="84.0" text="Eliminar" />
+   </children>
+</AnchorPane>

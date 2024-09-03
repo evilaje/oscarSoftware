@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="846.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="846.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
    <children>
       <TableView fx:id="tablaProductos" centerShape="false" layoutX="237.0" layoutY="74.0" onMouseClicked="#mostrarFila" prefHeight="333.0" prefWidth="597.0" style="-fx-background-color: #F3F5F8;" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="74.0">
          <columns>
@@ -25,12 +25,17 @@
       <Pane layoutX="-6.0" layoutY="-1.0" prefHeight="48.0" prefWidth="756.0" style="-fx-background-color: #c8d3e0;" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="0.0">
          <children>
             <TextField fx:id="txtBuscar" layoutX="40.0" layoutY="13.0" onAction="#search" prefHeight="25.0" prefWidth="180.0" promptText="🔎 Buscar producto...." />
-            <Label layoutX="330.0" layoutY="14.0" style="-fx-text-fill: white;" text="Filtrar por:" textFill="#566d94">
+            <Label layoutX="297.0" layoutY="14.0" style="-fx-text-fill: white;" text="Filtrar por:" textFill="#566d94">
                <font>
                   <Font name="Century Gothic Bold" size="16.0" />
                </font></Label>
-            <ComboBox fx:id="filtroCategoria" editable="true" layoutX="419.0" layoutY="12.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Categoria..." />
-            <ComboBox fx:id="filtroProveedor" editable="true" layoutX="668.0" layoutY="12.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Proveedor..." />
+            <ComboBox fx:id="filtroCategoria" editable="true" layoutX="386.0" layoutY="12.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Categoria..." />
+            <ComboBox fx:id="filtroProveedor" editable="true" layoutX="554.0" layoutY="12.0" onAction="#search" prefHeight="25.0" prefWidth="154.0" promptText="Proveedor..." />
+            <Button fx:id="btnCategoria" layoutX="734.0" layoutY="9.0" mnemonicParsing="false" onAction="#verCategorias" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Categorias" textFill="#f9f8f7">
+               <font>
+                  <Font name="Microsoft YaHei UI Bold" size="14.0" />
+               </font>
+            </Button>
          </children>
       </Pane>
       <Button fx:id="btnEliminar" disable="true" layoutX="344.0" layoutY="431.0" mnemonicParsing="false" onAction="#eliminarProducto" prefHeight="30.0" prefWidth="100.0" style="-fx-background-radius: 50; -fx-background-color: #7083a4;" text="Eliminar" textFill="#f9f8f7" AnchorPane.bottomAnchor="19.0" AnchorPane.leftAnchor="344.0">
