@@ -12,6 +12,7 @@ com\mycompany\oscarssoftware\util\EmpleadoSingleton.class
 com\mycompany\oscarssoftware\VerDetallesDelPedidoController.class
 com\mycompany\oscarssoftware\modelos\Pedido.class
 com\mycompany\oscarssoftware\clases\conexion.class
+com\mycompany\oscarssoftware\CategoriaController.class
 module-info.class
 com\mycompany\oscarssoftware\modelos\Proveedor.class
 com\mycompany\oscarssoftware\PrimaryController.class

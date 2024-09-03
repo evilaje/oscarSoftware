@@ -1,8 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.mycompany.oscarssoftware.modelos;
+
 import com.mycompany.oscarssoftware.clases.conexion;
 import com.mycompany.oscarssoftware.clases.sentencias;
 import java.sql.Connection;
@@ -12,28 +9,23 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
-
-/**
- * Clase que representa la categoría de un producto.
- */
 public class CategoriaProducto extends conexion implements sentencias {
-    
-    //atributos
+
+    // Atributos
     private int idCategoria;
     private String nombreCategoria;
-    
-    //constructores
+
+    // Constructores
     public CategoriaProducto(int idCategoria, String nombreCategoria) {
         this.idCategoria = idCategoria;
         this.nombreCategoria = nombreCategoria;
     }
 
     public CategoriaProducto() {
-        this.idCategoria = idCategoria;
-        this.nombreCategoria = nombreCategoria;
+        // Inicialización por defecto
     }
-    
-    //getters y setters
+
+    // Getters y setters
     public int getIdCategoria() {
         return idCategoria;
     }
@@ -49,49 +41,93 @@ public class CategoriaProducto extends conexion implements sentencias {
     public void setNombreCategoria(String nombreCategoria) {
         this.nombreCategoria = nombreCategoria;
     }
-    
-    //sentencias
-    
-    //consulta
+
+    // Implementación del método para consultar todas las categorías
     @Override
     public ArrayList<CategoriaProducto> consulta() {
-        //creamos el arraylist que servira para para almacenar todo lo que devuelva el select
         ArrayList<CategoriaProducto> categorias = new ArrayList<>();
-        //preparamos el texto que servira de orden
-        String sql = "SELECT * FROM categoria_producto"; //el texto basicamente dice:
-        //devolver TODO(el asterisco significa todo) de la tabla...
-        //preparamos el try
+        String sql = "SELECT * FROM categoria_producto";
         try (
-            Connection con = getCon();//establecemos la conexion
-            Statement stm = con.createStatement();//preparamos la sentencia
-            ResultSet rs = stm.executeQuery(sql)) {//a la sentencia le asignamos el texto
-                while (rs.next()) { //mientras el resulset (la variable que trae los resultados) tenga algo que traer...
-                    //capturamos los valores que nos trae el resultset
-                    int idCategoria = rs.getInt("idCategoria");
-                    String nombreCategoria = rs.getString("nombre_categoria");
-                    //creamos un objeto categoriaproducto con los valores que nos trajeron
-                    CategoriaProducto categoria = new CategoriaProducto(idCategoria, nombreCategoria);
-                    //annadimos al arraylist el objeto creado
-                    categorias.add(categoria);
-                }
+            Connection con = getCon();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql)) {
+            
+            while (rs.next()) {
+                int idCategoria = rs.getInt("idCategoria");
+                String nombreCategoria = rs.getString("nombre_categoria");
+                CategoriaProducto categoria = new CategoriaProducto(idCategoria, nombreCategoria);
+                categorias.add(categoria);
+            }
         } catch (SQLException e) {
-            e.printStackTrace();//atrapamos cualquier error
+            e.printStackTrace();
         }
-        return categorias;//devolvemos el arraylist
+        return categorias;
     }
-    //sentencias que todavia no se usan
+
+    // Implementación del método para insertar una nueva categoría
     @Override
     public boolean insertar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "INSERT INTO categoria_producto (idCategoria, nombre_categoria) VALUES (?, ?)";
+        try (Connection con = getCon(); 
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            this.idCategoria = obtenerUltimoId() + 1; // Asignar el nuevo ID
+            ps.setInt(1, this.idCategoria);
+            ps.setString(2, this.nombreCategoria);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
+    // Implementación del método para borrar una categoría
     @Override
     public boolean borrar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "DELETE FROM categoria_producto WHERE idCategoria = ?";
+        try (Connection con = getCon(); 
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setInt(1, this.idCategoria);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
+    // Implementación del método para modificar una categoría
     @Override
     public boolean modificar() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "UPDATE categoria_producto SET nombre_categoria = ? WHERE idcategoria = ?";
+        try (Connection con = getCon(); 
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, this.nombreCategoria);
+            ps.setInt(2, this.idCategoria);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    // Método para obtener el último ID de la tabla categoria_producto
+    public int obtenerUltimoId() {
+        String sql = "SELECT MAX(idCategoria) AS ultimo_id FROM categoria_producto";
+        try (Connection con = getCon(); 
+             Statement stm = con.createStatement(); 
+             ResultSet rs = stm.executeQuery(sql)) {
+            
+            if (rs.next()) {
+                return rs.getInt("ultimo_id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // Retorna 0 si no se encuentra ningún ID, indicando que la tabla está vacía
     }
 }

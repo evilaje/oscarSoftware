@@ -106,53 +106,54 @@ public class ClienteController implements Initializable {
 
     @FXML
     private void guardar(ActionEvent event) {
-        btnGuardar.setDisable(true);
-        btnCancelar.setDisable(true);
-        btnNuevo.setDisable(false);
         try {
-            String ruc = txtRuc.getText();
-            String nombre = txtNombre.getText();
-            String telefono = txtTel.getText();
-            String direccion = txtDire.getText();
+            String ruc = txtRuc.getText().trim();
+            String nombre = txtNombre.getText().trim();
+            String telefono = txtTel.getText().trim();
+            String direccion = txtDire.getText().trim();
+
+            if (ruc.isEmpty() || nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Error de validación", "Todos los campos son obligatorios.");
+                return;
+            }
+
+            c.setRuc(ruc);
             c.setNombre(nombre);
             c.setDireccion(direccion);
             c.setTelefono(telefono);
-            c.setRuc(ruc);
 
             if (modificar) {
-                int id = Integer.parseInt(txtId.getText());
+                int id = Integer.parseInt(txtId.getText().trim());
                 c.setId(id);
+
                 if (c.modificar()) {
-                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Cliente modificado con exito");
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Cliente modificado con éxito");
                     modificar = false;
-                    txtNombre.clear();
-                    txtRuc.clear();
-                    txtTel.clear();
-                    txtDire.clear();
+                    limpiarCampos();
                 } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "EL sistema comunica", "Error modificando el cliente");
+                    mostrarAlerta(Alert.AlertType.ERROR, "El sistema comunica", "Error modificando el cliente");
                 }
-                modificar = false;
             } else {
                 if (c.insertar()) {
                     mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Cliente registrado correctamente");
-                    txtNombre.clear();
-                    txtRuc.clear();
-                    txtTel.clear();
-                    txtDire.clear();
+                    limpiarCampos();
                 } else {
                     mostrarAlerta(Alert.AlertType.ERROR, "Error en la base de datos", "El cliente no pudo ser registrado.");
                 }
             }
-        } catch (NumberFormatException c) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
-        } catch (IllegalArgumentException c) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de valor", c.getMessage());
+        } catch (NumberFormatException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos en el ID.");
         }
         cancelar(event);
         mostrarDatos();
+    }
 
-        mostrarDatos();
+    private void limpiarCampos() {
+        txtRuc.clear();
+        txtNombre.clear();
+        txtTel.clear();
+        txtDire.clear();
+        txtId.clear();
     }
 
     public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
