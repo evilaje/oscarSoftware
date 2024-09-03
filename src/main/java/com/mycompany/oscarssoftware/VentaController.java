@@ -32,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -122,6 +123,15 @@ public class VentaController implements Initializable {
         cboPago.getItems().add("Efectivo");
         cboPago.getItems().add("Tarjeta de credito");
         cboPago.getItems().add("Tarjeta de debito");
+                tablaVentas.setRowFactory(tv -> {
+            TableRow<Venta> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    generarReporte(null, row.getItem().getIdventa());
+                }
+            });
+            return row;
+        });
 
     }
 
@@ -207,6 +217,7 @@ public class VentaController implements Initializable {
 
     @FXML
     private void cancelar(ActionEvent event) {
+        cboPago.setDisable(true);
         //habilitar botones
         btnNuevaVenta.setDisable(false);
         btnCancelarVenta.setDisable(true);
@@ -304,7 +315,7 @@ public class VentaController implements Initializable {
 
                     if (menuController != null) {
                         menuController.actualizarGanancias();
-                        generarReporte(event);
+                        generarReporte(event, v.obtenerID());
                     }
                 } else {
                     mostrarAlerta(Alert.AlertType.ERROR, "No se pudo modificar el estado del pedido.");
@@ -377,17 +388,17 @@ public class VentaController implements Initializable {
     }
 
     @FXML
-    private void generarReporte(ActionEvent event) {
+    private void generarReporte(ActionEvent event, int id) {
         Reporte r = new Reporte();
         String ubi = "/reportes/facturaF1.jasper";
         String tit = "Informe de pedido";
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("idventa", v.obtenerID());
+        parameters.put("idventa", id);
 
         // Ruta de la imagen
         String rutaImagen = "/images/logo_factura.png"; // Cambia la ruta según sea necesario
 
-        r.generarReporteConImagen(ubi, tit, parameters, rutaImagen, v.obtenerID());
+        r.generarReporteConImagen(ubi, tit, parameters, rutaImagen, id);
 
         // Puedes agregar un mensaje o notificación aquí para informar al usuario que el reporte se generó
     }

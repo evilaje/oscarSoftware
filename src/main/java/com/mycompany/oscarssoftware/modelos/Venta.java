@@ -322,7 +322,7 @@ public class Venta extends conexion implements sentencias {
         return id;
     }
     
-    private int obtenerVentaRegistrada(){
+    public int obtenerVentaRegistrada(){
         String sql = "SELECT from venta v MAX(idventa) as ultima_venta";
         int id = 0;
         try {
@@ -338,5 +338,21 @@ public class Venta extends conexion implements sentencias {
         return id;
         
     }
-
+    
+    public int ventasRegistradas(){
+        String sql = "SELECT count(*) from venta";
+        int cantidad = 0;
+        try {
+            Connection con = getCon();
+            Statement stm = con.createStatement();
+            ResultSet rs = stm.executeQuery(sql);
+            while (rs.next()) {
+                cantidad = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return cantidad;
+        
+    }
 }
