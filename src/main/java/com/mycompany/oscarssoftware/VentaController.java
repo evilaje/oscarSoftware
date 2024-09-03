@@ -1,10 +1,11 @@
-    /*
+/*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
 package com.mycompany.oscarssoftware;
 
 import com.jfoenix.controls.JFXComboBox;
+import com.mycompany.oscarssoftware.clases.Reporte;
 import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
@@ -16,6 +17,8 @@ import java.net.URL;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -29,6 +32,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -103,7 +107,7 @@ public class VentaController implements Initializable {
     private Producto pr = new Producto();
     @FXML
     private TextField txtNroPedido;
-    
+
     private MenuController menuController;
     @FXML
     private JFXComboBox<String> cboPago;
@@ -119,7 +123,16 @@ public class VentaController implements Initializable {
         cboPago.getItems().add("Efectivo");
         cboPago.getItems().add("Tarjeta de credito");
         cboPago.getItems().add("Tarjeta de debito");
-        
+                tablaVentas.setRowFactory(tv -> {
+            TableRow<Venta> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2 && (!row.isEmpty())) {
+                    generarReporte(null, row.getItem().getIdventa());
+                }
+            });
+            return row;
+        });
+
     }
 
     public void mostrarDatos(Pedido ped) {
@@ -204,6 +217,7 @@ public class VentaController implements Initializable {
 
     @FXML
     private void cancelar(ActionEvent event) {
+        cboPago.setDisable(true);
         //habilitar botones
         btnNuevaVenta.setDisable(false);
         btnCancelarVenta.setDisable(true);
@@ -224,94 +238,96 @@ public class VentaController implements Initializable {
         txtTotal2.clear();
     }
 
-   @FXML
-private void guardarVenta(ActionEvent event) {
-    try {
-        // Validar el número de pedido
-        String nroPedidoText = txtNroPedido.getText();
-        if (nroPedidoText == null || nroPedidoText.trim().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.ERROR, "El número de pedido es obligatorio.");
-            return;
-        }
-        int idpedido = Integer.parseInt(nroPedidoText);
-
-        // Validar la fecha de venta
-        if (dateVenta.getValue() == null) {
-            mostrarAlerta(Alert.AlertType.ERROR, "La fecha de venta es obligatoria.");
-            return;
-        }
-        java.sql.Date fecha = java.sql.Date.valueOf(dateVenta.getValue());
-
-        // Validar el total
-        String totalText = txtTotal.getText();
-        if (totalText == null || totalText.trim().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.ERROR, "El total es obligatorio.");
-            return;
-        }
-        double total;
+    @FXML
+    private void guardarVenta(ActionEvent event) {
         try {
-            total = Double.parseDouble(totalText);
-        } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Formato de total inválido: " + e.getMessage());
-            return;
-        }
+            // Validar el número de pedido
+            String nroPedidoText = txtNroPedido.getText();
+            if (nroPedidoText == null || nroPedidoText.trim().isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "El número de pedido es obligatorio.");
+                return;
+            }
+            int idpedido = Integer.parseInt(nroPedidoText);
 
-        // Validar el cliente
-        String clienteText = txtPedidoSeleccionado.getText();
-        if (clienteText == null || clienteText.trim().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.ERROR, "El cliente es obligatorio.");
-            return;
-        }
-        int idcliente = obtenerCliente(clienteText);
+            // Validar la fecha de venta
+            if (dateVenta.getValue() == null) {
+                mostrarAlerta(Alert.AlertType.ERROR, "La fecha de venta es obligatoria.");
+                return;
+            }
+            java.sql.Date fecha = java.sql.Date.valueOf(dateVenta.getValue());
 
-        // Validar el empleado
-        String empleadoText = txtEmpleado.getText();
-        if (empleadoText == null || empleadoText.trim().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.ERROR, "El empleado es obligatorio.");
-            return;
-        }
-        int idempleado = obtenerEmpleado(empleadoText);
+            // Validar el total
+            String totalText = txtTotal.getText();
+            if (totalText == null || totalText.trim().isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "El total es obligatorio.");
+                return;
+            }
+            double total;
+            try {
+                total = Double.parseDouble(totalText);
+            } catch (NumberFormatException e) {
+                mostrarAlerta(Alert.AlertType.ERROR, "Formato de total inválido: " + e.getMessage());
+                return;
+            }
 
-        // Validar el método de pago
-        String pago = cboPago.getSelectionModel().getSelectedItem();
-        if (pago == null || pago.trim().isEmpty()) {
-            mostrarAlerta(Alert.AlertType.ERROR, "El método de pago es obligatorio.");
-            return;
-        }
+            // Validar el cliente
+            String clienteText = txtPedidoSeleccionado.getText();
+            if (clienteText == null || clienteText.trim().isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "El cliente es obligatorio.");
+                return;
+            }
+            int idcliente = obtenerCliente(clienteText);
 
-        // Configurar la venta
-        v.setIdPedido(idpedido);
-        v.setFecha_venta(fecha);
-        v.setIdEmpleado(idempleado);
-        v.setClienteRuc(idcliente);
-        v.setTotal(total);
-        p.setIdpedido(idpedido);
-        v.setMetodoPago(pago);
+            // Validar el empleado
+            String empleadoText = txtEmpleado.getText();
+            if (empleadoText == null || empleadoText.trim().isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "El empleado es obligatorio.");
+                return;
+            }
+            int idempleado = obtenerEmpleado(empleadoText);
 
-        // Insertar la venta y procesar detalles
-        if (v.insertar()) {
-            if (p.modificarEstado()) {
-                procesarDetallesPedido(detalle.consulta());
-                mostrarAlerta(Alert.AlertType.CONFIRMATION, "¡Venta registrada con éxito!");
-                cancelar(event);
-                cboPago.getSelectionModel().clearSelection();
-                cboPago.setDisable(true);
+            // Validar el método de pago
+            String pago = cboPago.getSelectionModel().getSelectedItem();
+            if (pago == null || pago.trim().isEmpty()) {
+                mostrarAlerta(Alert.AlertType.ERROR, "El método de pago es obligatorio.");
+                return;
+            }
 
-                if (menuController != null) {
-                    menuController.actualizarGanancias();
+            // Configurar la venta
+            v.setIdPedido(idpedido);
+            v.setFecha_venta(fecha);
+            v.setIdEmpleado(idempleado);
+            v.setClienteRuc(idcliente);
+            v.setTotal(total);
+            p.setIdpedido(idpedido);
+            v.setMetodoPago(pago);
+            v.setTotal(total);
+            
+
+            // Insertar la venta y procesar detalles
+            if (v.insertar()) {
+                if (p.modificarEstado()) {
+                    procesarDetallesPedido(detalle.consulta());
+                    mostrarAlerta(Alert.AlertType.CONFIRMATION, "¡Venta registrada con éxito!");
+                    cancelar(event);
+                    cboPago.getSelectionModel().clearSelection();
+                    cboPago.setDisable(true);
+
+                    if (menuController != null) {
+                        menuController.actualizarGanancias();
+                        generarReporte(event, v.obtenerID());
+                    }
+                } else {
+                    mostrarAlerta(Alert.AlertType.ERROR, "No se pudo modificar el estado del pedido.");
                 }
             } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "No se pudo modificar el estado del pedido.");
+                mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada.");
             }
-        } else {
-            mostrarAlerta(Alert.AlertType.ERROR, "La venta no pudo ser registrada.");
+
+        } catch (Exception e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Ocurrió un error al registrar la venta: " + e.getMessage());
         }
-
-    } catch (Exception e) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Ocurrió un error al registrar la venta: " + e.getMessage());
     }
-}
-
 
     private void procesarDetallesPedido(ArrayList<DetallePedido> dp) throws Exception {
         for (DetallePedido d : dp) {
@@ -369,6 +385,22 @@ private void guardarVenta(ActionEvent event) {
             txtProducto.setText(d.getNombreProducto());
             txtTotal.setText(String.valueOf(d.getPrecioTotal()));
         }
+    }
+
+    @FXML
+    private void generarReporte(ActionEvent event, int id) {
+        Reporte r = new Reporte();
+        String ubi = "/reportes/facturaF1.jasper";
+        String tit = "Informe de pedido";
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("idventa", id);
+
+        // Ruta de la imagen
+        String rutaImagen = "/images/logo_factura.png"; // Cambia la ruta según sea necesario
+
+        r.generarReporteConImagen(ubi, tit, parameters, rutaImagen, id);
+
+        // Puedes agregar un mensaje o notificación aquí para informar al usuario que el reporte se generó
     }
 
 }

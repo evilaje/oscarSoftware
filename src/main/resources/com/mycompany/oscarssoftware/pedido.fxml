@@ -27,15 +27,10 @@
                <font>
                   <Font name="Century Gothic Bold" size="13.0" />
                </font></Button>
-            <Button fx:id="btnNuevoEmpleado" disable="true" layoutX="247.0" layoutY="140.0" mnemonicParsing="false" onAction="#abrirVentanaEmpleado" prefHeight="25.0" prefWidth="135.0" style="-fx-background-radius: 30; -fx-background-color: dee2ea;" text="Nuevo empleado" textFill="#3a465b">
-               <font>
-                  <Font name="Century Gothic Bold" size="13.0" />
-               </font></Button>
             <Button fx:id="btnFechaHoy" disable="true" layoutX="262.0" layoutY="76.0" mnemonicParsing="false" onAction="#fechaHoy" prefHeight="25.0" prefWidth="110.0" style="-fx-background-radius: 30; -fx-background-color: dee2ea;" text="Fecha de hoy" textFill="#3a465b">
                <font>
                   <Font name="Century Gothic Bold" size="13.0" />
                </font></Button>
-            <ComboBox fx:id="comboEmpleado" disable="true" editable="true" layoutX="90.0" layoutY="140.0" prefWidth="150.0" promptText="Seleccione empleado" style="-fx-background-radius: 8;" />
             <Label layoutX="13.0" layoutY="143.0" text="Empleado" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
@@ -46,6 +41,7 @@
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
+            <TextField fx:id="txtEmpleado" disable="true" layoutX="91.0" layoutY="141.0" prefHeight="25.0" prefWidth="149.0" promptText="Ingrese cantidad" style="-fx-background-radius: 40;" text="Empleado" />
          </children>
       </Pane>
       <TableView fx:id="tablaDetalles" layoutX="11.0" layoutY="290.0" onMouseClicked="#mostrarDetalleSeleccionado" prefHeight="236.0" prefWidth="616.0" stylesheets="@../../../styles/styleTable.css">

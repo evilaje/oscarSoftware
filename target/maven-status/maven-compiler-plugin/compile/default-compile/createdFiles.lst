@@ -8,6 +8,7 @@ com\mycompany\oscarssoftware\App.class
 com\mycompany\oscarssoftware\modelos\DetallePedido.class
 com\mycompany\oscarssoftware\modelos\Producto.class
 com\mycompany\oscarssoftware\ProveedorController.class
+com\mycompany\oscarssoftware\util\EmpleadoSingleton.class
 com\mycompany\oscarssoftware\VerDetallesDelPedidoController.class
 com\mycompany\oscarssoftware\modelos\Pedido.class
 com\mycompany\oscarssoftware\clases\conexion.class

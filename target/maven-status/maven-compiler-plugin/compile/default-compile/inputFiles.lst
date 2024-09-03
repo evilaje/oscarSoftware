@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 C:\Users\Orne\Desktop\proyecto\oscarSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Empleado.java
 C:\Users\Orne\Desktop\proyecto\oscarSoftware\src\main\java\com\mycompany\oscarssoftware\EmpleadoController.java
 C:\Users\Orne\Desktop\proyecto\oscarSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Venta.java
@@ -25,3 +26,33 @@ C:\Users\Orne\Desktop\proyecto\oscarSoftware\src\main\java\com\mycompany\oscarss
 C:\Users\Orne\Desktop\proyecto\oscarSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Producto.java
 C:\Users\Orne\Desktop\proyecto\oscarSoftware\src\main\java\com\mycompany\oscarssoftware\LoginController.java
 C:\Users\Orne\Desktop\proyecto\oscarSoftware\src\main\java\com\mycompany\oscarssoftware\BuscarPedidosController.java
+=======
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\ProveedorController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Proveedor.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\VerPedidoController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\LoginController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Empleado.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\SecondaryController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\menu.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\PedidoController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Pedido.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\ClienteController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\DetallePedido.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Login.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\MenuController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Venta.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\clases\Reporte.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\clases\conexion.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Cliente.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\Producto.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\EmpleadoController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\module-info.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\clases\sentencias.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\PrimaryController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\util\EmpleadoSingleton.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\modelos\CategoriaProducto.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\App.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\VentaController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\BuscarPedidosController.java
+C:\Users\Anibal\cositas\2024\java\oscarsSoftware\src\main\java\com\mycompany\oscarssoftware\VerDetallesDelPedidoController.java
+>>>>>>> 9be5f5165f4a0334818d313612cbdbba98d32161

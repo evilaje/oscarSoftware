@@ -7,6 +7,8 @@ package com.mycompany.oscarssoftware;
 import com.jfoenix.controls.JFXButton;
 import com.mycompany.oscarssoftware.clases.Reporte;
 import com.mycompany.oscarssoftware.modelos.Pedido;
+import com.mycompany.oscarssoftware.modelos.Venta;
+import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -50,6 +52,7 @@ public class MenuController implements Initializable {
     private Label lblGananciasTotales;
     private double gananciasTotales = 0.00;
     private Pedido p = new Pedido();
+    private Venta v = new Venta();
     @FXML
     private Pane pane_1211;
     @FXML
@@ -57,20 +60,25 @@ public class MenuController implements Initializable {
     @FXML
     private Pane pane_12111;
     @FXML
-    private Label lblPedidos1;
-    @FXML
     private Pane pane_121;
     @FXML
     private Button btnVerPedido;
+    @FXML
+    private Label txtEmpleado;
+    @FXML
+    private Label lblVentas;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        txtEmpleado.setText(EmpleadoSingleton.getInstance().getEmpleado().getNombre());
         actualizarGanancias();
 
     }
 
     public void actualizarGanancias() {
         gananciasTotales = p.ingresosTotales();
+        lblVentas.setText(String.valueOf(v.ventasRegistradas()));
+        lblPedidos.setText(String.valueOf(p.pedidosPendientes()));
         lblGananciasTotales.setText(String.format("%.2f", gananciasTotales));
     }
 
@@ -98,7 +106,17 @@ public class MenuController implements Initializable {
 
     @FXML
     private void pedido(ActionEvent event) {
-        abrirFxml("pedido.fxml", "Formulario Pedido");
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("pedido.fxml"));
+            Parent root = loader.load();
+            PedidoController pedidoController = loader.getController();
+            pedidoController.setMenuController(this);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @FXML

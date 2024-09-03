@@ -292,6 +292,23 @@ public double ingresosTotales() {
     return 0;
 }
 
+    public int pedidosPendientes(){
+        String sql = "SELECT count(*) from pedido where estado = ?";
+        int cantidad = 0;
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setBoolean(1, true);
+            ResultSet rs = stm.executeQuery();
+            while (rs.next()) {
+                cantidad = rs.getInt(1);
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+        }
+        return cantidad;
+        
+    }
     
     
 }

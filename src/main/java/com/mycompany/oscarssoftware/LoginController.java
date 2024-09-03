@@ -6,6 +6,7 @@ package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.clases.conexion;
 import com.mycompany.oscarssoftware.modelos.Empleado;
+import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -34,8 +35,9 @@ import javafx.stage.Stage;
  * @author Orne
  */
 public class LoginController implements Initializable {
+
     private Empleado e = new Empleado();
-  
+
     @FXML
     private Button btnIngresar;
     @FXML
@@ -43,45 +45,46 @@ public class LoginController implements Initializable {
     @FXML
     private PasswordField txtContra;
 
-    
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
 
-@FXML
-private void ingresar(ActionEvent event) {
-    String nombreUsuario = txtUsuario.getText();
-    String pass = txtContra.getText();
-
-    if (nombreUsuario.isEmpty() || pass.isEmpty()) {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Debe completar todos los campos.");
-        return;
     }
 
-    if (e.ingresar(nombreUsuario, pass) != null) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
-            Parent root = loader.load();
+    @FXML
+    private void ingresar(ActionEvent event) {
+        String nombreUsuario = txtUsuario.getText();
+        String pass = txtContra.getText();
 
-            // Obtener la escena y el escenario actuales
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Scene newScene = new Scene(root); // Crear una nueva escena
-
-            // Ajustar tamaño del stage
-            stage.setScene(newScene);
-            stage.sizeToScene();  // Reajustar el tamaño de la ventana
-            stage.centerOnScreen(); // Centrar la ventana en la pantalla
-
-        } catch (IOException ex) {
-            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        if (nombreUsuario.isEmpty() || pass.isEmpty()) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Debe completar todos los campos.");
+            return;
         }
-    } else {
-        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Usuario o Contraseña Incorrectas");
-    }
-}
 
- 
+        Empleado empleado = e.ingresar(nombreUsuario, pass);
+        if (empleado != null) {
+            // Guardar el empleado en el Singleton
+            EmpleadoSingleton.getInstance().setEmpleado(empleado);
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
+                Parent root = loader.load();
+
+                // Obtener la escena y el escenario actuales
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                Scene newScene = new Scene(root); // Crear una nueva escena
+
+                // Ajustar tamaño del stage
+                stage.setScene(newScene);
+                stage.sizeToScene();  // Reajustar el tamaño de la ventana
+                stage.centerOnScreen(); // Centrar la ventana en la pantalla
+
+            } catch (IOException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Usuario o Contraseña Incorrectas");
+        }
+    }
 
     private void registro(ActionEvent event) {
         try {
@@ -89,23 +92,22 @@ private void ingresar(ActionEvent event) {
             Parent root = loader.load();
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
-            stage.showAndWait();           
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-      public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
+
+    public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);
         a.setHeaderText(null);
         a.setContentText(mensaje);
         a.show();
     }
-       @FXML
+
+    @FXML
     private void switchToLogin() throws IOException {
-        App.setRoot("login", 780, 460); 
+        App.setRoot("login", 780, 460);
     }
 }
-
-
-
