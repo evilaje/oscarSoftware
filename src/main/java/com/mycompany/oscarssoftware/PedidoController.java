@@ -201,6 +201,11 @@ public class PedidoController implements Initializable {
         btnNuevoPedido.setDisable(false);
         btnGuardarPedido.setDisable(true);
         btnCancelarPedido.setDisable(true);
+        comboCliente.hide();
+        comboCliente.setDisable(true);
+        btnNuevoCliente.setDisable(true);
+        btnFechaHoy.setDisable(true);
+        dateFecha.setDisable(true);
 
         btnNuevoDetalle.setDisable(true);
         btnCancelarDetalle.setDisable(true);

@@ -120,9 +120,8 @@ public class VentaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarVentas();
-        cboPago.getItems().add("Efectivo");
-        cboPago.getItems().add("Tarjeta de credito");
-        cboPago.getItems().add("Tarjeta de debito");
+        cboPago.getItems().add("Contado");
+        cboPago.getItems().add("Credito");  
                 tablaVentas.setRowFactory(tv -> {
             TableRow<Venta> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
