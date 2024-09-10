@@ -47,6 +47,12 @@ public class CategoriaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // Inicializar la lista de categorías
+        mostrar();
+        // Deshabilitar el campo ID, ya que normalmente es autogenerado
+        txtId.setDisable(true);
+    }
+
+    private void mostrar() {
         listaCategorias = FXCollections.observableArrayList(categoria.consulta());
 
         // Configurar la columna de la tabla
@@ -55,8 +61,6 @@ public class CategoriaController implements Initializable {
         // Vincular la tabla con la lista observable
         tablaCat.setItems(listaCategorias);
 
-        // Deshabilitar el campo ID, ya que normalmente es autogenerado
-        txtId.setDisable(true);
     }
 
     @FXML
@@ -102,7 +106,7 @@ public class CategoriaController implements Initializable {
                 mostrarAlerta("El sistema comunica", "La categoria no pudo ser insertada");
             }
         }
-        tablaCat.refresh();
+        mostrar();
         // Limpiar los campos
         limpiarCampos();
     }
@@ -171,6 +175,7 @@ public class CategoriaController implements Initializable {
     @FXML
     private void nuevo(ActionEvent event) {
         btnNuevo.setDisable(true);
+        btnCancelar.setDisable(false);
         txtNombreCat.setDisable(false);
         btnGuardar.setDisable(false);
     }

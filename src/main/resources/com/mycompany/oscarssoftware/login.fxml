@@ -54,7 +54,7 @@
                <children>
                   <Button fx:id="btnIngresar1" mnemonicParsing="false" onAction="#ingresar" prefHeight="35.0" prefWidth="211.0" style="-fx-border-radius: 50; -fx-background-radius: 50;" styleClass="ButtonIngresar" text="Ingresar" textFill="#34475d">
                      <font>
-                        <Font name="Century Gothic Bold" size="13.0" />
+                        <Font name="Century Gothic Bold" size="16.0" />
                      </font>
                      <cursor>
                         <Cursor fx:constant="HAND" />
