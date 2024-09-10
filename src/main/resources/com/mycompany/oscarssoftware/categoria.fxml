@@ -7,8 +7,9 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="253.0" prefWidth="600.0" styleClass="mainFxmlClass" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21" fx:controller="com.mycompany.oscarssoftware.CategoriaController">
+<AnchorPane id="AnchorPane" prefHeight="262.0" prefWidth="694.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.CategoriaController">
     <stylesheets>
         <URL value="@/styles/categoria.css" />
     </stylesheets>
@@ -16,18 +17,50 @@
       <Pane prefHeight="51.0" prefWidth="600.0">
          <children>
             <TextField fx:id="txtId" disable="true" layoutX="526.0" layoutY="13.0" prefHeight="25.0" prefWidth="60.0" visible="false" />
-            <Button fx:id="btnNuevo" layoutX="14.0" layoutY="13.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="25.0" prefWidth="68.0" text="Nuevo" />
+            <Pane layoutX="3.0" layoutY="5.0" prefHeight="42.0" prefWidth="361.0" style="-fx-background-radius: 20; -fx-background-color: #c8d3e0;">
+               <children>
+                  <Button fx:id="btnCancelar" disable="true" layoutX="247.0" layoutY="8.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="91.0" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Cancelar" textFill="#dee2ea">
+                     <font>
+                        <Font name="Century Gothic Bold" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnNuevo" layoutX="20.0" layoutY="8.0" mnemonicParsing="false" onAction="#nuevo" prefHeight="25.0" prefWidth="84.0" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Nuevo" textFill="#dee2ea">
+                     <font>
+                        <Font name="Century Gothic Bold" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
          </children>
       </Pane>
-      <TableView fx:id="tablaCat" layoutX="303.0" layoutY="51.0" onMouseClicked="#select" prefHeight="200.0" prefWidth="283.0">
-        <columns>
-          <TableColumn fx:id="cat" prefWidth="281.99998982747394" text="Categorias" />
-        </columns>
-      </TableView>
-      <TextField fx:id="txtNombreCat" disable="true" layoutX="14.0" layoutY="51.0" prefHeight="25.0" prefWidth="242.0" promptText="Ingrese el nombre" />
-      <Button fx:id="btnGuardar" disable="true" layoutX="14.0" layoutY="85.0" mnemonicParsing="false" onAction="#guardar" prefHeight="25.0" prefWidth="84.0" text="Guardar" />
-      <Button fx:id="btnCancelar" disable="true" layoutX="14.0" layoutY="138.0" mnemonicParsing="false" onAction="#cancelar" prefHeight="25.0" prefWidth="84.0" text="Cancelar" />
-      <Button fx:id="btnModificar" disable="true" layoutX="171.0" layoutY="85.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="84.0" text="Modificar" />
-      <Button fx:id="btnEliminar" disable="true" layoutX="171.0" layoutY="138.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="25.0" prefWidth="84.0" text="Eliminar" />
+      <TextField fx:id="txtNombreCat" disable="true" layoutX="23.0" layoutY="110.0" prefHeight="42.0" prefWidth="242.0" promptText="Ingrese el nombre" style="-fx-background-radius: 30;" />
+      <Pane layoutX="382.0" layoutY="9.0" prefHeight="234.0" prefWidth="292.0" style="-fx-background-color: #99adc5; -fx-background-radius: 20;">
+         <children>
+            <TableView fx:id="tablaCat" layoutX="9.0" layoutY="9.0" onMouseClicked="#select" prefHeight="216.0" prefWidth="275.0" style="-fx-background-radius: 20;">
+              <columns>
+                <TableColumn fx:id="cat" prefWidth="281.99998982747394" style="-fx-background-radius: 20;" text="Categorias" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="3.0" layoutY="208.0" prefHeight="42.0" prefWidth="352.0" style="-fx-background-color: #c8d3e0; -fx-background-radius: 20;">
+         <children>
+            <Button fx:id="btnGuardar" disable="true" layoutX="15.0" layoutY="9.0" mnemonicParsing="false" onAction="#guardar" prefHeight="25.0" prefWidth="91.0" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Guardar" textFill="#dee2ea">
+               <font>
+                  <Font name="Century Gothic Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnModificar" disable="true" layoutX="124.0" layoutY="9.0" mnemonicParsing="false" onAction="#modificar" prefHeight="25.0" prefWidth="91.0" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Modificar" textFill="#dee2ea">
+               <font>
+                  <Font name="Century Gothic Bold" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="btnEliminar" disable="true" layoutX="234.0" layoutY="9.0" mnemonicParsing="false" onAction="#eliminar" prefHeight="25.0" prefWidth="102.0" style="-fx-background-radius: 100; -fx-background-color: #7083a4;" text="Eliminar" textFill="#dee2ea">
+               <font>
+                  <Font name="Century Gothic Bold" size="13.0" />
+               </font>
+            </Button>
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
