@@ -7,13 +7,12 @@ import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
+import com.mycompany.oscarssoftware.util.Autocompletado;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -37,11 +36,6 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-/**
- * FXML Controller class
- *
- * @author Anibal
- */
 public class PedidoController implements Initializable {
 
     private Cliente c = new Cliente();
@@ -124,41 +118,13 @@ public class PedidoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         nombresClientes = FXCollections.observableArrayList();
-        nombresEmpleados = FXCollections.observableArrayList();
         nombresProductos = FXCollections.observableArrayList();
         cargarComboClientes();
         txtEmpleado.setText(EmpleadoSingleton.getInstance().getEmpleado().getNombre());
         cargarComboProductos();
-        comboCliente.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboCliente, nombresClientes, newValue));
-        comboProductos.getEditor().textProperty().addListener((obs, oldValue, newValue) -> filterNames(comboProductos, nombresProductos, newValue));
-
-    }
-
-    private void filterNames(ComboBox<String> comboBox, ObservableList<String> originalItems, String input) {
-        if (isUpdating) {
-            return;
-        }
-        isUpdating = true;
-
-        String currentText = comboBox.getEditor().getText();
-        ObservableList<String> filteredNames = FXCollections.observableArrayList();
-
-        if (input == null || input.isEmpty()) {
-            filteredNames.setAll(originalItems);
-        } else {
-            String lowerCaseInput = input.toLowerCase();
-            for (String name : originalItems) {
-                if (name.toLowerCase().startsWith(lowerCaseInput)) {
-                    filteredNames.add(name);
-                }
-            }
-        }
-
-        comboBox.setItems(filteredNames);
-        comboBox.getEditor().setText(currentText);
-        comboBox.show();
-
-        isUpdating = false;
+        Autocompletado a = new Autocompletado();
+        a.configurarAutocompletado(comboCliente.getEditor(), nombresClientes);
+        a.configurarAutocompletado(comboProductos.getEditor(), nombresProductos);
     }
 
     @FXML
