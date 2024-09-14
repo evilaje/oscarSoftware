@@ -114,7 +114,7 @@ public class PedidoController implements Initializable {
     int total = 0;
     @FXML
     private TextField txtEmpleado;
-    
+
     private MenuController menuController;
 
     public void setMenuController(MenuController menuController) {
@@ -458,6 +458,9 @@ public class PedidoController implements Initializable {
 
     //metodos para cargar los combos
     private void cargarComboClientes() {
+        if (!listaClientes.isEmpty()) {
+            listaClientes.clear();
+        }
         listaClientes = FXCollections.observableList(c.consulta());
         for (Cliente cliente : listaClientes) {
             nombresClientes.add(cliente.getNombre());

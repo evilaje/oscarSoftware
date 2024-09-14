@@ -1,15 +1,15 @@
 .vbox_background_center{
- -fx-background-image:url("/images/eslogan.png");   
- -fx-background-size:cover; 
-       
+ -fx-background-image:url("/images/eslogan.png");
+ -fx-background-size:cover;
+
 }
 .vbox_background_right{
     -fx-background-image:url("/images/iz.png");
-    -fx-background-size:cover; 
-    
+    -fx-background-size:cover;
+
 }
 .ButtonIngresar{
-   -fx-background-color: #dde3eb;  
+   -fx-background-color: #dde3eb;
 }
 .ButtonIngresar:hover {
     -fx-background-color:#aebed1;
