@@ -136,7 +136,7 @@
                               <Font name="Tw Cen MT" size="18.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblPedidos" layoutX="60.0" layoutY="46.0" prefHeight="31.0" prefWidth="16.0" text="0" textFill="#23394d">
+                        <Label fx:id="lblPedidos" layoutX="36.0" layoutY="44.0" prefHeight="35.0" prefWidth="56.0" text="0" textAlignment="CENTER" textFill="#23394d">
                            <font>
                               <Font name="Century Gothic Bold" size="24.0" />
                            </font>
@@ -159,7 +159,7 @@
                               <Font name="Tw Cen MT" size="16.0" />
                            </font>
                         </Label>
-                        <Label fx:id="lblVentas" layoutX="47.0" layoutY="46.0" prefHeight="35.0" prefWidth="85.0" text="0" textFill="#23394d">
+                        <Label fx:id="lblVentas" layoutX="25.0" layoutY="44.0" prefHeight="35.0" prefWidth="85.0" text="0" textAlignment="CENTER" textFill="#23394d">
                            <font>
                               <Font name="Century Gothic Bold" size="24.0" />
                            </font>

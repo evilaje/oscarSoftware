@@ -27,7 +27,7 @@
                         <Font name="Century Gothic Bold" size="16.0" />
                      </font>
                   </Button>
-                  <JFXComboBox fx:id="cboPago" disable="true" layoutX="198.0" layoutY="15.0" promptText="Seleccione metodo de pago" />
+                  <JFXComboBox fx:id="cboPago" disable="true" layoutX="198.0" layoutY="15.0" promptText="Seleccione condicion de pago" />
                </children>
             </Pane>
             <Label layoutX="569.0" layoutY="8.0" text="Venta" textFill="#4f6b8c">

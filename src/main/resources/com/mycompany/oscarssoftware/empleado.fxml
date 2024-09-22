@@ -9,14 +9,14 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="431.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.EmpleadoController">
+<AnchorPane id="AnchorPane" prefHeight="431.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.EmpleadoController">
    <children>
       <TableView fx:id="tablaEmpleado" layoutX="234.0" layoutY="63.0" onMouseClicked="#mostrarFila" prefHeight="306.0" prefWidth="446.0" style="-fx-background-color: #d7dfe8;">
         <columns>
           <TableColumn fx:id="columnaId" prefWidth="100.0" text="Cédula" />
           <TableColumn fx:id="columnaNombre" prefWidth="122.0" text="Nombre" />
             <TableColumn fx:id="columnaTelefono" prefWidth="118.0" text="Telefono" />
-            <TableColumn fx:id="columnaDireccion" prefWidth="139.0" text="Direccion" />
+            <TableColumn fx:id="columnaDireccion" prefWidth="104.66668701171875" text="Direccion" />
         </columns>
       </TableView>
       <Button fx:id="btnEliminar" disable="true" layoutX="571.0" layoutY="383.0" mnemonicParsing="false" onAction="#eliminarEmpleado" prefHeight="24.0" prefWidth="84.0" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Eliminar" textFill="#dee2ea">

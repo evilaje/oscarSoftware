@@ -100,6 +100,10 @@ public class PrimaryController implements Initializable {
     private Button btnReestablecer;
     @FXML
     private Button btnCategoria;
+    @FXML
+    private TextField txtCosto;
+    @FXML
+    private TableColumn<Producto, Double> columnCosto;
     /**
      * Initializes the controller class.
      */
@@ -119,6 +123,7 @@ public class PrimaryController implements Initializable {
         columnStock.setCellValueFactory(new PropertyValueFactory<>("cantidad"));//igual
         columnCategoria.setCellValueFactory(new PropertyValueFactory<>("nombreCategoria"));//igual
         columnProveedor.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor")); //igual
+        columnCosto.setCellValueFactory(new PropertyValueFactory<>("costo"));
         tablaProductos.setItems(Productos);//en la tabla general carga la lista ya completa
         
     }
@@ -138,7 +143,8 @@ public class PrimaryController implements Initializable {
             String proveedorSeleccionado = comboProveedores.getValue();
             int idCat = obtenerCategoria(categoriaSeleccionada);
             int idProv = obtenerProveedor(proveedorSeleccionado);
-            if (cantidad < 0 || precio < 1) {
+            double costo = Double.parseDouble(txtCosto.getText());
+            if (cantidad < 0 || precio < 1 || costo < 1) {
                 throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
             }
 
@@ -147,6 +153,7 @@ public class PrimaryController implements Initializable {
             p.setPrecio((float) precio);
             p.setIdCategoriaProducto(idCat);
             p.setIdProveedor(idProv);
+            p.setCosto(costo);
 
 
 
@@ -250,6 +257,7 @@ public class PrimaryController implements Initializable {
         txtId.setDisable(true);
         txtNombre.setDisable(true);
         txtPrecio.setDisable(true);
+        txtCosto.setDisable(true);
         txtCantidad.setDisable(true);
         btnModificar.setDisable(true);
         btnEliminar.setDisable(true);
@@ -260,6 +268,7 @@ public class PrimaryController implements Initializable {
         txtCantidad.clear();
         txtId.clear();
         txtPrecio.clear();
+        txtCosto.clear();
         //limpiar los combos de seleccion y reestablecer el texto
         comboCategoria.setValue(null);
         comboProveedores.setValue(null);
@@ -310,6 +319,7 @@ public class PrimaryController implements Initializable {
         txtCantidad.setDisable(true);
         txtNombre.setDisable(true);
         txtPrecio.setDisable(true);
+        txtCosto.setDisable(true);
         comboCategoria.setDisable(true);
         comboProveedores.setDisable(true);
         Producto pr = tablaProductos.getSelectionModel().getSelectedItem();
@@ -320,6 +330,7 @@ public class PrimaryController implements Initializable {
             txtNombre.setText(pr.getNombre());
             txtCantidad.setText(String.valueOf(pr.getCantidad()));
             txtPrecio.setText(String.valueOf(pr.getPrecio()));
+            txtCosto.setText(String.valueOf(pr.getCosto()));
         }
     }
 
@@ -330,6 +341,7 @@ public class PrimaryController implements Initializable {
         txtCantidad.setDisable(false);
         txtNombre.setDisable(false);
         txtPrecio.setDisable(false);
+        txtCosto.setDisable(false);
         btnEliminar.setDisable(true);
         txtId.setDisable(true);
         btnGuardar.setDisable(false);
@@ -353,6 +365,7 @@ public class PrimaryController implements Initializable {
         txtId.setDisable(false);
         txtNombre.setDisable(false);
         txtPrecio.setDisable(false);
+        txtCosto.setDisable(false);
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
     }

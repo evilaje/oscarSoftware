@@ -6,6 +6,7 @@ package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.clases.conexion;
 import com.mycompany.oscarssoftware.modelos.Empleado;
+import com.mycompany.oscarssoftware.util.Autocompletado;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
@@ -15,6 +16,8 @@ import java.sql.ResultSet;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -44,9 +47,15 @@ public class LoginController implements Initializable {
     private TextField txtUsuario;
     @FXML
     private PasswordField txtContra;
+    private ObservableList<String> users;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        users = FXCollections.observableList(e.obtenerNombres());
+        Autocompletado a = new Autocompletado();
+        a.configurarAutocompletado(txtUsuario, users);
+        
+        
 
     }
 
