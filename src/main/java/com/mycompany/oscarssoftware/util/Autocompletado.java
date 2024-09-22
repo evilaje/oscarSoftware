@@ -4,7 +4,6 @@
  */
 package com.mycompany.oscarssoftware.util;
 
-
 import java.util.List;
 import java.util.stream.Collectors;
 import javafx.geometry.Point2D;
@@ -20,21 +19,19 @@ public class Autocompletado {
 
     public Autocompletado() {
     }
-    
-    
-    
+
     public void configurarAutocompletado(TextField textField, List<String> items) {
         ContextMenu contextMenu = new ContextMenu();
-        
+
         // Listener para el cambio de texto
         textField.textProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue.isEmpty()) {
                 contextMenu.hide();
             } else {
                 List<String> filteredItems = items.stream()
-                        .filter(item -> item.toLowerCase().startsWith(newValue.toLowerCase()))
+                        .filter(item -> item != null && item.toLowerCase().startsWith(newValue.toLowerCase()))
                         .collect(Collectors.toList());
-                
+
                 if (!filteredItems.isEmpty()) {
                     contextMenu.getItems().clear();
                     for (String suggestion : filteredItems) {

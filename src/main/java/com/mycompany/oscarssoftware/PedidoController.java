@@ -1,7 +1,5 @@
 package com.mycompany.oscarssoftware;
 
-import com.jfoenix.controls.JFXButton;
-import com.mycompany.oscarssoftware.clases.Reporte;
 import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
@@ -11,6 +9,7 @@ import com.mycompany.oscarssoftware.util.Autocompletado;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -19,12 +18,14 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.util.Callback;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -108,7 +109,7 @@ public class PedidoController implements Initializable {
     int total = 0;
     @FXML
     private TextField txtEmpleado;
-    
+
     private MenuController menuController;
 
     public void setMenuController(MenuController menuController) {
@@ -125,6 +126,28 @@ public class PedidoController implements Initializable {
         Autocompletado a = new Autocompletado();
         a.configurarAutocompletado(comboCliente.getEditor(), nombresClientes);
         a.configurarAutocompletado(comboProductos.getEditor(), nombresProductos);
+        LocalDate today = LocalDate.now();
+
+        // Configurar el DatePicker para deshabilitar las fechas futuras
+        dateFecha.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(final DatePicker datePicker) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        // Deshabilitar las fechas futuras
+                        if (item.isAfter(today)) {
+                            setDisable(true);
+                            setStyle("-fx-background-color: #ffc0cb;"); // Color opcional para las fechas deshabilitadas
+                        }
+                    }
+                };
+            }
+        });
+
+        // Establecer la fecha actual como fecha predeterminada (opcional)
+        dateFecha.setValue(today);
     }
 
     @FXML
@@ -357,46 +380,85 @@ public class PedidoController implements Initializable {
         Pedido pedido = new Pedido();
 
         try {
+            // Obtener el cliente seleccionado
+            String clienteSeleccionado = comboCliente.getSelectionModel().getSelectedItem();
+            if (clienteSeleccionado == null) {
+                System.out.println("Error: No se ha seleccionado ningún cliente.");
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se ha seleccionado ningún cliente.");
+                return;
+            }
 
-            pedido.setIdCliente(obtenerCliente(comboCliente.getSelectionModel().getSelectedItem()));
-            pedido.setIdEmpleado(EmpleadoSingleton.getInstance().getEmpleado().getIdempleado());
-            java.sql.Date fecha = java.sql.Date.valueOf(dateFecha.getValue());
+            // Obtener el empleado desde EmpleadoSingleton
+            Empleado empleado = EmpleadoSingleton.getInstance().getEmpleado();
+            if (empleado == null) {
+                System.out.println("Error: No hay empleado en sesión.");
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No hay empleado en sesión.");
+                return;
+            }
+
+            // Validar la fecha seleccionada en el DatePicker
+            LocalDate fechaSeleccionada = dateFecha.getValue();
+            if (fechaSeleccionada == null) {
+                System.out.println("Error: No se ha seleccionado ninguna fecha.");
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se ha seleccionado ninguna fecha.");
+                return;
+            }
+
+            // Validar la lista de detalles
+            if (detalles == null || detalles.isEmpty()) {
+                System.out.println("Error: No se han agregado detalles al pedido.");
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "No se han agregado detalles al pedido.");
+                return;
+            }
+
+            // Si todos los valores son válidos, procede a configurar el pedido
+            pedido.setIdCliente(obtenerCliente(clienteSeleccionado));
+            pedido.setIdEmpleado(empleado.getIdempleado());
+
+            // Convertir la fecha seleccionada a java.sql.Date
+            java.sql.Date fecha = java.sql.Date.valueOf(fechaSeleccionada);
             pedido.setFecha_pedido(fecha);
-            boolean resultado = true;
+
+            // Intentar insertar el pedido
             if (pedido.insertar()) {
+                boolean resultado = true;
+
                 for (DetallePedido d : detalles) {
-                    System.out.println("idproducto" + d.getIdProducto());
+                    System.out.println("idproducto: " + d.getIdProducto());
 
                     if (!d.insertar()) {
-                        System.out.println("error");
+                        System.out.println("Error al insertar detalle: " + d.getIdProducto());
                         resultado = false;
-
-                        System.out.println("detalle: " + d.getIdProducto());
+                        mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido.");
                         break;
                     }
                 }
+
                 if (resultado) {
                     cancelar(event);
                     paneCabecera.setDisable(true);
                     if (menuController != null) {
                         menuController.actualizarGanancias();
                     }
-                    mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Pedido y detalles guardados correctamente");
+                    mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Pedido y detalles guardados correctamente.");
                 } else {
-                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido");
+                    mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido.");
                     btnNuevoDetalle.setDisable(false);
                 }
             } else {
-                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar el pedido");
+                mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar el pedido.");
             }
 
+        } catch (NullPointerException e) {
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Ocurrió un error inesperado. Revisa todos los campos.");
+            e.printStackTrace();
         } catch (Exception e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido.");
+            e.printStackTrace();
         }
 
         btnNuevoDetalle.setDisable(true);
         btnGuardarPedido.setDisable(true);
-
     }
 
     private void mostrarDetallesAgregados() {
@@ -424,7 +486,11 @@ public class PedidoController implements Initializable {
 
     //metodos para cargar los combos
     private void cargarComboClientes() {
+        if (nombresClientes != null) {
+            nombresClientes.clear();
+        }
         listaClientes = FXCollections.observableList(c.consulta());
+
         for (Cliente cliente : listaClientes) {
             nombresClientes.add(cliente.getNombre());
         }

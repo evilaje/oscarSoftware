@@ -10,16 +10,17 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="480.0" prefWidth="846.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="846.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
    <children>
-      <TableView fx:id="tablaProductos" centerShape="false" layoutX="237.0" layoutY="74.0" onMouseClicked="#mostrarFila" prefHeight="333.0" prefWidth="597.0" style="-fx-background-color: #F3F5F8;" AnchorPane.bottomAnchor="73.0" AnchorPane.leftAnchor="237.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="74.0">
+      <TableView fx:id="tablaProductos" centerShape="false" layoutX="240.0" layoutY="58.0" onMouseClicked="#mostrarFila" prefHeight="369.0" prefWidth="597.0" style="-fx-background-color: #F3F5F8;" AnchorPane.bottomAnchor="89.33333333333331" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="9.333333333333371" AnchorPane.topAnchor="58.0">
          <columns>
-            <TableColumn fx:id="columnId" minWidth="0.0" prefWidth="64.0" text="Id" />
-            <TableColumn fx:id="columnNombre" prefWidth="117.0" text="Nombre" />
-            <TableColumn fx:id="columnStock" minWidth="0.0" prefWidth="111.0" text="Stock" />
-            <TableColumn fx:id="columnPrecio" prefWidth="101.0" text="Precio" />
-            <TableColumn fx:id="columnCategoria" prefWidth="92.0" text="Categoria" />
-            <TableColumn fx:id="columnProveedor" prefWidth="111.0" text="Proveedor" />
+            <TableColumn fx:id="columnId" minWidth="0.0" prefWidth="36.66670227050781" text="Id" />
+            <TableColumn fx:id="columnNombre" prefWidth="144.6666259765625" text="Nombre" />
+            <TableColumn fx:id="columnStock" minWidth="0.0" prefWidth="43.33331298828125" text="Stock" />
+            <TableColumn fx:id="columnPrecio" prefWidth="114.66671752929688" text="Precio" />
+            <TableColumn fx:id="columnCategoria" prefWidth="98.66668701171875" text="Categoria" />
+            <TableColumn fx:id="columnProveedor" prefWidth="61.33331298828125" text="Proveedor" />
+            <TableColumn fx:id="columnCosto" prefWidth="94.66666666666663" text="Costo" />
          </columns>
       </TableView>
       <Pane layoutX="-6.0" layoutY="-1.0" prefHeight="48.0" prefWidth="756.0" style="-fx-background-color: #c8d3e0;" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="0.0">
@@ -64,45 +65,55 @@
          </font>
       </Button>
       <TextField fx:id="txtId" layoutX="539.0" layoutY="403.0" prefHeight="25.0" prefWidth="2.0" visible="false" />
-      <Pane layoutX="21.0" layoutY="65.0" prefHeight="350.0" prefWidth="204.0" styleClass="side_ankerpane" stylesheets="@../../../styles/producto.css">
+      <Pane layoutX="14.0" layoutY="58.0" prefHeight="369.0" prefWidth="204.0" styleClass="side_ankerpane" stylesheets="@../../../styles/producto.css">
          <children>
             <ComboBox fx:id="comboProveedores" disable="true" layoutX="10.0" layoutY="14.0" prefHeight="37.0" prefWidth="185.0" style="-fx-background-radius: 20;" />
-            <TextField fx:id="txtNombre" disable="true" layoutX="12.0" layoutY="86.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-radius: 100;">
+            <TextField fx:id="txtNombre" disable="true" layoutX="12.0" layoutY="74.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-radius: 100;">
                <font>
                   <Font name="Microsoft YaHei UI" size="14.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtCantidad" disable="true" layoutX="12.0" layoutY="150.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-radius: 100;">
+            <TextField fx:id="txtCantidad" disable="true" layoutX="12.0" layoutY="128.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-radius: 100;">
                <font>
                   <Font name="Microsoft YaHei UI" size="14.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtPrecio" disable="true" layoutX="12.0" layoutY="212.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-radius: 100;">
+            <TextField fx:id="txtPrecio" disable="true" layoutX="11.0" layoutY="182.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-radius: 100;">
                <font>
                   <Font name="Microsoft YaHei UI" size="14.0" />
                </font>
             </TextField>
-            <ComboBox fx:id="comboCategoria" disable="true" layoutX="10.0" layoutY="257.0" prefHeight="37.0" prefWidth="185.0" style="-fx-background-radius: 20;" />
-            <Label layoutX="77.0" layoutY="63.0" text="Nombre" textFill="#f9f8f7">
+            <ComboBox fx:id="comboCategoria" disable="true" layoutX="8.0" layoutY="280.0" prefHeight="37.0" prefWidth="185.0" style="-fx-background-radius: 20;" />
+            <Label layoutX="77.0" layoutY="51.0" text="Nombre" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="73.0" layoutY="126.0" text="Cantidad" textFill="#f9f8f7">
+            <Label layoutX="73.0" layoutY="104.0" text="Cantidad" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
-            <Label layoutX="83.0" layoutY="188.0" text="Precio" textFill="#f9f8f7">
+            <Label layoutX="82.0" layoutY="158.0" text="Precio" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>
             </Label>
-            <Button fx:id="btnGuardar" disable="true" layoutX="64.0" layoutY="307.0" mnemonicParsing="false" onAction="#guardar" style="-fx-background-radius: 50; -fx-background-color: dee2ea;" text="Guardar" textFill="#3a465b">
+            <Button fx:id="btnGuardar" disable="true" layoutX="64.0" layoutY="326.0" mnemonicParsing="false" onAction="#guardar" style="-fx-background-radius: 50; -fx-background-color: dee2ea;" text="Guardar" textFill="#3a465b">
                <font>
                   <Font name="Century Gothic Bold" size="16.0" />
                </font>
             </Button>
+            <TextField fx:id="txtCosto" disable="true" layoutX="13.0" layoutY="236.0" prefHeight="30.0" prefWidth="180.0" style="-fx-background-radius: 100;">
+               <font>
+                  <Font name="Microsoft YaHei UI" size="14.0" />
+               </font>
+            </TextField>
+            <Label layoutX="50.0" layoutY="212.0" text="Costo de entrada" textFill="#f9f8f7">
+               <font>
+                  <Font name="Century Gothic Bold" size="14.0" />
+               </font>
+            </Label>
          </children>
       </Pane>
    </children>
