@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -20,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
@@ -44,6 +46,10 @@ public class VerPedidoController implements Initializable {
     ObservableList<Pedido> listaPedidos;
     //variables
     Pedido p = new Pedido();
+    private ObservableList<Pedido> pedidosFiltrados;
+    
+    @FXML
+    private TextField txtSearch;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -86,6 +92,24 @@ public class VerPedidoController implements Initializable {
 
         } catch (IOException ex) {
             Logger.getLogger(VerPedidoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    @FXML
+    private void search(ActionEvent event) {
+        pedidosFiltrados = FXCollections.observableArrayList();
+        String buscar = txtSearch.getText();
+        
+        if (buscar.isEmpty()){
+            mostrarDatos();
+        } else {
+            pedidosFiltrados.clear();
+            for (Pedido pedido : listaPedidos) {
+                if (pedido.getNombreCliente().toLowerCase().contains(buscar.toLowerCase())){
+                    pedidosFiltrados.add(pedido);
+                }
+            }
+            tablaPedidos.setItems(pedidosFiltrados);
         }
     }
     

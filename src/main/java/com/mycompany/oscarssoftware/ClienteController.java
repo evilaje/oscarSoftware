@@ -1,6 +1,7 @@
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.Cliente;
+import com.mycompany.oscarssoftware.modelos.Pedido;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -30,6 +31,7 @@ public class ClienteController implements Initializable {
     private Cliente c = new Cliente();
     private boolean modificar = false;
     ObservableList<Cliente> Clientes;
+    private Pedido p = new Pedido();
 
     private String[] header = {"Nombre", "Telefono", "Ruc", "Direccion"};
     @FXML
@@ -90,12 +92,17 @@ public class ClienteController implements Initializable {
         //desactivar botonesi
 
         btnCancelar.setDisable(false);
-        btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
         txtNombre.setDisable(true);
         btnNuevo.setDisable(true);
         Cliente clien = tablaCliente.getSelectionModel().getSelectedItem();
         if (clien != null) {
+            //verificar si el cliente tiene pedidos (si los tiene no se debe eliminar)
+            if (p.clienteExiste(clien.getId())) {
+                btnEliminar.setDisable(true);
+            } else {
+                btnEliminar.setDisable(false);
+            }
             txtNombre.setText(clien.getNombre());
             txtTel.setText(String.valueOf(clien.getTelefono()));
             txtRuc.setText(clien.getRuc());

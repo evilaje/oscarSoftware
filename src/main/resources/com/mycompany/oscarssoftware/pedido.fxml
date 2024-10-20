@@ -66,13 +66,13 @@
       </TableView>
       <Pane layoutX="423.0" layoutY="101.0" prefHeight="177.0" prefWidth="207.0" style="-fx-background-color: #7083a4; -fx-background-radius: 15;" stylesheets="@../../../styles/style.css">
          <children>
-            <Button fx:id="btnNuevoDetalle" disable="true" layoutX="43.0" layoutY="9.0" mnemonicParsing="false" onAction="#nuevoDetallePedido" prefHeight="25.0" prefWidth="122.0" style="-fx-background-radius: 30; -fx-background-color: dee2ea;" text="Añadir producto" textFill="#3a465b">
+            <Button fx:id="btnNuevoDetalle" disable="true" layoutX="43.0" layoutY="9.0" mnemonicParsing="false" onAction="#nuevoDetallePedido" prefHeight="25.0" prefWidth="122.0" style="-fx-background-radius: 30; -fx-background-color: dee2ea;" text="Nuevo producto" textFill="#3a465b">
                <font>
                   <Font name="Century Gothic Bold" size="13.0" />
                </font></Button>
             <ComboBox fx:id="comboProductos" disable="true" editable="true" layoutX="29.0" layoutY="44.0" prefHeight="25.0" prefWidth="150.0" promptText="Seleccione producto" style="-fx-background-radius: 8;" />
             <TextField fx:id="txtCantidad" disable="true" layoutX="30.0" layoutY="103.0" prefHeight="25.0" prefWidth="149.0" promptText="Ingrese cantidad" style="-fx-background-radius: 40;" />
-            <Button fx:id="btnGuardarDetalle" disable="true" layoutX="38.0" layoutY="142.0" mnemonicParsing="false" onAction="#guardarDetalle" prefHeight="25.0" prefWidth="135.0" style="-fx-background-radius: 30; -fx-background-color: dee2ea;" stylesheets="@styles/style.css" text="Cargar producto" textFill="#3a465b">
+            <Button fx:id="btnGuardarDetalle" disable="true" layoutX="38.0" layoutY="142.0" mnemonicParsing="false" onAction="#guardarDetalle" prefHeight="25.0" prefWidth="135.0" style="-fx-background-radius: 30; -fx-background-color: dee2ea;" stylesheets="@styles/style.css" text="Agregar producto" textFill="#3a465b">
                <font>
                   <Font name="Century Gothic Bold" size="13.0" />
                </font></Button>
@@ -83,7 +83,7 @@
             </Label>
          </children>
       </Pane>
-      <Button fx:id="btnCancelarDetalle" disable="true" layoutX="37.0" layoutY="575.0" mnemonicParsing="false" onAction="#cancelarDetalle" prefHeight="29.0" prefWidth="149.0" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Cancelar producto" textFill="#f9f8f7">
+      <Button fx:id="btnCancelarDetalle" disable="true" layoutX="37.0" layoutY="575.0" mnemonicParsing="false" onAction="#cancelarDetalle" prefHeight="29.0" prefWidth="149.0" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Cancelar selección" textFill="#f9f8f7">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font></Button>
@@ -111,7 +111,7 @@
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font></Button>
-            <Button fx:id="btnCancelarPedido" disable="true" layoutX="120.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text=" Cancelar " textFill="#f9f8f7">
+            <Button fx:id="btnCancelarPedido" disable="true" layoutX="120.0" layoutY="5.0" mnemonicParsing="false" onAction="#cancelar" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text=" Cancelar  pedido" textFill="#f9f8f7">
                <font>
                   <Font name="Century Gothic Bold" size="14.0" />
                </font>

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="460.0" prefWidth="780.0" style="-fx-background-color: #c8d3e0;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.LoginController">
+<AnchorPane id="AnchorPane" prefHeight="449.0" prefWidth="788.0" style="-fx-background-color: #c8d3e0;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.LoginController">
     <stylesheets>
         <URL value="@/styles/login.css" />
     </stylesheets>

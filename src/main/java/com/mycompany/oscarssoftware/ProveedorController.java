@@ -5,6 +5,7 @@
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.Cliente;
+import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
 import java.io.IOException;
 import java.net.URL;
@@ -31,6 +32,7 @@ public class ProveedorController implements Initializable {
     private Proveedor p = new Proveedor();
     private boolean modificar = false;
     ObservableList<Proveedor> Proveedores;
+    private Producto pr = new Producto();
 
     @FXML
     private TextField txtId;
@@ -211,7 +213,7 @@ public class ProveedorController implements Initializable {
     @FXML
     private void mostrarfila(MouseEvent event) {
         btnCancelar.setDisable(false);
-        btnEliminar.setDisable(false);
+        
         btnModificar.setDisable(false);
         btnNuevo.setDisable(true);
         txtNombre.setDisable(true);
@@ -220,6 +222,12 @@ public class ProveedorController implements Initializable {
         txtTel.setDisable(true);
         Proveedor provee = (Proveedor) tablaProveedor.getSelectionModel().getSelectedItem();
         if (provee != null) {
+            
+            if (pr.existeProveedor(provee.getIdproveedor())) {
+                btnEliminar.setDisable(true);
+            } else {
+                btnEliminar.setDisable(false);
+            }
             txtNombre.setText(provee.getNombre());
             txtTel.setText(String.valueOf(provee.getTelefono()));
             txtId.setText(String.valueOf(provee.getIdproveedor()));

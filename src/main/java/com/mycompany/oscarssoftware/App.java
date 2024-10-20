@@ -36,33 +36,43 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         conexion conectar = new conexion();
-        conectar.getCon();
-        scene = new Scene(loadFXML("login"));
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.setOnCloseRequest(event -> {
-            event.consume(); // Consume the event to prevent the window from closing immediately
-            showExitConfirmation(); // Show the exit confirmation dialog
-        });
-        stage.show();
+        if (conectar != null) {
+            conectar.getCon();
+            scene = new Scene(loadFXML("login"), 788, 449);
+            stage.setScene(scene);
+            //    stage.setResizable(false);
+            //    
+            //    Ajusta el tamaño de la ventana al contenido
+            //    stage.sizeToScene(); 
+
+            stage.setOnCloseRequest(event -> {
+                event.consume(); // Consume the event to prevent the window from closing immediately
+                showExitConfirmation(); // Show the exit confirmation dialog
+            });
+            stage.show();
+        } else {
+                    //mensaje de error en caso de que no funcione
+            Alert alerta = new Alert(Alert.AlertType.ERROR);
+            alerta.setTitle("Error al conectarse a la base de datos");
+            alerta.setHeaderText(null);
+            alerta.setContentText("Por favor, revise la base de datos!");
+            alerta.show();
+        }
 
     }
 
-
-
-static void setRoot(String fxml, double width, double height) throws IOException {
+    static void setRoot(String fxml, double width, double height) throws IOException {
         scene.setRoot(loadFXML(fxml));
         Stage stage = (Stage) scene.getWindow();
         stage.setWidth(width);
         stage.setHeight(height);
         stage.centerOnScreen();
 
-}
+    }
 
     private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class  
-
-.getResource(fxml + ".fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class
+                .getResource(fxml + ".fxml"));
         return fxmlLoader.load();
     }
 

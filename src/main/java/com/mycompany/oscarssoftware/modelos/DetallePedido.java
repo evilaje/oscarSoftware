@@ -176,6 +176,27 @@ public class DetallePedido extends conexion implements sentencias {
         }
     }
     
+    public boolean productoEnPedido (int idProducto) {
+            String sql = "SELECT  * from detalle_pedido where idProducto = ? limit 1";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, idProducto);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+    
+    
+    
     
     
     

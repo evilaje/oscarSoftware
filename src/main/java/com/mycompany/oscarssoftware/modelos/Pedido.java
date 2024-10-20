@@ -273,7 +273,7 @@ public class Pedido extends conexion implements sentencias{
 
     
 public double ingresosTotales() {
-    String sql = "SELECT SUM(d.cantidad * pr.precio) AS total " +
+    String sql = "SELECT SUM(d.cantidad * pr.precio) - SUM(d.cantidad * pr.costo) AS total " +
                  "FROM pedido p " +
                  "JOIN detalle_pedido d ON d.idPedido = p.idpedido " +
                  "JOIN producto pr ON pr.idproducto = d.idProducto " +
@@ -308,6 +308,44 @@ public double ingresosTotales() {
         }
         return cantidad;
         
+    }
+    
+    public boolean clienteExiste(int idcliente) {
+        String sql = "SELECT  * from pedido where idcliente = ? limit 1";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, idcliente);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+    
+    public boolean existeEmpleado(int idempleado) {
+            String sql = "SELECT  * from pedido where idEmpleado = ? limit 1";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, idempleado);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
     }
     
     

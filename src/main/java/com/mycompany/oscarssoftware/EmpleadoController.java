@@ -6,8 +6,10 @@ package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.CategoriaProducto;
 import com.mycompany.oscarssoftware.modelos.Empleado;
+import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
+import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -29,6 +31,7 @@ import javafx.scene.input.MouseEvent;
 public class EmpleadoController implements Initializable {
 
     private Empleado e = new Empleado();
+    private Pedido p = new Pedido();
     private boolean modificar = false;
     ObservableList<Empleado> Empleados;
 
@@ -94,6 +97,13 @@ public class EmpleadoController implements Initializable {
         txtId.setDisable(true);
         Empleado emple = tablaEmpleado.getSelectionModel().getSelectedItem();
         if (emple != null) {
+            //verificar si el empleado ha registrado algun pedido. Si es asi no se puede eliminar
+            if (p.existeEmpleado(EmpleadoSingleton.getInstance().getEmpleado().getIdempleado())) {
+                btnEliminar.setDisable(true);
+            } else {
+                btnEliminar.setDisable(false);
+
+            }
             txtId.setText(String.valueOf(emple.getIdempleado()));
             txtNombre.setText(emple.getNombre());
             txtTel.setText(String.valueOf(emple.getTelefono()));

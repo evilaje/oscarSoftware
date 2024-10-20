@@ -341,28 +341,22 @@ public class Producto extends conexion implements sentencias {
                 + "JOIN proveedor pr ON p.idProveedor = pr.idproveedor "
                 + "WHERE cantidad > 0 "
                 + "ORDER BY p.idproducto";
-        //el texto sql basicamente pide:
-        //del producto como tal, el nombre, precio, cantidad, idCategoria, y el idproveedor de la tabla producto que llamamos "p"
-        //luego, annade otras dos tablas, las que llamamos categoria "categoria" y proveedor "pr"
-        //de estas tablas nos interesa el nombre de cada una, asi que pedimos y "renombramos" (la parte donde dice
-        //... talcosa AS talcosa) la tabla para que sea mas comodo
-        //y condicionamos para que nos traiga los nombres de los productos con el mismo id, para que 
-        //por cad producto nos traiga el nombre deseado y solo ese
-        //"intentamos" con el try toda la conexion
+
         try (
-                Connection con = getCon(); // establecemos la conexion a la base de datos
-                 Statement stm = con.createStatement(); //creamos una "orden"
-                 ResultSet rs = stm.executeQuery(sql)) { //en el resulset le cargamos la orden sql que hicimos y la ejecutamos
-            while (rs.next()) { //mientras que el resultset siga teniendo datos que entregar, se repite este proceso
-                int cod = rs.getInt("idproducto"); //obtenemos el codigo de la tabla idproducto
-                String nombre = rs.getString("nombre");//obtenemos el nombre de la tabla nombre
-                float precio = rs.getFloat("precio");//lomismo
-                int cantidad = rs.getInt("cantidad");//lomismo
-                int codCat = rs.getInt("idCategoriaProducto");//lomismo
-                int codProv = rs.getInt("idProveedor");//lomismo
-                String nmCategoria = rs.getString("nombreCategoria");//obtenemos el nombre de la categoria de la tabla que renombramos en la orden ahi arriba
-                String nmProveedor = rs.getString("nombreprov");//obtenemos el nombre del proveedor de la tabla que renombramos ahi arriba
+                Connection con = getCon(); 
+                 Statement stm = con.createStatement(); 
+                 ResultSet rs = stm.executeQuery(sql)) {
+            while (rs.next()) { 
+                int cod = rs.getInt("idproducto"); 
+                String nombre = rs.getString("nombre");
+                float precio = rs.getFloat("precio");
+                int cantidad = rs.getInt("cantidad");
+                int codCat = rs.getInt("idCategoriaProducto");
+                int codProv = rs.getInt("idProveedor");
+                String nmCategoria = rs.getString("nombreCategoria");
+                String nmProveedor = rs.getString("nombreprov");
                 double costo = rs.getDouble("costo");
+                
                 //creamos un objeto producto con todos los datos que rcolectamos
                 Producto producto = new Producto(cod, nombre, precio, cantidad, codCat, codProv, nmCategoria, nmProveedor, costo);
                 //annadimos al arraylist el objeto que acabamos de crear
@@ -374,5 +368,27 @@ public class Producto extends conexion implements sentencias {
 //finalmente, retornamos el arraylist
         return pdtos;
     }
+    
+    public boolean existeProveedor (int idProveedor) {
+            String sql = "SELECT  * from producto where idProveedor = ? limit 1";
+        try {
+            Connection con = getCon();
+            PreparedStatement stm = con.prepareStatement(sql);
+            stm.setInt(1, idProveedor);
+            ResultSet rs = stm.executeQuery();
+            if (rs.next()) {
+                return true;
+            } else {
+                return false;
+            }
+            
+        } catch (SQLException e) {
+            Logger.getLogger(Pedido.class.getName()).log(Level.SEVERE, null, e);
+            return false;
+        }
+    }
+    
+    
+    
 
 }

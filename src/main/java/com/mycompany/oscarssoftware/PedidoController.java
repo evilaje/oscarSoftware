@@ -9,7 +9,6 @@ import com.mycompany.oscarssoftware.util.Autocompletado;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -124,8 +123,8 @@ public class PedidoController implements Initializable {
         txtEmpleado.setText(EmpleadoSingleton.getInstance().getEmpleado().getNombre());
         cargarComboProductos();
         Autocompletado a = new Autocompletado();
-        a.configurarAutocompletado(comboCliente.getEditor(), nombresClientes);
-        a.configurarAutocompletado(comboProductos.getEditor(), nombresProductos);
+        a.configurarAutocompletadoComboBox(comboCliente, nombresClientes);
+        a.configurarAutocompletadoComboBox(comboProductos, nombresProductos);
         LocalDate today = LocalDate.now();
 
         // Configurar el DatePicker para deshabilitar las fechas futuras
@@ -174,6 +173,7 @@ public class PedidoController implements Initializable {
         comboProductos.setDisable(false);
         btnGuardarDetalle.setDisable(false);
         btnNuevoDetalle.setDisable(true);
+        btnGuardarPedido.setDisable(true);
     }
 
     @FXML
@@ -209,6 +209,7 @@ public class PedidoController implements Initializable {
     private void cancelarDetalle(ActionEvent event) {
         limpiarCamposDetalle();
         btnGuardarDetalle.setDisable(true);
+        btnGuardarPedido.setDisable(false);
 
         // Deshabilitar los botones de edición y eliminación
         btnNuevoDetalle.setDisable(false);
@@ -236,6 +237,7 @@ public class PedidoController implements Initializable {
             btnEliminarDetalle.setDisable(true);
             total -= d.getPrecioTotal();
             labTotal.setText(total + " Gs.");
+            cancelarDetalle(event);
         }
 
     }
@@ -275,11 +277,13 @@ public class PedidoController implements Initializable {
 
     @FXML
     private void mostrarDetalleSeleccionado(MouseEvent event) {
+
         DetallePedido detalleSeleccionado = tablaDetalles.getSelectionModel().getSelectedItem();
 
         if (detalleSeleccionado != null) {
             // Setear los valores del detalle seleccionado en los controles correspondientes
             comboProductos.getEditor().setText(detalleSeleccionado.getNombreProducto());
+            ocultarCombos();
             comboProductos.getSelectionModel().select(detalleSeleccionado.getNombreProducto());
             txtCantidad.setText(String.valueOf(detalleSeleccionado.getCantidad()));
             comboProductos.setDisable(true);
@@ -290,6 +294,7 @@ public class PedidoController implements Initializable {
             btnCancelarDetalle.setDisable(false);
             btnEliminarDetalle.setDisable(false);
             btnEditarCantidad.setDisable(false);
+            btnGuardarPedido.setDisable(true);
         } else {
             // Si no hay detalle seleccionado, deshabilitar los botones correspondientes
             limpiarCamposDetalle();
@@ -371,8 +376,9 @@ public class PedidoController implements Initializable {
         cancelarDetalle(event);
         paneCabecera.setDisable(false);
         btnGuardarPedido.setDisable(false);
-        mostrarAlerta(Alert.AlertType.INFORMATION, "Detalle Guardado", "El detalle del producto ha sido guardado correctamente.");
         labTotal.setText(String.valueOf(total) + " Gs.");
+        ocultarCombos();
+        
     }
 
     @FXML

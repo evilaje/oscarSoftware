@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.App;
 import com.mycompany.oscarssoftware.modelos.CategoriaProducto;
+import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
+import com.mycompany.oscarssoftware.util.Autocompletado;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,13 +36,13 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
 /**
  * FXML Controller class
  *
  * @author Anibal
  */
 public class PrimaryController implements Initializable {
-
 
     @FXML
     private TableView<Producto> tablaProductos;
@@ -55,7 +56,7 @@ public class PrimaryController implements Initializable {
     private TableColumn<Producto, Integer> columnStock;
     @FXML
     private TableColumn<Producto, String> columnCategoria;
- 
+
     ObservableList<Producto> Productos;
     @FXML
     private ComboBox<String> comboCategoria;
@@ -73,6 +74,9 @@ public class PrimaryController implements Initializable {
     private Producto p = new Producto();
     private CategoriaProducto catprod = new CategoriaProducto();
     private Proveedor prov = new Proveedor();
+    private DetallePedido dp = new DetallePedido();
+    private ObservableList<String> categorias;
+    private ObservableList<String> proveedores;
     //combos y textfields
     @FXML
     private ComboBox<String> comboProveedores;
@@ -89,7 +93,7 @@ public class PrimaryController implements Initializable {
     private boolean modificar = false;
     @FXML
     private Button btnNuevo;
-    
+
     ObservableList<CategoriaProducto> listaCategorias;
     ObservableList<Proveedor> listaProveedores;
     @FXML
@@ -104,15 +108,25 @@ public class PrimaryController implements Initializable {
     private TextField txtCosto;
     @FXML
     private TableColumn<Producto, Double> columnCosto;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        categorias = FXCollections.observableArrayList();
+        proveedores = FXCollections.observableArrayList();
         cargarProveedores(); //cargamos los proveedores
+
         cargarCategorias(); //cargamos las categorias
+        Autocompletado a = new Autocompletado();
+
+        a.configurarAutocompletadoComboBox(filtroCategoria, categorias);
+        a.configurarAutocompletadoComboBox(filtroProveedor, categorias);
+
         mostrarDatos(); //Mostramos la tabla
-    }   
+    }
+
     //esta funcion se encarga de mostrar cada dato de Producto en la tabla
     public void mostrarDatos() {
         Productos = FXCollections.observableArrayList(p.consulta()); //aca se crea una lista observable que va a ser cargada a la tabla, la parte de p.consulta() trae todos los elementos de Producto como un ArrayLists
@@ -125,12 +139,14 @@ public class PrimaryController implements Initializable {
         columnProveedor.setCellValueFactory(new PropertyValueFactory<>("nombreProveedor")); //igual
         columnCosto.setCellValueFactory(new PropertyValueFactory<>("costo"));
         tablaProductos.setItems(Productos);//en la tabla general carga la lista ya completa
-        
+
     }
+
     //esta funcion no hace nada vino con el controlador me da paja sacar capaz sirve
     private void switchToSecondary() throws IOException {
         App.setRoot("menu", 780, 460);
     }
+
     //Funcion para guardar los datos ingresados
     @FXML
     private void guardar(ActionEvent event) {
@@ -147,6 +163,9 @@ public class PrimaryController implements Initializable {
             if (cantidad < 0 || precio < 1 || costo < 1) {
                 throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
             }
+            if (idProv == 0 || idCat == 0) {
+                throw  new IllegalArgumentException("No se pueden cargar los productos. Verifique el proveedor o la categoria.");
+            }
 
             p.setNombre(nombre);
             p.setCantidad(cantidad);
@@ -154,8 +173,6 @@ public class PrimaryController implements Initializable {
             p.setIdCategoriaProducto(idCat);
             p.setIdProveedor(idProv);
             p.setCosto(costo);
-
-
 
             if (modificar) {
                 int idProducto = Integer.parseInt(txtId.getText());
@@ -198,33 +215,34 @@ public class PrimaryController implements Initializable {
             filtroCategoria.getItems().add("No se tienen categorias.");
         } else {
             for (CategoriaProducto categoria : listaCategorias) {
-                comboCategoria.getItems().add(categoria.getNombreCategoria());
-                filtroCategoria.getItems().add(categoria.getNombreCategoria());
+                categorias.add(categoria.getNombreCategoria());
+
             }
+            comboCategoria.setItems(categorias);
+            filtroCategoria.setItems(categorias);
         }
     }
 
     //esta funcion carga los combobox de proveedores con los nombres de los proveedores
     //misma logica que arriba
     public void cargarProveedores() {
-    listaProveedores = FXCollections.observableArrayList(prov.consulta());
+        listaProveedores = FXCollections.observableArrayList(prov.consulta());
 
-    comboProveedores.getItems().clear(); // Asegúrate de limpiar antes de cargar
-    filtroProveedor.getItems().clear(); // Asegúrate de limpiar antes de cargar
+        comboProveedores.getItems().clear(); // Asegúrate de limpiar antes de cargar
+        filtroProveedor.getItems().clear(); // Asegúrate de limpiar antes de cargar
 
-    if (listaProveedores.isEmpty()) {
-        comboProveedores.getItems().add("No se tienen proveedores.");
-        filtroProveedor.getItems().add("No se tienen proveedores.");
-    } else {
-        for (Proveedor p : listaProveedores) {
-            comboProveedores.getItems().add(p.getNombre());
-            filtroProveedor.getItems().add(p.getNombre());
+        if (listaProveedores.isEmpty()) {
+            comboProveedores.getItems().add("No se tienen proveedores.");
+            filtroProveedor.getItems().add("No se tienen proveedores.");
+        } else {
+            for (Proveedor p : listaProveedores) {
+                proveedores.add(p.getNombre());
+            }
+            comboProveedores.setItems(proveedores);
+            filtroProveedor.setItems(proveedores);
         }
     }
-}
 
-
-    
     //esta funcion recibe un nombre (texto)de categoria y devuelve la categoria (objeto) en cuestion
     //si existe, y si no, retorna null (vacio)
     public int obtenerCategoria(String nombreCategoria) {
@@ -236,7 +254,7 @@ public class PrimaryController implements Initializable {
         }
         return 0; // Retorna 0 si no se encuentra la categoría
     }
-    
+
     //esta funcion recibe un nombre (texto) de proveedor y devuelve el proveedor (objeto) en cuestion
     //si existe, y si no, devuelve null (vacio)
     //misma logica que arriba
@@ -277,10 +295,11 @@ public class PrimaryController implements Initializable {
         comboCategoria.setPromptText("");
         comboProveedores.setPromptText("");
         btnCancelar.setDisable(true);
-        
+
     }
+
     //esta funcion se encarga de mostrar alertas
-    public void mostrarAlerta (Alert.AlertType tipo, String titulo, String mensaje) {
+    public void mostrarAlerta(Alert.AlertType tipo, String titulo, String mensaje) {
         Alert a = new Alert(tipo);
         a.setTitle(titulo);
         a.setHeaderText(null);
@@ -295,12 +314,12 @@ public class PrimaryController implements Initializable {
         a.setHeaderText(null);
         a.setContentText("Desea Eliminar este producto");
         Optional<ButtonType> option = a.showAndWait();
-        if(option.get() == ButtonType.OK){
+        if (option.get() == ButtonType.OK) {
             int codigo = Integer.parseInt(txtId.getText());
             p.setIdproducto(codigo);
-            if(p.borrar()){
+            if (p.borrar()) {
                 mostrarAlerta(Alert.AlertType.INFORMATION, "El Sistema comunica", "Producto eliminado correctamente");
-            }else{
+            } else {
                 mostrarAlerta(Alert.AlertType.ERROR, "El SIstema comunica", "ERROR!! El producto no se pudo eliminar");
             }
         }
@@ -312,7 +331,6 @@ public class PrimaryController implements Initializable {
     private void mostrarFila(MouseEvent event) {
         //desactivar botonesi
         btnCancelar.setDisable(false);
-        btnEliminar.setDisable(false);
         btnModificar.setDisable(false);
         btnNuevo.setDisable(true);
         //desactivar textos
@@ -324,6 +342,13 @@ public class PrimaryController implements Initializable {
         comboProveedores.setDisable(true);
         Producto pr = tablaProductos.getSelectionModel().getSelectedItem();
         if (pr != null) {
+            //verificar si el producto ya esta en algun pedido, si es asi, no se elimina.
+            if (dp.productoEnPedido(pr.getIdproducto())) {
+                btnEliminar.setDisable(true);
+            } else {
+                btnEliminar.setDisable(false);
+            }
+
             comboCategoria.setValue(pr.getNombreCategoria());
             comboProveedores.setValue(pr.getNombreProveedor());
             txtId.setText(String.valueOf(pr.getIdproducto()));
@@ -369,7 +394,6 @@ public class PrimaryController implements Initializable {
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
     }
-      
 
     @FXML
     private void search(ActionEvent event) {
@@ -397,8 +421,6 @@ public class PrimaryController implements Initializable {
         tablaProductos.setItems(productosFiltrados);
     }
 
-
-
     @FXML
     private void reestablecer(ActionEvent event) {
         txtBuscar.clear();
@@ -415,9 +437,9 @@ public class PrimaryController implements Initializable {
         mostrarDatos();
         btnReestablecer.setDisable(true);
     }
-    
-    private void reestablecerPromps(){
-    // Limpiar y reestablecer ComboBox de Categoría
+
+    private void reestablecerPromps() {
+        // Limpiar y reestablecer ComboBox de Categoría
         comboCategoria.setValue(null);
         comboCategoria.getSelectionModel().clearSelection();
         comboCategoria.getItems().clear();
@@ -443,14 +465,12 @@ public class PrimaryController implements Initializable {
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL); // Hacer la ventana modal
             stage.showAndWait(); // Esperar hasta que se cierre la ventana
-            
+
             // Después de que se cierre la ventana, actualizar el combo box
             cargarCategorias();
         } catch (IOException ex) {
             Logger.getLogger(PrimaryController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        }
     }
-
-
+}

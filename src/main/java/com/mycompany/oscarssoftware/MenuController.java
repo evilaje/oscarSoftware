@@ -9,6 +9,8 @@ import com.mycompany.oscarssoftware.clases.Reporte;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Venta;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
+import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -22,6 +24,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -67,6 +70,8 @@ public class MenuController implements Initializable {
     private Label txtEmpleado;
     @FXML
     private Label lblVentas;
+    @FXML
+    private JFXButton btnAyuda;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -164,5 +169,22 @@ public class MenuController implements Initializable {
     @FXML
     private void verPedidos(ActionEvent event) throws IOException {
         abrirFxml("verPedido.fxml", "Ver pedidos disponibles");
+    }
+
+    @FXML
+    private void ayuda(MouseEvent event) {
+
+        String filePath = getClass().getResource("/ayuda/Ayuda_Oscarsdb.chm").getPath();
+        File file = new File(filePath);
+        if (file.exists()) {
+            try {
+                Desktop.getDesktop().open(file);
+            } catch (Exception ex) {
+                Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println("El archivo chm no existe.");
+
+        }
     }
 }
