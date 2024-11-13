@@ -2,6 +2,7 @@ package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.Pedido;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -19,7 +20,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -66,10 +69,17 @@ public class ClienteController implements Initializable {
     private Pane side_ankerpane;
     @FXML
     private TextField txtId;
+    @FXML
+    private AnchorPane root;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarDatos();
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
+            }
+        });
     }
 
     public void mostrarDatos() {

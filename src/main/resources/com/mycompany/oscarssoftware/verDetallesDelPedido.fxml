@@ -9,12 +9,12 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="521.0" prefWidth="698.0" style="-fx-background-color: #f1f4f7;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.VerDetallesDelPedidoController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="521.0" prefWidth="698.0" style="-fx-background-color: #f1f4f7;" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.VerDetallesDelPedidoController">
     <stylesheets>
         <URL value="@/styles/verdetallesdelpedido.css" />
     </stylesheets>
    <children>
-      <Label layoutX="23.0" layoutY="72.0" prefHeight="39.0" prefWidth="218.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Id del pedido:">
+      <Label layoutX="23.0" layoutY="72.0" prefHeight="39.0" prefWidth="218.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 50; -fx-text-fill: white; -fx-background-radius: 20;" text="Nro. del pedido:">
          <font>
             <Font name="Century Gothic Bold" size="15.0" />
          </font>
@@ -24,22 +24,22 @@
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="377.0" layoutY="140.0" prefHeight="41.0" prefWidth="236.0" style="-fx-background-color: #7083a4; -fx-padding: 10 30 10 30; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del cliente:">
+      <Label layoutX="377.0" layoutY="140.0" prefHeight="41.0" prefWidth="236.0" style="-fx-background-color: #7083a4; -fx-padding: 10 30 10 30; -fx-text-fill: white; -fx-background-radius: 20;" text="Cliente:">
          <font>
             <Font name="Century Gothic Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="txtNombreCliente" layoutX="554.0" layoutY="140.0" prefHeight="41.0" prefWidth="103.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
+      <Label fx:id="txtNombreCliente" layoutX="459.0" layoutY="140.0" prefHeight="42.0" prefWidth="194.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin fecha">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font>
       </Label>
-      <Label layoutX="23.0" layoutY="141.0" prefHeight="39.0" prefWidth="277.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 30; -fx-text-fill: white; -fx-background-radius: 20;" text="Nombre del vendedor:">
+      <Label layoutX="23.0" layoutY="141.0" prefHeight="39.0" prefWidth="277.0" style="-fx-background-color: #7083a4; -fx-padding: 10 50 10 30; -fx-text-fill: white; -fx-background-radius: 20;" text="Vendedor">
          <font>
             <Font name="Century Gothic Bold" size="15.0" />
          </font>
       </Label>
-      <Label fx:id="txtNombreEmpleado" layoutX="199.0" layoutY="141.0" prefHeight="41.0" prefWidth="150.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin nombre  ">
+      <Label fx:id="txtNombreEmpleado" layoutX="126.0" layoutY="141.0" prefHeight="42.0" prefWidth="173.0" style="-fx-text-fill: white; -fx-background-color: #7083a4; -fx-padding: 10 5 10 10; -fx-background-radius: 20;" text="Sin nombre  ">
          <font>
             <Font name="Century Gothic Bold" size="14.0" />
          </font>

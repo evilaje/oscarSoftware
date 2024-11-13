@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="431.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.EmpleadoController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="431.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.EmpleadoController">
    <children>
       <TableView fx:id="tablaEmpleado" layoutX="234.0" layoutY="63.0" onMouseClicked="#mostrarFila" prefHeight="306.0" prefWidth="446.0" style="-fx-background-color: #d7dfe8;">
         <columns>
@@ -55,7 +55,7 @@
                   <Font size="13.0" />
                </font>
             </TextField>
-            <TextField fx:id="txtId" disable="true" layoutX="15.0" layoutY="45.0" style="-fx-background-radius: 50; -fx-border-radius: 50;">
+            <TextField fx:id="txtCedula" disable="true" layoutX="15.0" layoutY="45.0" style="-fx-background-radius: 50; -fx-border-radius: 50;">
                <font>
                   <Font size="13.0" />
                </font>
@@ -96,5 +96,10 @@
             </Label>
          </children>
       </Pane>
+      <TextField fx:id="txtId" disable="true" layoutX="278.0" layoutY="17.0" style="-fx-background-radius: 50; -fx-border-radius: 50;" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </TextField>
    </children>
 </AnchorPane>

@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="846.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
+<AnchorPane fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="516.0" prefWidth="846.0" style="-fx-background-color: e7ecf1;" stylesheets="@../../../styles/producto.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.PrimaryController">
    <children>
       <TableView fx:id="tablaProductos" centerShape="false" layoutX="240.0" layoutY="58.0" onMouseClicked="#mostrarFila" prefHeight="369.0" prefWidth="597.0" style="-fx-background-color: #F3F5F8;" AnchorPane.bottomAnchor="89.33333333333331" AnchorPane.leftAnchor="240.0" AnchorPane.rightAnchor="9.333333333333371" AnchorPane.topAnchor="58.0">
          <columns>

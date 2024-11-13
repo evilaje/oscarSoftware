@@ -9,6 +9,7 @@ import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
@@ -27,6 +28,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class EmpleadoController implements Initializable {
 
@@ -64,16 +68,27 @@ public class EmpleadoController implements Initializable {
     private TableColumn<Empleado, String> columnaDireccion;
     @FXML
     private Button btnNuevo;
+    @FXML
+    private AnchorPane root;
+    @FXML
+    private Pane side_ankerpane;
+    @FXML
+    private TextField txtCedula;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarDatos();
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
+            }
+        });
     }
 
     public void mostrarDatos() {
         Empleados = FXCollections.observableArrayList(e.consulta()); //aca se crea una lista observable que va a ser cargada a la tabla, la parte de p.consulta() trae todos los elementos de Producto como un ArrayLists
         tablaEmpleado.getItems().clear(); //vaciamos la lista antigua por si hay datos que en la vista conflictuan
-        columnaId.setCellValueFactory(new PropertyValueFactory<>("idempleado"));//Carga en la casilla de ID el id
+        columnaId.setCellValueFactory(new PropertyValueFactory<>("cedula"));//Carga en la casilla de ID el id
         columnaNombre.setCellValueFactory(new PropertyValueFactory<>("nombre"));//igual
         columnaTelefono.setCellValueFactory(new PropertyValueFactory<>("telefono"));//igual
         columnaDireccion.setCellValueFactory(new PropertyValueFactory<>("direccion"));//igual
@@ -106,13 +121,15 @@ public class EmpleadoController implements Initializable {
             }
             txtId.setText(String.valueOf(emple.getIdempleado()));
             txtNombre.setText(emple.getNombre());
-            txtTel.setText(String.valueOf(emple.getTelefono()));
-            txtDire.setText(String.valueOf(emple.getDireccion()));
+            txtTel.setText(emple.getTelefono());
+            txtDire.setText(emple.getDireccion());
+            txtCedula.setText(emple.getCedula());
         }
     }
 
     @FXML
     private void modificar(ActionEvent event) {
+        txtCedula.setDisable(false);
         txtId.setDisable(true);
         txtNombre.setDisable(false);
         txtDire.setDisable(false);
@@ -128,7 +145,7 @@ public class EmpleadoController implements Initializable {
 
     @FXML
     private void cancelar() {
-
+        txtCedula.setDisable(true);
         txtId.setDisable(true);
         txtNombre.setDisable(true);
         txtDire.setDisable(true);
@@ -141,6 +158,7 @@ public class EmpleadoController implements Initializable {
         txtId.clear();
         txtTel.clear();
         txtDire.clear();
+        txtCedula.clear();
         btnCancelar.setDisable(true);
         tablaEmpleado.setDisable(false);
 
@@ -153,13 +171,14 @@ public class EmpleadoController implements Initializable {
             String nombre = txtNombre.getText().trim();
             String telefono = txtTel.getText().trim();
             String direccion = txtDire.getText().trim();
+            String cedula = txtCedula.getText().trim();
 
-            if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty()) {
+            if (nombre.isEmpty() || telefono.isEmpty() || direccion.isEmpty() || cedula.isEmpty()) {
                 mostrarAlerta(Alert.AlertType.ERROR, "Error de validación", "Todos los campos son obligatorios.");
                 return;
             }
 
-            Empleado empleado = new Empleado(idEmpleado, nombre, telefono, direccion);
+            Empleado empleado = new Empleado(idEmpleado, nombre, telefono, direccion, cedula, cedula);
 
             if (modificar) {
                 if (empleado.modificar()) {
@@ -188,6 +207,7 @@ public class EmpleadoController implements Initializable {
         txtId.clear();
         txtNombre.clear();
         txtTel.clear();
+        txtCedula.clear();
         txtDire.clear();
     }
 
@@ -229,6 +249,7 @@ public class EmpleadoController implements Initializable {
         btnGuardar.setDisable(false);
         btnNuevo.setDisable(true);
         tablaEmpleado.setDisable(true);
+        txtCedula.setDisable(false);
     }
 
 }

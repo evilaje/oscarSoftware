@@ -9,6 +9,7 @@ import com.mycompany.oscarssoftware.modelos.CategoriaProducto;
 import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.Autocompletado;
 import java.io.IOException;
 import java.net.URL;
@@ -34,6 +35,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -108,6 +111,8 @@ public class PrimaryController implements Initializable {
     private TextField txtCosto;
     @FXML
     private TableColumn<Producto, Double> columnCosto;
+    @FXML
+    private AnchorPane root;
 
     /**
      * Initializes the controller class.
@@ -125,6 +130,13 @@ public class PrimaryController implements Initializable {
         a.configurarAutocompletadoComboBox(filtroProveedor, categorias);
 
         mostrarDatos(); //Mostramos la tabla
+
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                Stage ventanaActual = (Stage) root.getScene().getWindow(); // Obtener la ventana actual
+                AtajosTecladoUtil.inicializarAtajos(newScene, ventanaActual); // Pasar la ventana actual
+            }
+        });
     }
 
     //esta funcion se encarga de mostrar cada dato de Producto en la tabla
@@ -164,7 +176,7 @@ public class PrimaryController implements Initializable {
                 throw new IllegalArgumentException("Los valores numéricos no pueden ser negativos");
             }
             if (idProv == 0 || idCat == 0) {
-                throw  new IllegalArgumentException("No se pueden cargar los productos. Verifique el proveedor o la categoria.");
+                throw new IllegalArgumentException("No se pueden cargar los productos. Verifique el proveedor o la categoria.");
             }
 
             p.setNombre(nombre);

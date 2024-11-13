@@ -1,14 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
- */
 package com.mycompany.oscarssoftware;
 
 import com.jfoenix.controls.JFXButton;
 import com.mycompany.oscarssoftware.clases.Reporte;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Venta;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
+import com.mycompany.oscarssoftware.util.WindowManager;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
@@ -78,6 +76,12 @@ public class MenuController implements Initializable {
         txtEmpleado.setText(EmpleadoSingleton.getInstance().getEmpleado().getNombre());
         actualizarGanancias();
 
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                Stage ventanaActual = (Stage) root.getScene().getWindow(); // Obtener la ventana actual
+                AtajosTecladoUtil.inicializarAtajos(newScene, ventanaActual); // Pasar la ventana actual
+            }
+        });
     }
 
     public void actualizarGanancias() {
@@ -91,54 +95,37 @@ public class MenuController implements Initializable {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
+
             Stage stage = new Stage();
             stage.setTitle(titulo);
             stage.setScene(new Scene(root));
             stage.show();
+            WindowManager.registrarVentana(titulo, stage);
+
+            stage.setOnCloseRequest(e -> WindowManager.cerrarVentana(titulo));
         } catch (IOException ex) {
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    @FXML
     private void abrirInicio(ActionEvent event) {
         abrirFxml("login.fxml", "login");
-
     }
 
+    @FXML
     private void abrirVerPedidos(ActionEvent event) {
         abrirFxml("verPedido.fxml", "Lista de pedidos");
     }
 
     @FXML
     private void pedido(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("pedido.fxml"));
-            Parent root = loader.load();
-            PedidoController pedidoController = loader.getController();
-            pedidoController.setMenuController(this);
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        abrirFxml("pedido.fxml", "Formulario Pedido");
     }
 
     @FXML
     private void venta(ActionEvent event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("venta.fxml"));
-            Parent root = loader.load();
-
-            VentaController ventaController = loader.getController();
-            ventaController.setMenuController(this); // Pasar la referencia del MenuController
-
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.show();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        abrirFxml("venta.fxml", "Formulario Venta");
     }
 
     @FXML
@@ -161,19 +148,13 @@ public class MenuController implements Initializable {
         abrirFxml("empleado.fxml", "Formulario Empleado");
     }
 
-    private void switchToMenu() throws IOException {
-        App.setRoot("menu", 757, 513);
-
-    }
-
     @FXML
-    private void verPedidos(ActionEvent event) throws IOException {
+    private void verPedidos(ActionEvent event) {
         abrirFxml("verPedido.fxml", "Ver pedidos disponibles");
     }
 
     @FXML
     private void ayuda(MouseEvent event) {
-
         String filePath = getClass().getResource("/ayuda/Ayuda_Oscarsdb.chm").getPath();
         File file = new File(filePath);
         if (file.exists()) {
@@ -184,7 +165,6 @@ public class MenuController implements Initializable {
             }
         } else {
             System.out.println("El archivo chm no existe.");
-
         }
     }
 }

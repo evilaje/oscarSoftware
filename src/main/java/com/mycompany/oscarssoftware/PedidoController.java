@@ -5,6 +5,7 @@ import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.Autocompletado;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
@@ -32,6 +33,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -110,6 +112,8 @@ public class PedidoController implements Initializable {
     private TextField txtEmpleado;
 
     private MenuController menuController;
+    @FXML
+    private AnchorPane root;
 
     public void setMenuController(MenuController menuController) {
         this.menuController = menuController;
@@ -147,6 +151,11 @@ public class PedidoController implements Initializable {
 
         // Establecer la fecha actual como fecha predeterminada (opcional)
         dateFecha.setValue(today);
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
+            }
+        });
     }
 
     @FXML
@@ -378,7 +387,7 @@ public class PedidoController implements Initializable {
         btnGuardarPedido.setDisable(false);
         labTotal.setText(String.valueOf(total) + " Gs.");
         ocultarCombos();
-        
+
     }
 
     @FXML

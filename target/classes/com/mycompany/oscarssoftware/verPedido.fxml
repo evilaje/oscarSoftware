@@ -14,7 +14,7 @@
         <URL value="@/styles/verpedido.css" />
     </stylesheets>
    <children>
-      <Pane layoutX="-3.0" prefHeight="45.0" prefWidth="719.0" style="-fx-background-color: #c8d3e0;">
+      <Pane fx:id="root" layoutX="-3.0" prefHeight="45.0" prefWidth="719.0" style="-fx-background-color: #c8d3e0;">
          <children>
             <Label layoutX="25.0" layoutY="10.0" text="Lista de pedidos" textFill="#3b5672">
                <font>

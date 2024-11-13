@@ -12,6 +12,7 @@ import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Venta;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -37,6 +38,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -111,9 +113,11 @@ public class VentaController implements Initializable {
     private MenuController menuController;
     @FXML
     private JFXComboBox<String> cboPago;
+    @FXML
+    private AnchorPane root;
 
     // Método para pasar la referencia del MenuController
-    public void setMenuController(MenuController menuController) {
+    public void setMenuController(MenuController menuControllerler) {
         this.menuController = menuController;
     }
 
@@ -121,8 +125,8 @@ public class VentaController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         mostrarVentas();
         cboPago.getItems().add("Contado");
-        cboPago.getItems().add("Credito");  
-                tablaVentas.setRowFactory(tv -> {
+        cboPago.getItems().add("Credito");
+        tablaVentas.setRowFactory(tv -> {
             TableRow<Venta> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (event.getClickCount() == 2 && (!row.isEmpty())) {
@@ -130,6 +134,12 @@ public class VentaController implements Initializable {
                 }
             });
             return row;
+        });
+
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
+            }
         });
 
     }
@@ -301,7 +311,6 @@ public class VentaController implements Initializable {
             p.setIdpedido(idpedido);
             v.setMetodoPago(pago);
             v.setTotal(total);
-            
 
             // Insertar la venta y procesar detalles
             if (v.insertar()) {
@@ -312,9 +321,9 @@ public class VentaController implements Initializable {
                     cboPago.getSelectionModel().clearSelection();
                     cboPago.setDisable(true);
 
+                    generarReporte(event, v.obtenerID());
                     if (menuController != null) {
                         menuController.actualizarGanancias();
-                        generarReporte(event, v.obtenerID());
                     }
                 } else {
                     mostrarAlerta(Alert.AlertType.ERROR, "No se pudo modificar el estado del pedido.");
@@ -386,7 +395,6 @@ public class VentaController implements Initializable {
         }
     }
 
-    @FXML
     private void generarReporte(ActionEvent event, int id) {
         Reporte r = new Reporte();
         String ubi = "/reportes/facturaF1.jasper";

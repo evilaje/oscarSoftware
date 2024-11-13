@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="434.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.ClienteController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="434.0" prefWidth="701.0" style="-fx-background-color: e7ecf1;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.ClienteController">
    <children>
       <Button fx:id="btnGuardar" disable="true" layoutX="438.0" layoutY="384.0" mnemonicParsing="false" onAction="#guardar" prefHeight="24.0" prefWidth="84.0" style="-fx-background-color: #7083a4; -fx-background-radius: 100;" text="Guardar" textFill="#dee2ea">
          <font>

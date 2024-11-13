@@ -5,6 +5,7 @@
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.Pedido;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -23,6 +24,7 @@ import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 /**
@@ -47,9 +49,11 @@ public class VerPedidoController implements Initializable {
     //variables
     Pedido p = new Pedido();
     private ObservableList<Pedido> pedidosFiltrados;
-    
+
     @FXML
     private TextField txtSearch;
+    @FXML
+    private Pane root;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -64,19 +68,25 @@ public class VerPedidoController implements Initializable {
             });
             return row;
         });
-    }    
-    
-    public void mostrarDatos(){
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                Stage ventanaActual = (Stage) root.getScene().getWindow(); // Obtener la ventana actual
+                AtajosTecladoUtil.inicializarAtajos(newScene, ventanaActual); // Pasar la ventana actual
+            }
+        });
+    }
+
+    public void mostrarDatos() {
         listaPedidos = FXCollections.observableList(p.consulta());
         colId.setCellValueFactory(new PropertyValueFactory<>("idpedido"));
         colCliente.setCellValueFactory(new PropertyValueFactory<>("nombreCliente"));
         colEmpleado.setCellValueFactory(new PropertyValueFactory<>("nombreEmpleado"));
         colFecha.setCellValueFactory(new PropertyValueFactory<>("fecha_pedido"));
         tablaPedidos.setItems(listaPedidos);
-        
+
     }
-    
-        private void cambiarASceneVerDetalles(Pedido p) {
+
+    private void cambiarASceneVerDetalles(Pedido p) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("verDetallesDelPedido.fxml"));
             Parent root = loader.load();
@@ -99,18 +109,18 @@ public class VerPedidoController implements Initializable {
     private void search(ActionEvent event) {
         pedidosFiltrados = FXCollections.observableArrayList();
         String buscar = txtSearch.getText();
-        
-        if (buscar.isEmpty()){
+
+        if (buscar.isEmpty()) {
             mostrarDatos();
         } else {
             pedidosFiltrados.clear();
             for (Pedido pedido : listaPedidos) {
-                if (pedido.getNombreCliente().toLowerCase().contains(buscar.toLowerCase())){
+                if (pedido.getNombreCliente().toLowerCase().contains(buscar.toLowerCase())) {
                     pedidosFiltrados.add(pedido);
                 }
             }
             tablaPedidos.setItems(pedidosFiltrados);
         }
     }
-    
+
 }

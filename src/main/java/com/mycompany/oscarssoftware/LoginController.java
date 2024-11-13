@@ -54,8 +54,6 @@ public class LoginController implements Initializable {
         users = FXCollections.observableList(e.obtenerNombres());
         Autocompletado a = new Autocompletado();
         a.configurarAutocompletado(txtUsuario, users);
-        
-        
 
     }
 
@@ -85,8 +83,9 @@ public class LoginController implements Initializable {
                 // Ajustar tamaño del stage
                 stage.setScene(newScene);
                 stage.sizeToScene();  // Reajustar el tamaño de la ventana
-                stage.centerOnScreen(); // Centrar la ventana en la pantalla
 
+                // Cerrar la ventana de login (opcional)
+                // stage.close(); // Si decides cerrar la ventana de Login, descomenta esto
             } catch (IOException ex) {
                 Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
             }

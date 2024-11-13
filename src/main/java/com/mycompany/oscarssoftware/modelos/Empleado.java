@@ -114,8 +114,9 @@ public class Empleado extends conexion implements sentencias {
                 String nombre = rs.getString("nombre");//obtenemos el nombre de la tabla nombre
                 String telefono = rs.getString("telefono");//lomismo
                 String direccion = rs.getString("direccion");//lomismo
+                String ced = rs.getString("cedula");
                 //creamos un objeto producto con todos los datos que rcolectamos
-                Empleado empleado = new Empleado(id, nombre, telefono, direccion);
+                Empleado empleado = new Empleado(id, nombre, telefono, direccion, ced, ced);
                 //annadimos al arraylist el objeto que acabamos de crear
                 emple.add(empleado);
             }
@@ -173,7 +174,7 @@ public class Empleado extends conexion implements sentencias {
     @Override
     public boolean modificar() {
         //preparamos el texto que servira de orden sql
-        String sql = "update empleado set nombre = ?, telefono = ?, direccion = ? where idempleado = ?";
+        String sql = "update empleado set nombre = ?, telefono = ?, direccion = ?, cedula = ?, password = ? where idempleado = ?";
         //abrimos el try para los errores que puedan haber
         try {
             Connection con = getCon();//preparamos el camino
@@ -182,7 +183,9 @@ public class Empleado extends conexion implements sentencias {
             stm.setString(1, this.nombre);
             stm.setString(2, this.telefono);
             stm.setString(3, this.direccion);
-            stm.setInt(4, this.idempleado);
+            stm.setString(4, this.cedula);
+            stm.setString(5, this.cedula);
+            stm.setInt(6, this.idempleado);
             //ejecutamos la orden
             stm.executeUpdate();
             return true;// devolvemos verdadero en caso de exito

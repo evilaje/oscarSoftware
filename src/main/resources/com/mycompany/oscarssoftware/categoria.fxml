@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="262.0" prefWidth="694.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.CategoriaController">
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="262.0" prefWidth="694.0" styleClass="mainFxmlClass" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.oscarssoftware.CategoriaController">
     <stylesheets>
         <URL value="@/styles/categoria.css" />
     </stylesheets>

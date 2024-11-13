@@ -7,6 +7,7 @@ package com.mycompany.oscarssoftware;
 import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -24,8 +25,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 //orne riego esta hermosa como siempre
 import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class ProveedorController implements Initializable {
 
@@ -67,11 +70,18 @@ public class ProveedorController implements Initializable {
     private TextField txtEmail;
     @FXML
     private TableColumn<Proveedor, String> columnaEmail;
+    @FXML
+    private AnchorPane root;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
 
         mostrarDatos();
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
+            }
+        });
     }
 
     public void mostrarDatos() {
@@ -213,7 +223,7 @@ public class ProveedorController implements Initializable {
     @FXML
     private void mostrarfila(MouseEvent event) {
         btnCancelar.setDisable(false);
-        
+
         btnModificar.setDisable(false);
         btnNuevo.setDisable(true);
         txtNombre.setDisable(true);
@@ -222,7 +232,7 @@ public class ProveedorController implements Initializable {
         txtTel.setDisable(true);
         Proveedor provee = (Proveedor) tablaProveedor.getSelectionModel().getSelectedItem();
         if (provee != null) {
-            
+
             if (pr.existeProveedor(provee.getIdproveedor())) {
                 btnEliminar.setDisable(true);
             } else {

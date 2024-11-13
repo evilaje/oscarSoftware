@@ -1,6 +1,7 @@
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.CategoriaProducto;
+import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,6 +19,8 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.scene.control.Button;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Stage;
 
 public class CategoriaController implements Initializable {
 
@@ -43,6 +46,8 @@ public class CategoriaController implements Initializable {
     boolean modificar = false;
     @FXML
     private Button btnCancelar;
+    @FXML
+    private AnchorPane root;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -50,6 +55,12 @@ public class CategoriaController implements Initializable {
         mostrar();
         // Deshabilitar el campo ID, ya que normalmente es autogenerado
         txtId.setDisable(true);
+
+        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
+            if (newScene != null) {
+                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
+            }
+        });
     }
 
     private void mostrar() {
