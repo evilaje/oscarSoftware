@@ -9,7 +9,6 @@ import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import java.io.IOException;
 import java.net.URL;
@@ -78,11 +77,6 @@ public class EmpleadoController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         mostrarDatos();
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
-            }
-        });
     }
 
     public void mostrarDatos() {
@@ -167,7 +161,6 @@ public class EmpleadoController implements Initializable {
     @FXML
     private void guardar(ActionEvent event) {
         try {
-            int idEmpleado = Integer.parseInt(txtId.getText().trim());
             String nombre = txtNombre.getText().trim();
             String telefono = txtTel.getText().trim();
             String direccion = txtDire.getText().trim();
@@ -178,9 +171,11 @@ public class EmpleadoController implements Initializable {
                 return;
             }
 
-            Empleado empleado = new Empleado(idEmpleado, nombre, telefono, direccion, cedula, cedula);
+            Empleado empleado = new Empleado(1, nombre, telefono, direccion, cedula, cedula);
 
             if (modificar) {
+                int idEmpleado = Integer.parseInt(txtId.getText().trim());
+                empleado.setIdempleado(idEmpleado);
                 if (empleado.modificar()) {
                     mostrarAlerta(Alert.AlertType.CONFIRMATION, "El sistema comunica", "Empleado modificado con éxito");
                     modificar = false;
@@ -197,7 +192,7 @@ public class EmpleadoController implements Initializable {
                 }
             }
         } catch (NumberFormatException e) {
-            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.");
+            mostrarAlerta(Alert.AlertType.ERROR, "Error de formato", "Por favor, ingresa valores numéricos válidos.\n" + e);
         }
         cancelar();
         mostrarDatos();

@@ -4,7 +4,6 @@ import com.jfoenix.controls.JFXButton;
 import com.mycompany.oscarssoftware.clases.Reporte;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Venta;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
 import com.mycompany.oscarssoftware.util.WindowManager;
 import java.awt.Desktop;
@@ -18,14 +17,17 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class MenuController implements Initializable {
@@ -75,13 +77,6 @@ public class MenuController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         txtEmpleado.setText(EmpleadoSingleton.getInstance().getEmpleado().getNombre());
         actualizarGanancias();
-
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                Stage ventanaActual = (Stage) root.getScene().getWindow(); // Obtener la ventana actual
-                AtajosTecladoUtil.inicializarAtajos(newScene, ventanaActual); // Pasar la ventana actual
-            }
-        });
     }
 
     public void actualizarGanancias() {
@@ -91,18 +86,51 @@ public class MenuController implements Initializable {
         lblGananciasTotales.setText(String.format("%.2f", gananciasTotales));
     }
 
-    public void abrirFxml(String fxml, String titulo) {
+    public void abrirFxml(String fxml, String titulo, boolean esModal) {
         try {
+            // Verifica si la ventana ya está abierta
+            Stage ventanaExistente = WindowManager.obtenerVentana(titulo);
+            if (ventanaExistente != null) {
+                ventanaExistente.toFront();
+                ventanaExistente.requestFocus();
+                return;
+            }
+
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
             Parent root = loader.load();
 
+            // Crea un nuevo `Stage` para la ventana
             Stage stage = new Stage();
             stage.setTitle(titulo);
             stage.setScene(new Scene(root));
+
+            if (esModal) {
+                stage.initOwner(root.getScene().getWindow());
+                stage.initModality(Modality.APPLICATION_MODAL);
+            }
+
             stage.show();
             WindowManager.registrarVentana(titulo, stage);
 
             stage.setOnCloseRequest(e -> WindowManager.cerrarVentana(titulo));
+
+        } catch (IOException ex) {
+            Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("No se pudo cargar la ventana: " + fxml);
+        }
+    }
+
+    public void cambiarAScene(String fxml, Object controlador, String titulo, ActionEvent event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+            loader.setController(controlador); // Asigna el controlador si es necesario
+            Parent root = loader.load();
+
+            // Obtener el Stage a partir del evento
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle(titulo);
+            stage.sizeToScene();
         } catch (IOException ex) {
             Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -110,47 +138,47 @@ public class MenuController implements Initializable {
 
     @FXML
     private void abrirInicio(ActionEvent event) {
-        abrirFxml("login.fxml", "login");
+        abrirFxml("login.fxml", "login", false);
     }
 
     @FXML
     private void abrirVerPedidos(ActionEvent event) {
-        abrirFxml("verPedido.fxml", "Lista de pedidos");
+        abrirFxml("verPedido.fxml", "Lista de pedidos", false);
     }
 
     @FXML
     private void pedido(ActionEvent event) {
-        abrirFxml("pedido.fxml", "Formulario Pedido");
+        abrirFxml("pedido.fxml", "Formulario Pedido", false);
     }
 
     @FXML
     private void venta(ActionEvent event) {
-        abrirFxml("venta.fxml", "Formulario Venta");
+        abrirFxml("venta.fxml", "Formulario Venta", false);
     }
 
     @FXML
     private void producto(ActionEvent event) {
-        abrirFxml("Producto.fxml", "Formulario Producto");
+        abrirFxml("Producto.fxml", "Gestion de Productos", false);
     }
 
     @FXML
     private void clientes(ActionEvent event) {
-        abrirFxml("cliente.fxml", "Formulario Cliente");
+        abrirFxml("cliente.fxml", "Gestion de clientes", false);
     }
 
     @FXML
     private void proveedor(ActionEvent event) {
-        abrirFxml("proveedor.fxml", "Formulario Proveedor");
+        abrirFxml("proveedor.fxml", "Formulario Proveedor", false);
     }
 
     @FXML
     private void empleado(ActionEvent event) {
-        abrirFxml("empleado.fxml", "Formulario Empleado");
+        abrirFxml("empleado.fxml", "Formulario Empleado", false);
     }
 
     @FXML
     private void verPedidos(ActionEvent event) {
-        abrirFxml("verPedido.fxml", "Ver pedidos disponibles");
+        abrirFxml("verPedido.fxml", "Ver pedidos disponibles", true);
     }
 
     @FXML

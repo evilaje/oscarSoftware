@@ -9,7 +9,6 @@ import com.mycompany.oscarssoftware.modelos.CategoriaProducto;
 import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.Autocompletado;
 import java.io.IOException;
 import java.net.URL;
@@ -131,12 +130,6 @@ public class PrimaryController implements Initializable {
 
         mostrarDatos(); //Mostramos la tabla
 
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                Stage ventanaActual = (Stage) root.getScene().getWindow(); // Obtener la ventana actual
-                AtajosTecladoUtil.inicializarAtajos(newScene, ventanaActual); // Pasar la ventana actual
-            }
-        });
     }
 
     //esta funcion se encarga de mostrar cada dato de Producto en la tabla

@@ -7,7 +7,6 @@ package com.mycompany.oscarssoftware;
 import com.mycompany.oscarssoftware.modelos.Cliente;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Proveedor;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
@@ -77,11 +76,6 @@ public class ProveedorController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
 
         mostrarDatos();
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
-            }
-        });
     }
 
     public void mostrarDatos() {

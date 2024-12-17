@@ -121,7 +121,7 @@ public class VerDetallesDelPedidoController implements Initializable {
         parameters.put("idpedido", d.getIdPedido());
 
         // Ruta de la imagen
-        String rutaImagen = "/images/logocom.png"; // Cambia la ruta según sea necesario
+        String rutaImagen = "/images/logo_factura.png"; // Cambia la ruta según sea necesario
 
         r.generarReporteConImagen(ubi, tit, parameters, rutaImagen, d.getIdPedido());
 

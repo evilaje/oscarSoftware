@@ -30,6 +30,5 @@ com\mycompany\oscarssoftware\PedidoController.class
 com\mycompany\oscarssoftware\LoginController.class
 com\mycompany\oscarssoftware\VerPedidoController.class
 com\mycompany\oscarssoftware\modelos\Login.class
-com\mycompany\oscarssoftware\util\AtajosTecladoUtil.class
-com\mycompany\oscarssoftware\ViajeRapidoController.class
 com\mycompany\oscarssoftware\util\Modulo.class
+com\mycompany\oscarssoftware\util\MenuControllerHolder.class
