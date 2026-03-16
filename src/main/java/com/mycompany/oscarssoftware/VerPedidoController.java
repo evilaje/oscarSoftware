@@ -5,7 +5,6 @@
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.Pedido;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -67,12 +66,6 @@ public class VerPedidoController implements Initializable {
                 }
             });
             return row;
-        });
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                Stage ventanaActual = (Stage) root.getScene().getWindow(); // Obtener la ventana actual
-                AtajosTecladoUtil.inicializarAtajos(newScene, ventanaActual); // Pasar la ventana actual
-            }
         });
     }
 

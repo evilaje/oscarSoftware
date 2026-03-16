@@ -12,7 +12,7 @@ import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
 import com.mycompany.oscarssoftware.modelos.Venta;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
+import com.mycompany.oscarssoftware.util.MenuControllerHolder;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Date;
@@ -110,16 +110,12 @@ public class VentaController implements Initializable {
     @FXML
     private TextField txtNroPedido;
 
-    private MenuController menuController;
     @FXML
     private JFXComboBox<String> cboPago;
     @FXML
     private AnchorPane root;
 
     // Método para pasar la referencia del MenuController
-    public void setMenuController(MenuController menuControllerler) {
-        this.menuController = menuController;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -136,11 +132,6 @@ public class VentaController implements Initializable {
             return row;
         });
 
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
-            }
-        });
 
     }
 
@@ -322,8 +313,11 @@ public class VentaController implements Initializable {
                     cboPago.setDisable(true);
 
                     generarReporte(event, v.obtenerID());
+                    MenuController menuController = MenuControllerHolder.getMenuController();
                     if (menuController != null) {
                         menuController.actualizarGanancias();
+                    } else {
+                        System.out.println("No se encuentra el menu");
                     }
                 } else {
                     mostrarAlerta(Alert.AlertType.ERROR, "No se pudo modificar el estado del pedido.");

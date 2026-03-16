@@ -8,6 +8,7 @@ import com.mycompany.oscarssoftware.clases.conexion;
 import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.util.Autocompletado;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
+import com.mycompany.oscarssoftware.util.MenuControllerHolder;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
@@ -76,19 +77,19 @@ public class LoginController implements Initializable {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("menu.fxml"));
                 Parent root = loader.load();
 
-                // Obtener la escena y el escenario actuales
+                // Almacenar el controller en el holder
+                MenuController menuController = loader.getController();
+                MenuControllerHolder.setMenuController(menuController);
+
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                Scene newScene = new Scene(root); // Crear una nueva escena
-
-                // Ajustar tamaño del stage
+                Scene newScene = new Scene(root);
                 stage.setScene(newScene);
-                stage.sizeToScene();  // Reajustar el tamaño de la ventana
-
-                // Cerrar la ventana de login (opcional)
-                // stage.close(); // Si decides cerrar la ventana de Login, descomenta esto
+                stage.setTitle("Menú Principal");
+                stage.show();
             } catch (IOException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, "Error al cargar el menú.fxml", ex);
             }
+
         } else {
             mostrarAlerta(Alert.AlertType.ERROR, "Error", "Usuario o Contraseña Incorrectas");
         }

@@ -1,34 +1,27 @@
 package com.mycompany.oscarssoftware.util;
-
 import javafx.stage.Stage;
 import java.util.HashMap;
 import java.util.Map;
 
 public class WindowManager {
+    private static final Map<String, Stage> ventanas = new HashMap<>();
 
-    // Mapa para almacenar las ventanas abiertas
-    private static final Map<String, Stage> ventanasAbiertas = new HashMap<>();
-
-    // Registrar una ventana nueva
-    public static void registrarVentana(String modulo, Stage stage) {
-        ventanasAbiertas.put(modulo, stage);
+    public static void registrarVentana(String titulo, Stage stage) {
+        ventanas.put(titulo, stage);
     }
 
-    // Obtener una ventana si está abierta
-    public static Stage obtenerVentana(String modulo) {
-        return ventanasAbiertas.get(modulo);
-    }
-
-    // Cerrar y eliminar una ventana del registro
-    public static void cerrarVentana(String modulo) {
-        Stage stage = ventanasAbiertas.remove(modulo);
+    public static void cerrarVentana(String titulo) {
+        Stage stage = ventanas.remove(titulo);
         if (stage != null) {
             stage.close();
         }
     }
 
-    // Verificar si una ventana ya está abierta
-    public static boolean estaVentanaAbierta(String modulo) {
-        return ventanasAbiertas.containsKey(modulo);
+    public static Stage obtenerVentana(String titulo) {
+        return ventanas.get(titulo);
+    }
+
+    public static boolean estaVentanaEstaAbierta(String titulo) {
+        return ventanas.containsKey(titulo);
     }
 }

@@ -1,7 +1,6 @@
 package com.mycompany.oscarssoftware;
 
 import com.mycompany.oscarssoftware.modelos.CategoriaProducto;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -56,11 +55,6 @@ public class CategoriaController implements Initializable {
         // Deshabilitar el campo ID, ya que normalmente es autogenerado
         txtId.setDisable(true);
 
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
-            }
-        });
     }
 
     private void mostrar() {

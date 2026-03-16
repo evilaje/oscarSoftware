@@ -5,9 +5,9 @@ import com.mycompany.oscarssoftware.modelos.DetallePedido;
 import com.mycompany.oscarssoftware.modelos.Empleado;
 import com.mycompany.oscarssoftware.modelos.Pedido;
 import com.mycompany.oscarssoftware.modelos.Producto;
-import com.mycompany.oscarssoftware.util.AtajosTecladoUtil;
 import com.mycompany.oscarssoftware.util.Autocompletado;
 import com.mycompany.oscarssoftware.util.EmpleadoSingleton;
+import com.mycompany.oscarssoftware.util.MenuControllerHolder;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
@@ -111,13 +111,8 @@ public class PedidoController implements Initializable {
     @FXML
     private TextField txtEmpleado;
 
-    private MenuController menuController;
     @FXML
     private AnchorPane root;
-
-    public void setMenuController(MenuController menuController) {
-        this.menuController = menuController;
-    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -151,11 +146,6 @@ public class PedidoController implements Initializable {
 
         // Establecer la fecha actual como fecha predeterminada (opcional)
         dateFecha.setValue(today);
-        root.sceneProperty().addListener((observable, oldScene, newScene) -> {
-            if (newScene != null) {
-                AtajosTecladoUtil.inicializarAtajos(newScene, (Stage) root.getScene().getWindow());
-            }
-        });
     }
 
     @FXML
@@ -452,9 +442,13 @@ public class PedidoController implements Initializable {
                 if (resultado) {
                     cancelar(event);
                     paneCabecera.setDisable(true);
+                    MenuController menuController = MenuControllerHolder.getMenuController();
                     if (menuController != null) {
                         menuController.actualizarGanancias();
+                    } else {
+                        System.out.println("No se encuentra el menu");
                     }
+
                     mostrarAlerta(Alert.AlertType.INFORMATION, "Éxito", "Pedido y detalles guardados correctamente.");
                 } else {
                     mostrarAlerta(Alert.AlertType.ERROR, "Error", "Hubo un problema al guardar los detalles del pedido.");
